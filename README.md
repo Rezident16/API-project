@@ -8,10 +8,10 @@
 ## Database Schema Design
 
 <!--!!START SILENT -->
-![meetup-database-schema]
+![gatherup-database-schema]
 
-[meetup-database-schema]: ./images/meetup_dbdiagram.png
-[meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
+[gatherup-database-schema]: ./images/meetup_dbdiagram.png
+[gatherup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
 <!--!!END -->
 <!--!!ADD -->
 <!-- `<insert database schema design here>` -->
