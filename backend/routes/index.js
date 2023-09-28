@@ -7,6 +7,10 @@ router.use('/api', apiRouter);
 // backend/routes/index.js
 // ...
 // Add a XSRF-TOKEN cookie
+router.post('/test', function(req, res) {
+  res.json({ requestBody: req.body });
+});
+
 router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
     res.cookie("XSRF-TOKEN", csrfToken);
