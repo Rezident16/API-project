@@ -14,12 +14,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Membership.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     userId: DataTypes.INTEGER,
     groupId: DataTypes.INTEGER,
     status: {
-      type: DataTypes.ENUM,
-      allowNull: false
-    }
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: [['Not Joined',
+        'Pending',
+        'Joined']]
+      }
+    },
   }, {
     sequelize,
     modelName: 'Membership',

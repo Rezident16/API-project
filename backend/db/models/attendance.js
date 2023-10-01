@@ -14,12 +14,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     eventId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     status: {
-      type: DataTypes.ENUM,
-      allowNull: false
-    }
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: [['Not Attending',
+          'Pending',
+          'Attending']]
+      }
+    },
   }, {
     sequelize,
     modelName: 'Attendance',

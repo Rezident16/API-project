@@ -6,51 +6,29 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Events', {
+    await queryInterface.createTable('GroupImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      venueId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Venues',
-          key: 'id'
-        }
-      },
       groupId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Groups',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
+
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
+      url: {
+        type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.TEXT
-      },
-      type: {
-        type: Sequelize.ENUM,
-        allowNull: false
-      },
-      capacity: {
-        type: Sequelize.INTEGER
-      },
-      price: {
-        type: Sequelize.INTEGER
-      },
-      startDate: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      endDate: {
-        type: Sequelize.DATE,
-        allowNull: false
+      preview: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
@@ -62,9 +40,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+    }, 
+    options
+    );
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Events');
+    options.tableName = "GroupImages";
+    return queryInterface.dropTable(options);
   }
 };

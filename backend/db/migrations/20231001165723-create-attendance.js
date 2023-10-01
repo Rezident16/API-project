@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('EventImages', {
+    await queryInterface.createTable('Attendances', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,15 +18,20 @@ module.exports = {
         references: {
           model: 'Events',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
-      url: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -38,9 +43,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+    },
+     options
+     );
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('EventImages');
+    options.tableName = "Attendances";
+    return queryInterface.dropTable(options);
   }
 };

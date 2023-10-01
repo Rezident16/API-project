@@ -23,16 +23,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Event.init({
-    venueId: DataTypes.INTEGER,
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     groupId: DataTypes.INTEGER,
+    venueId: DataTypes.INTEGER,
     name: {
       type: DataTypes.STRING,
       allowNull: false
     },
     description: DataTypes.TEXT,
     type: {
-      type: DataTypes.ENUM,
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: [['Any','In Person Any', 'Online', 'In Person Outdoor', 'In Person Indoor']]
+      }
     },
     capacity: DataTypes.INTEGER,
     price: DataTypes.INTEGER,

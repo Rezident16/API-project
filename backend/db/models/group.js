@@ -17,27 +17,37 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'userId'
     })
 
-      Group.belongsTo(models.User, {
-        foreignKey: 'organizerId'
-    })
-
-      Group.belongsToMany(models.Venue, {
-        through: models.Event,
-        foreignKey: 'groupId',
-        otherKey: 'venueId'
-    })
-
+    
+    
     Group.hasMany(models.Venue, {
       foreignKey: 'groupId'
     })
-
+    
     Group.hasMany(models.GroupImage, {
       foreignKey: 'groupId'
     })
+    
+    
+    Group.belongsToMany(models.Venue, {
+      through: models.Event,
+      foreignKey: 'groupId',
+      otherKey: 'venueId'
+    })
+    
+    Group.belongsTo(models.User, {
+      foreignKey: 'organizerId'
+    })
+    
     }
   }
 
   Group.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     organizerId: DataTypes.INTEGER,
     name: {
       type: DataTypes.STRING,
@@ -48,15 +58,39 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     type: {
-      type: DataTypes.ENUM,
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isIn: [['Any Category',
+        'New Groups',
+        'Art & Culture',
+        'Career & Business',
+        'Community & Environment',
+        'Dancing',
+        'Games',
+        'Health & Wellbeing',
+        'Hobbies & Passions',
+        'Identity & Language',
+        'Movements & Politics',
+        'Music',
+        'Parents & Family',
+        'Pets & Animals',
+        'Religion & Spirituality',
+        'Science & Education',
+        'Social Activities',
+        'Sports & Fitness',
+        'Support & Coaching',
+        'Technology',
+        'Travel & Outdoor',
+        'Writing']]
+      }
     },
     private: {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
     city: DataTypes.STRING,
-    state: DataTypes.STRING
+    state: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Group',
