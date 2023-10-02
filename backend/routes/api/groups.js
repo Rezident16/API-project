@@ -32,7 +32,7 @@ router.get('/current', requireAuth, async(req,res, next) => {
         group.numMembers = group.Users.length;
 
         let previewImage = 'Preview not available';
-        if (!group.GroupImages) previewImage = 'Group hasn\'t added any images'
+        if (!group.GroupImages) previewImage = 'No images'
 
         group.GroupImages.forEach(image => {
         if (image.preview === true) previewImage = image.url
@@ -57,7 +57,6 @@ router.get('/',  async (req, res) => {
                 model: GroupImage,
                 attributes: ['preview', 'url']
             }
-        
         ],
     })
 
