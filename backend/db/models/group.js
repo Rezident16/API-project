@@ -51,46 +51,39 @@ module.exports = (sequelize, DataTypes) => {
     organizerId: DataTypes.INTEGER,
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len:[1,60]
+      }
     },
     about: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        length(value) {
+          if (value.length < 60) throw new Error('About must be 50 characters or more')
+        }
+      }
     },
     type: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isIn: [['Any Category',
-        'New Groups',
-        'Art & Culture',
-        'Career & Business',
-        'Community & Environment',
-        'Dancing',
-        'Games',
-        'Health & Wellbeing',
-        'Hobbies & Passions',
-        'Identity & Language',
-        'Movements & Politics',
-        'Music',
-        'Parents & Family',
-        'Pets & Animals',
-        'Religion & Spirituality',
-        'Science & Education',
-        'Social Activities',
-        'Sports & Fitness',
-        'Support & Coaching',
-        'Technology',
-        'Travel & Outdoor',
-        'Writing']]
+        isIn: [['In Person', 'Online']]
       }
     },
     private: {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'Group',
