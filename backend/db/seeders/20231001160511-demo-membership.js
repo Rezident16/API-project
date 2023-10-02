@@ -14,22 +14,22 @@ module.exports = {
       {
         userId: 1,
         groupId: 1,
-        status: 'Pending',
+        status: 'co-host',
       },
       {
         userId: 2,
-        groupId: 1,
-        status: 'Pending',
+        groupId: 2,
+        status: 'co-host',
       },
       {
         userId: 1,
         groupId: 2,
-        status: 'Pending',
+        status: 'member',
       },
       {
         userId: 3,
         groupId: 1,
-        status: 'Joined',
+        status: 'pending',
       },
     ], { validate: true });
   },

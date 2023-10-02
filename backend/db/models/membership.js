@@ -26,9 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isIn: [['Not Joined',
-        'Pending',
-        'Joined']]
+        isIn: [['member', 'co-host', 'pending']]
       }
     },
   }, {

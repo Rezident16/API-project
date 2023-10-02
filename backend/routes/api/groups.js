@@ -32,7 +32,32 @@ const validateGroupCreate = [
       .withMessage('State is required'),
     handleValidationErrors
   ];
+  
 
+// Add an Image to a Group based on the Group's id
+router.post('/:groupId/images', requireAuth, async(req,res,next) => {
+    const groupId = req.params.groupId
+    const { url, preview } = req.body
+    const { user } = req;
+
+    const group = await Group.findByPk(groupId)
+    if (!group) {
+        res.status(404).json({
+            "message": "Group couldn't be found",
+          })
+    }
+
+    if (user.id !== group.organizerId) throw new Error('You must be the organizer for the group')
+    const newImage = await GroupImage.create({
+        url: url,
+        preview: preview
+    })
+    res.json({
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    })
+})
 
 // Get all groups for current user
 router.get('/current', requireAuth, async(req,res, next) => {
@@ -41,7 +66,7 @@ router.get('/current', requireAuth, async(req,res, next) => {
     const groups = await currentUser.getGroups({
         include: [
             {
-                model: User //need a count of users
+                model: User
             },
             {
                 model: GroupImage,
@@ -74,6 +99,42 @@ router.get('/current', requireAuth, async(req,res, next) => {
     return res.json(groupList)
 })
 
+router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) => {
+    const { user } = req;
+    const groupId = req.params.groupId;
+    const { name, about, type, private, city, state } = req.body
+
+    const group = await Group.findByPk(groupId)
+    if (!group) {
+        res.status(404).json({
+            "message": "Group couldn't be found",
+          })
+    }
+
+    if (user.id !== group.organizerId) throw new Error('You must be the organizer for the group')
+
+    if (name) group.name = name;
+    if (about) group.about = about;
+    if (type) group.type = type;
+    if (private) group.private = private;
+    if (city) group.city = city;
+    if (state) group.state = state
+
+    await group.save()
+
+    res.json({
+        id: group.id,
+        organizerId: group.organizerId,
+        name: group.name,
+        about: group.about,
+        type: group.type,
+        private: group.private,
+        city: group.city,
+        state: group.state,
+        createdAt: group.createdAt,
+        updatedAt: new Date()
+    })
+})
 // Get details of a group by id
 router.get('/:groupId', async (req, res, next) => {
     const groupId = req.params.groupId
@@ -85,9 +146,6 @@ router.get('/:groupId', async (req, res, next) => {
         }, 
         {
             model: User,
-            // where: {
-            //     id: group.organizerId
-            // }
         },
         {
             model: Venue,
@@ -95,6 +153,11 @@ router.get('/:groupId', async (req, res, next) => {
         }
         ]
     })
+    if (!group) {
+        res.status(404).json({
+            "message": "Group couldn't be found",
+          })
+    }
 
     let groupJson = group.toJSON()
     // Num Members
@@ -111,11 +174,7 @@ router.get('/:groupId', async (req, res, next) => {
     groupJson.Venues.forEach(venue => {
         delete venue.Event
     })
-    if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
-          })
-    }
+
     // res.json(groupJson)
     res.json({
         id: groupJson.id,
@@ -175,7 +234,7 @@ router.get('/',  async (req, res) => {
 router.post('/', validateGroupCreate, requireAuth, async (req,res) => {
     const { name, about, type, private, city, state } = req.body
     const { user } = req;
-    // const currentUser = await User.findByPk(user.id);
+    const currentUser = await User.findByPk(user.id);
     // const userId = currentUser.id
     const group = await Group.create({ 
         organizerId: user.id,
@@ -189,7 +248,14 @@ router.post('/', validateGroupCreate, requireAuth, async (req,res) => {
         updatedAt: new Date()
      });
 
+    const newMembership = await Membership.create({
+        userId: user.id,
+        groupId: group.id,
+        status: 'co-host'
+    })
+
     newGroup = {
+        id: group.id,
         organizerId: user.id,
         name: group.name,
         about: group.about, 
