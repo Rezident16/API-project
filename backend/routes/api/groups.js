@@ -177,7 +177,17 @@ router.post('/', validateGroupCreate, requireAuth, async (req,res) => {
     const { user } = req;
     // const currentUser = await User.findByPk(user.id);
     // const userId = currentUser.id
-    const group = await Group.create({ name, about, type, private, city, state });
+    const group = await Group.create({ 
+        organizerId: user.id,
+        name, 
+        about, 
+        type, 
+        private, 
+        city, 
+        state,
+        createdAt: new Date(),
+        updatedAt: new Date()
+     });
 
     newGroup = {
         organizerId: user.id,
