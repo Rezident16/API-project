@@ -6,7 +6,6 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
-
 const validateGroupCreate = [
     check('name')
       .exists({ checkFalsy: true })
@@ -33,7 +32,7 @@ const validateGroupCreate = [
     handleValidationErrors
   ];
 
-  const validateVenueCreate = [
+const validateVenueCreate = [
     check('address')
         .exists({ checkFalsy: true })
         .withMessage('Street address is required'),
@@ -53,6 +52,135 @@ const validateGroupCreate = [
       .withMessage('Longitude is not valid'),
     handleValidationErrors
   ];
+
+
+// Create an Event for a Group specified by its id
+router.post('/:groupId/events', requireAuth, async (req, res, next) => {
+    const { user } = req
+    const userId = user.id
+    const groupId = req.params.groupId
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body
+
+    const errors = {}
+
+
+    const group = await Group.findByPk(groupId, {
+        include: [Venue]
+    })
+    const membership = await Membership.findOne({
+        where: {
+            userId: userId,
+            groupId: groupId
+        }
+    })
+
+    if (!group) {
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+
+    if (!membership || membership.status === 'pending') {
+        res.json({
+            "message": "You have not joined the group"
+        })
+    }
+
+    if (membership.status !== 'co-host' && group.organizerId !== userId){
+        res.json({
+            "message": "Unauthorized"
+        })
+    }
+    let newEvent = {}
+    let avaiableVenuesIds = []
+    group.Venues.forEach(venue => {
+        avaiableVenuesIds.push(parseInt(venueId))
+    })
+
+    // Validate venueId
+    const venue = await Venue.findByPk(venueId)
+    if (!venueId) {
+        newEvent.venueId = null
+    } else {
+        if (!venue) {
+            errors.venueId = "Venue does not exist"
+        } else {
+            newEvent.venueId = venueId
+        }
+    }
+    
+    // Assign groupId to the event
+    newEvent.groupId = groupId
+    // Validate name
+    if (!name || name.length < 5) {
+        errors.name = "Name must be at least 5 characters"
+    } else {
+        newEvent.name = name
+    }
+    // Validate type
+    if (type !== 'Online' && type !== 'In person') {
+        errors.type = "Type must be Online or In person"
+    } else {
+        newEvent.type = type
+    }
+    // Validate Capacity
+    if (typeof capacity !== 'number') {
+        errors.capacity = "Capacity must be an integer"
+    } else {
+        newEvent.capacity = capacity
+    }
+    // Validate Price
+    if (!price || price < 0) {
+        errors.price = "Price is invalid" 
+    } else {
+        newEvent.price = price
+    }
+    // Validate description
+    if (!description) {
+        errors.description = "Description is required"
+    } else {
+        newEvent.description = description
+    }
+    // Validate start date
+    const currentDate = new Date()
+    if (!startDate || startDate <= currentDate) {
+        errors.startDate = "Start date must be in the future"
+    } else {
+        newEvent.startDate = startDate
+    }
+    // Validate end Date
+    if (!endDate || endDate < startDate) {
+        errors.endDate = "End date is less than start date"
+    } else {
+        newEvent.endDate = endDate
+    }
+    
+
+    if(Object.keys(errors).length > 0) {
+        return res.json({
+            message: "Bad Request",
+            errors
+        })
+    } else {
+        const createNewEvent = await Event.create(newEvent)
+        res.json(newEvent)
+    }
+
+
+    // res.json({
+    //     id: createNewEvent.id,
+    //     groupId: createNewEvent.groupId,
+    //     venueId: createNewEvent.venueId,
+    //     name: createNewEvent.name,
+    //     type: createNewEvent.type,
+    //     price: createNewEvent.price,
+    //     description: createNewEvent.description,
+    //     startDate: createNewEvent.startDate,
+    //     endDate: createNewEvent.endDate
+    // })
+
+    
+})
 
 // Get all Events of a Group specified by its id
 router.get('/:groupId/events', async (req, res) => {
@@ -167,7 +295,7 @@ router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res
         }
     })
     if (group.organizerId != user.id && userMembership.status !== 'co-host') {
-        return res.json('You must be the founder or co-host')
+        return res.json({"message": "Unauthorized"})
     }
 
     const venue = await Venue.create({
@@ -195,7 +323,7 @@ router.post('/:groupId/images', requireAuth, async(req,res,next) => {
           })
     }
 
-    if (user.id !== group.organizerId) throw new Error('You must be the organizer for the group')
+    if (user.id !== group.organizerId) res.json({"message": "Unauthorized"})
     const newImage = await GroupImage.create({
         url: url,
         preview: preview
@@ -269,7 +397,7 @@ router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) 
           })
     }
 
-    if (user.id !== group.organizerId) throw new Error('You must be the organizer for the group')
+    if (user.id !== group.organizerId) res.json({"message": "Unauthorized"})
 
     if (name) group.name = name;
     if (about) group.about = about;
@@ -368,7 +496,7 @@ router.delete('/:groupId', requireAuth, async(req,res,next) => {
           })
     }
 
-    if (user.id !== group.organizerId) throw new Error('You must be the organizer for the group')
+    if (user.id !== group.organizerId) res.json({"message": "Unauthorized"})
 
     await group.destroy()
 

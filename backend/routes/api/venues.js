@@ -27,6 +27,7 @@ const validateVenueVals = [
     handleValidationErrors
   ];
 
+//Edit a Venue specified by its id
 router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) => {
     const { user } = req
     const userId = user.id

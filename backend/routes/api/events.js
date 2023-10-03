@@ -7,7 +7,12 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 
-
+// Add an Image to a Event based on the Event's id
+router.post('/:eventId/images', requireAuth, async (req, res, next) => {
+    const { user } = req
+    const userId = user.id
+    const eventId = req.params.eventId
+})
 // Get details of an Event specified by its id
 router.get('/:eventId', async (req, res) => {
     const eventId = req.params.eventId
