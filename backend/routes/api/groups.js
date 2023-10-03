@@ -186,7 +186,6 @@ router.get('/current', requireAuth, async(req,res, next) => {
     });
 
     groupList.forEach(group => {
-        await
         group.numMembers = Memberships.length;
 
         let previewImage = 'Preview not available';
