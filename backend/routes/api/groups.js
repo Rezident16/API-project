@@ -1,7 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Group, sequelize, Membership, User, GroupImage, Venue } = require('../../db/models');
+const { Group, sequelize, Membership, User, GroupImage, Venue, Event, EventImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
@@ -54,6 +54,62 @@ const validateGroupCreate = [
     handleValidationErrors
   ];
 
+// Get all Events of a Group specified by its id
+router.get('/:groupId/events', async (req, res) => {
+    const groupId = req.params.groupId
+    const group = await Group.findByPk(groupId, {
+        attributes: ['id', 'name', 'city', 'state']
+    })
+
+    if (!group) {
+        res.status(404).json({
+            "message": "Group couldn't be found",
+          })
+    }
+
+    const events = await Event.findAll({
+        where: {
+            groupId: group.id
+        },
+        include: [EventImage]
+    })
+    const venues = await Venue.findAll({
+        where: {
+            groupId: group.id,
+        },
+        attributes: ['id', 'city', 'state']
+    })
+    let eventList = []
+
+    events.forEach(event => {
+        eventList.push(event.toJSON())
+    })
+
+    eventList.forEach(event => {
+        event.previewImage = 'No images available for preview'
+        event.Group = group
+
+        event.Venue = null
+        venues.forEach(venue => {
+            if (venue.id === event.venueId) {
+                event.Venue = venue
+            }
+        })
+
+        event.EventImages.forEach(image => {
+            if (image.preview === true) {
+                event.previewImage = image.url
+            }
+        })
+
+        delete event.description
+        delete event.createdAt
+        delete event.updatedAt
+        delete event.EventImages
+    })
+
+    res.json(eventList)
+})
 // Get all venues for a group specified by id
 router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
     const { user } = req;
@@ -89,7 +145,6 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
     })
     res.json(venueList)
 })
-
 // Create new venue for a group
 router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res, next) => {
     const { user } = req;
@@ -127,8 +182,6 @@ router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res
     res.json(venue)
 
 })
-
-
 // Add an Image to a Group based on the Group's id
 router.post('/:groupId/images', requireAuth, async(req,res,next) => {
     const groupId = req.params.groupId
@@ -153,7 +206,6 @@ router.post('/:groupId/images', requireAuth, async(req,res,next) => {
         preview: newImage.preview
     })
 })
-
 // Get all groups for current user
 router.get('/current', requireAuth, async(req,res, next) => {
     const { user } = req;
@@ -204,7 +256,6 @@ router.get('/current', requireAuth, async(req,res, next) => {
     })
     return res.json(groupList)
 })
-
 // Update Group by its id
 router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) => {
     const { user } = req;
@@ -304,7 +355,6 @@ router.get('/:groupId', async (req, res, next) => {
         Venues: groupJson.Venues
     })
 })
-
 // Delete Group
 router.delete('/:groupId', requireAuth, async(req,res,next) => {
     const { user } = req;
@@ -326,7 +376,6 @@ router.delete('/:groupId', requireAuth, async(req,res,next) => {
         "message": "Successfully deleted"
       })
 })
-
 // Get all groups
 router.get('/',  async (req, res) => {
     const groups = await Group.findAll({
@@ -368,7 +417,6 @@ router.get('/',  async (req, res) => {
     })
     return res.json(groupList)
 })
-
 // Create group
 router.post('/', validateGroupCreate, requireAuth, async (req,res) => {
     const { name, about, type, private, city, state } = req.body

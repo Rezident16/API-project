@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isIn: [['Any','In Person Any', 'Online', 'In Person Outdoor', 'In Person Indoor']]
+        isIn: [['In Person', 'Online']]
       }
     },
     capacity: DataTypes.INTEGER,
