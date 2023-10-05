@@ -544,10 +544,9 @@ router.get('/', async (req, res) => {
         venues.forEach(venue => {
             if (venue.id === event.venueId) {
                 event.Venue = venue
-            } else {
-                event.Venue = null
             }
         })
+        if (!event.Venue) event.Venue = null
         delete event.price
         delete event.capacity
         delete event.description

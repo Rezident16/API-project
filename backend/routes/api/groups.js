@@ -419,13 +419,16 @@ router.get('/:groupId/events', async (req, res) => {
 
     return res.status(200).json({Events: eventList})
 })
-// Get all venues for a group specified by id
+// Get All Venues for a Group specified by its id
 router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
     const { user } = req;
+    const userId = user.id
     const groupId = req.params.groupId
-    const group = await Group.findByPk(groupId, {
-        include: [User, Venue]
-    })
+    const group = await Group.findByPk(groupId
+    //     , {
+    //     include: [User, Venue]
+    // }
+    )
 
     if (!group) {
         return res.status(404).json({
@@ -435,7 +438,7 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
 
     const userMembership = await Membership.findOne({
         where: {
-            userId: user.id,
+            userId: userId,
             groupId: groupId
         }
     })
@@ -443,16 +446,22 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
         return res.status(403).json({message: "Forbidden"})
     }
 
-    let venueList = []
-    group.Venues.forEach(venue => {
-        venueList.push(venue.toJSON())
+    const venuesList = await Venue.findAll({
+        where: {
+            groupId: groupId
+        }
     })
-    venueList.forEach(venue => {
+    
+    const venues = []
+    venuesList.forEach(venue => {
+        venues.push(venue.toJSON())
+    })
+
+    venues.forEach(venue => {
         delete venue.createdAt
         delete venue.updatedAt
-        delete venue.Event
     })
-    return res.status(200).json({Venues: venueList})
+    return res.status(200).json({Venues: venues})
 })
 // Create a new Venue for a Group specified by its id
 router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res, next) => {
@@ -553,7 +562,7 @@ router.get('/current', requireAuth, async(req,res, next) => {
 
         let numMembers = 0
         memberships.forEach(membership => {
-            if (membership.groupId === group.id) numMembers++
+            if (membership.groupId === group.id && membership.status !== 'pending') numMembers++
         })
         group.numMembers = numMembers;
 
