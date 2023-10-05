@@ -17,12 +17,92 @@ module.exports = {
         preview: true,
       },
       {
-        groupId: 1,
+        groupId: 2,
         url: 'Demo-lition',
         preview: false,
       },
       {
+        groupId: 3,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 4,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 5,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 6,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 7,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 8,
+        url: 'Demo-lition',
+        preview: false,
+      },
+      {
+        groupId: 9,
+        url: 'Demo-lition',
+        preview: false,
+      },
+      {
+        groupId: 10,
+        url: 'Demo-lition',
+        preview: false,
+      },
+      {
+        groupId: 1,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
         groupId: 2,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 3,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 4,
+        url: 'Demo-lition',
+        preview: false,
+      },
+      {
+        groupId: 5,
+        url: 'Demo-lition',
+        preview: false,
+      },
+      {
+        groupId: 6,
+        url: 'Demo-lition',
+        preview: false,
+      },
+      {
+        groupId: 1,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 1,
+        url: 'Demo-lition',
+        preview: true,
+      },
+      {
+        groupId: 1,
         url: 'Demo-lition',
         preview: true,
       },
@@ -33,7 +113,7 @@ module.exports = {
     options.tableName = 'GroupImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1] }
+      groupId: { [Op.in]: [1,2,3,4,5,6,7,8,9,10] }
     }, {});
   }
 };

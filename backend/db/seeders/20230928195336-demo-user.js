@@ -28,57 +28,57 @@ module.exports = {
       {
         email: 'user2@user.io',
         username: 'FakeUser3',
-        firstName: 'AnotherFake',
-        lastName: 'User',
+        firstName: 'Andrei',
+        lastName: 'Vorobev',
         hashedPassword: bcrypt.hashSync('password3')
       },
       {
         email: 'user3@user.io',
         username: 'FakeUser4',
-        firstName: 'AnotherFake2',
-        lastName: 'User',
+        firstName: 'John',
+        lastName: 'Doe',
         hashedPassword: bcrypt.hashSync('password4')
       },
       {
         email: 'user4@user.io',
         username: 'FakeUser5',
-        firstName: 'AnotherFake3',
-        lastName: 'User',
+        firstName: 'Alex',
+        lastName: 'Fraser',
         hashedPassword: bcrypt.hashSync('password5')
       },
       {
         email: 'user5@user.io',
         username: 'FakeUser6',
-        firstName: 'AnotherFake4',
-        lastName: 'User',
+        firstName: 'Olivia',
+        lastName: 'Castro',
         hashedPassword: bcrypt.hashSync('password6')
       },
       {
         email: 'user6@user.io',
         username: 'FakeUser7',
-        firstName: 'AnotherFake5',
-        lastName: 'User',
+        firstName: 'John',
+        lastName: 'Terry',
         hashedPassword: bcrypt.hashSync('password7')
       },
       {
         email: 'user7@user.io',
         username: 'FakeUser8',
-        firstName: 'AnotherFake6',
-        lastName: 'User',
+        firstName: 'Monica',
+        lastName: 'Bernard',
         hashedPassword: bcrypt.hashSync('password8')
       },
       {
         email: 'user8@user.io',
         username: 'FakeUser9',
-        firstName: 'AnotherFake7',
-        lastName: 'User',
+        firstName: 'Pam',
+        lastName: 'Weasly',
         hashedPassword: bcrypt.hashSync('password9')
       },
       {
         email: 'user9@user.io',
         username: 'FakeUser10',
-        firstName: 'AnotherFake8',
-        lastName: 'User',
+        firstName: 'Michael',
+        lastName: 'Scott',
         hashedPassword: bcrypt.hashSync('password10')
       },
     ], { validate: true });
