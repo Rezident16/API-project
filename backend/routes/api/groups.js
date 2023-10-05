@@ -594,6 +594,7 @@ router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) 
     if (private) group.private = private;
     if (city) group.city = city;
     if (state) group.state = state
+    
     group.updatedAt = new Date()
 
     await group.save()

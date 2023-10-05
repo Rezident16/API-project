@@ -112,6 +112,7 @@ router.put('/:eventId/attendance', requireAuth, async(req, res, next) => {
         message: "Attendance between the user and the event does not exist"
     })
     attendance.status = status
+    attendance.updatedAt = new Date()
     await attendance.save()
     return res.status(200).json({
         id: attendance.id,
@@ -379,6 +380,7 @@ router.put('/:eventId', requireAuth, async(req, res, next) => {
     }
 
     event.updatedAt = new Date()
+    
     await event.save()
 
     return res.status(200).json({
