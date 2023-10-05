@@ -37,6 +37,11 @@ router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) =>
     const venue = await Venue.findByPk(venueId, {
         include: [Group]
     })
+    if (!venue) {
+        res.status(404).json({
+            message: "Venue couldn't be found"
+          })
+    }
     // Check if the user is co-host
     const membership = await Membership.findOne({
         where: {
@@ -48,7 +53,7 @@ router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) =>
     const group = await Group.findByPk(venue.groupId) 
 
     if (membership.status !== 'co-host' && group.organizerId !== userId) {
-        res.json('You must be the founder or co-host')
+        return res.status(403).json({message: "Forbidden"})
     }
 
     if (address) venue.address = address
@@ -56,22 +61,19 @@ router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) =>
     if (state) venue.state = state
     if (lat) venue.lat = lat
     if (lng) venue.lng = lng
+    venue.updatedAt = new Date()
 
     await venue.save()
 
     let updatedVenue = {
-        id: venue.id,
-        groupId: venue.groupId,
         address: venue.address,
         city: venue.city,
         state: venue.state,
         lat: venue.lat,
         lng: venue.lng,
-        createdAt: venue.createdAt,
-        updatedAt: new Date()
     }
 
-    res.json(updatedVenue)
+    return res.status(200).json(updatedVenue)
 })
 
 module.exports = router;

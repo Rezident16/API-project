@@ -14,7 +14,7 @@ module.exports = {
       {
         venueId: 1,
         groupId: 1,
-        name: 'Demo',
+        name: 'DemoLab',
         description: 'description',
         type: 'In Person',
         capacity: 20,
@@ -51,7 +51,7 @@ module.exports = {
     options.tableName = 'Events';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['Demo'] }
+      name: { [Op.in]: ['Demo', 'DemoLab'] }
     }, {});
   }
 };

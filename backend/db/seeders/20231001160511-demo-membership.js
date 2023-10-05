@@ -18,8 +18,8 @@ module.exports = {
       },
       {
         userId: 2,
-        groupId: 2,
-        status: 'co-host',
+        groupId: 1,
+        status: 'member',
       },
       {
         userId: 1,
@@ -27,9 +27,9 @@ module.exports = {
         status: 'member',
       },
       {
-        userId: 3,
-        groupId: 1,
-        status: 'pending',
+        userId: 2,
+        groupId: 2,
+        status: 'co-host',
       },
     ], { validate: true });
   },

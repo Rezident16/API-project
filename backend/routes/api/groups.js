@@ -53,6 +53,48 @@ const validateVenueCreate = [
     handleValidationErrors
   ];
 
+
+// Delete membership to a group specified by id
+router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
+    const { user } = req
+    const currUserId = user.id
+    const { memberId } = req.body
+    const groupId = req.params.groupId
+    const group = await Group.findByPk(groupId)
+    // Group exist validation
+    if (!group) return res.status(404).json({
+        message: "Group couldn't be found"
+    })
+    const userToDelete = await User.findByPk(memberId)
+    // User exist validation
+    if (!userToDelete) return res.status(400).json({
+        message: "Validation Error",
+        errors: {
+          memberId: "User couldn't be found"
+        }
+      })
+    const membership = await Membership.findOne({
+        where: {
+            userId: memberId,
+            groupId: groupId
+        }
+    })
+    // Membership exist validation / delete
+    if (!membership)
+        return res.status(404).json({
+        message: "Membership does not exist for this User"
+      })
+    
+      if (memberId === currUserId || currUserId === group.organizerId) {
+        await membership.destroy()
+        return res.status(200).json({
+            message: "Successfully deleted membership from group"
+        })
+      } else {
+        return res.status(403).json({message: "Forbidden"})
+      }
+
+})
 // Change the status of a membership for a group specified by id
 router.put('/:groupdId/membership', requireAuth, async (req, res, next) => {
     const { user } = req
@@ -61,7 +103,7 @@ router.put('/:groupdId/membership', requireAuth, async (req, res, next) => {
 
     const { memberId, status } = req.body
 
-    if (status === 'pending') res.status(400).json({
+    if (status === 'pending') return res.status(400).json({
         message: "Validations Error",
         errors: {
           status : "Cannot change a membership status to pending"
@@ -94,17 +136,17 @@ router.put('/:groupdId/membership', requireAuth, async (req, res, next) => {
         }
     })
 
-    if(!membershipNewUser) res.status(404).json({
+    if(!membershipNewUser) return res.status(404).json({
         message: "Membership between the user and the group does not exist"
     })
 
     // Authorisation
     if (status === "member" && currUserMembership.status !== 'co-host') {
-        res.status(401).json({message: "Unauthorized"})
+        return res.status(403).json({message: "Forbidden"})
     }
 
     if (status === 'co-host' && group.organizerId !== userId) {
-        res.status(401).json({message: "Unauthorized"})
+        return res.status(403).json({message: "Forbidden"})
     }
 
     membershipNewUser.status = status
@@ -112,7 +154,7 @@ router.put('/:groupdId/membership', requireAuth, async (req, res, next) => {
     await membershipNewUser.save()
 
 
-    res.status(200).json({
+    return res.status(200).json({
         id: membershipNewUser.id,
         groupId: membershipNewUser.groupId,
         memberId: membershipNewUser.userId,
@@ -169,7 +211,7 @@ router.get('/:groupId/members', async(req, res) => {
         include: User
     })
     if (!group) {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Group couldn't be found"
         })
     }
@@ -196,7 +238,9 @@ router.get('/:groupId/members', async(req, res) => {
         delete user.Membership.updatedAt
     })
 
-    res.json(users)
+    return res.status(200).json({
+        Members: users
+    })
 })
 // Create an Event for a Group specified by its id
 router.post('/:groupId/events', requireAuth, async (req, res, next) => {
@@ -219,21 +263,19 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     })
 
     if (!group) {
-        res.json({
-            "message": "Group couldn't be found"
+        return res.status(404).json({
+            message: "Group couldn't be found"
           })
     }
 
     if (!membership || membership.status === 'pending') {
-        res.json({
-            "message": "You have not joined the group"
+        return res.status(403).json({
+            message: "You have not joined the group"
         })
     }
 
     if (membership.status !== 'co-host' && group.organizerId !== userId){
-        res.status(401).json({
-            "message": "Unauthorized"
-        })
+        return res.status(403).json({message: "Forbidden"})
     }
     let newEvent = {}
 
@@ -303,7 +345,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
         })
     } else {
         const createNewEvent = await Event.create(newEvent)
-        res.json(newEvent)
+        return res.status(200).json(newEvent)
     }
 
 
@@ -329,8 +371,8 @@ router.get('/:groupId/events', async (req, res) => {
     })
 
     if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
+        return res.status(404).json({
+            message: "Group couldn't be found",
           })
     }
 
@@ -375,7 +417,7 @@ router.get('/:groupId/events', async (req, res) => {
         delete event.EventImages
     })
 
-    res.json(eventList)
+    return res.status(200).json({Events: eventList})
 })
 // Get all venues for a group specified by id
 router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
@@ -386,8 +428,8 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
     })
 
     if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
+        return res.status(404).json({
+            message: "Group couldn't be found",
           })
     }
 
@@ -398,7 +440,7 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
         }
     })
     if (group.organizerId != user.id && userMembership.status !== 'co-host') {
-        return res.json('You must be the founder or co-host')
+        return res.status(403).json({message: "Forbidden"})
     }
 
     let venueList = []
@@ -410,9 +452,9 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
         delete venue.updatedAt
         delete venue.Event
     })
-    res.json(venueList)
+    return res.status(200).json({Venues: venueList})
 })
-// Create new venue for a group
+// Create a new Venue for a Group specified by its id
 router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res, next) => {
     const { user } = req;
     const groupId = req.params.groupId
@@ -422,8 +464,8 @@ router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res
     })
 
     if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
+        return res.status(404).json({
+            message: "Group couldn't be found",
           })
     }
 
@@ -434,7 +476,7 @@ router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res
         }
     })
     if (group.organizerId != user.id && userMembership.status !== 'co-host') {
-        return res.json({"message": "Unauthorized"})
+        return res.status(403).json({message: "Forbidden"})
     }
 
     const venue = await Venue.create({
@@ -446,7 +488,13 @@ router.post('/:groupId/venues', requireAuth, validateVenueCreate, async(req, res
         lng
     })
 
-    res.json(venue)
+    return res.status(200).json({
+        address: venue.address,
+        city: venue.city,
+        state: venue.state,
+        lat: venue.lat,
+        lng: venue.lng
+    })
 
 })
 // Add an Image to a Group based on the Group's id
@@ -457,33 +505,30 @@ router.post('/:groupId/images', requireAuth, async(req,res,next) => {
 
     const group = await Group.findByPk(groupId)
     if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
+        return res.status(404).json({
+            message: "Group couldn't be found",
           })
     }
 
-    if (user.id !== group.organizerId) res.json({"message": "Unauthorized"})
+    if (user.id !== group.organizerId) return res.status(403).json({message: "Forbidden"})
     const newImage = await GroupImage.create({
         url: url,
         preview: preview
     })
-    res.json({
+    return res.status(200).json({
         id: newImage.id,
         url: newImage.url,
         preview: newImage.preview
     })
 })
-// Get all groups for current user
+// Get all Groups joined or organized by the Current User
 router.get('/current', requireAuth, async(req,res, next) => {
     const { user } = req;
     const currentUser = await User.findByPk(user.id);
-    const Memberships = await Membership.findAll({
-        where: {
-            userId: user.id,
+    const memberships = await Membership.findAll({
             status: {
                 [Op.in]: ['member', 'co-host']
-            }
-        }
+            } 
     })
     const groups = await currentUser.getGroups({
         include: [
@@ -505,7 +550,12 @@ router.get('/current', requireAuth, async(req,res, next) => {
     });
 
     groupList.forEach(group => {
-        group.numMembers = Memberships.length;
+
+        let numMembers = 0
+        memberships.forEach(membership => {
+            if (membership.groupId === group.id) numMembers++
+        })
+        group.numMembers = numMembers;
 
         let previewImage = 'Preview not available';
         if (!group.GroupImages) previewImage = 'Group hasn\'t added any images'
@@ -521,9 +571,9 @@ router.get('/current', requireAuth, async(req,res, next) => {
         delete group.GroupImages
         delete group.Membership
     })
-    return res.json(groupList)
+    return res.status(200).json({Groups: groupList})
 })
-// Update Group by its id
+// Edit a Group
 router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) => {
     const { user } = req;
     const groupId = req.params.groupId;
@@ -532,11 +582,11 @@ router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) 
     const group = await Group.findByPk(groupId)
     if (!group) {
         res.status(404).json({
-            "message": "Group couldn't be found",
+            message: "Group couldn't be found",
           })
     }
 
-    if (user.id !== group.organizerId) res.json({"message": "Unauthorized"})
+    if (user.id !== group.organizerId) return res.status(403).json({message: "Forbidden"})
 
     if (name) group.name = name;
     if (about) group.about = about;
@@ -544,6 +594,7 @@ router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) 
     if (private) group.private = private;
     if (city) group.city = city;
     if (state) group.state = state
+    group.updatedAt = new Date()
 
     await group.save()
 
@@ -557,10 +608,10 @@ router.put('/:groupId', requireAuth, validateGroupCreate, async(req, res, next) 
         city: group.city,
         state: group.state,
         createdAt: group.createdAt,
-        updatedAt: new Date()
+        updatedAt: group.updatedAt
     })
 })
-// Get details of a group by id
+// Get details of a Group from an id
 router.get('/:groupId', async (req, res, next) => {
     const groupId = req.params.groupId
     
@@ -578,8 +629,8 @@ router.get('/:groupId', async (req, res, next) => {
         }]
     })
     if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
+        return res.status(404).json({
+            message: "Group couldn't be found",
           })
     }
 
@@ -605,7 +656,7 @@ router.get('/:groupId', async (req, res, next) => {
     })
 
     // res.json(groupJson)
-    res.json({
+    return res.status(200).json({
         id: groupJson.id,
         organizerId: groupJson.organizerId,
         name: groupJson.name,
@@ -622,7 +673,7 @@ router.get('/:groupId', async (req, res, next) => {
         Venues: groupJson.Venues
     })
 })
-// Delete Group
+// Delete a Group
 router.delete('/:groupId', requireAuth, async(req,res,next) => {
     const { user } = req;
     const groupId = req.params.groupId;
@@ -630,17 +681,17 @@ router.delete('/:groupId', requireAuth, async(req,res,next) => {
 
     const group = await Group.findByPk(groupId)
     if (!group) {
-        res.status(404).json({
-            "message": "Group couldn't be found",
+        return res.status(404).json({
+            message: "Group couldn't be found",
           })
     }
 
-    if (user.id !== group.organizerId) res.json({"message": "Unauthorized"})
+    if (user.id !== group.organizerId) return res.status(403).json({message: "Forbidden"})
 
     await group.destroy()
 
-    res.json({
-        "message": "Successfully deleted"
+    return res.status(200).json({
+        message: "Successfully deleted"
       })
 })
 // Get all groups
@@ -682,14 +733,14 @@ router.get('/',  async (req, res) => {
         delete group.Users
         delete group.GroupImages
     })
-    return res.json(groupList)
+    return res.status(200).json({Groups: groupList})
 })
-// Create group
+// Create a group
 router.post('/', validateGroupCreate, requireAuth, async (req,res, next) => {
     const { name, about, type, private, city, state } = req.body
     const { user } = req;
     const currentUser = await User.findByPk(user.id);
-    // const userId = currentUser.id
+
     const group = await Group.create({ 
         organizerId: user.id,
         name, 
@@ -720,7 +771,7 @@ router.post('/', validateGroupCreate, requireAuth, async (req,res, next) => {
         createdAt: group.createdAt,
         updatedAt: group.updatedAt
     }
-    res.json({group: newGroup})
+    return res.json({newGroup})
 })
 
 module.exports = router;

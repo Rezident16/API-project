@@ -14,17 +14,17 @@ module.exports = {
       {
         eventId: 1,
         userId: 1,
-        status: 'Pending',
+        status: 'attending',
       },
       {
         eventId: 1,
-        userId: 2,
-        status: 'Pending',
+        userId: 3,
+        status: 'pending',
       },
       {
         eventId: 2,
         userId: 3,
-        status: 'Attending',
+        status: 'pending',
       },
     ], { validate: true });
   },

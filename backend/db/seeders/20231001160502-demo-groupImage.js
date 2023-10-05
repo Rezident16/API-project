@@ -22,7 +22,7 @@ module.exports = {
         preview: false,
       },
       {
-        groupId: 1,
+        groupId: 2,
         url: 'Demo-lition',
         preview: true,
       },
