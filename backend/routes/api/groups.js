@@ -374,7 +374,7 @@ router.get('/:groupId/events', async (req, res) => {
         })
     
         event.numAttending = numAttending
-        event.previewImage = 'No images available for preview'
+        event.previewImage = 'default url'
         event.Group = group
         event.Venue = null
         venues.forEach(venue => {
@@ -383,11 +383,6 @@ router.get('/:groupId/events', async (req, res) => {
             }
         })
     
-
-
-
-
-
         event.EventImages.forEach(image => {
             if (image.preview === true) {
                 event.previewImage = image.url
@@ -585,8 +580,7 @@ router.get('/current', requireAuth, async(req,res, next) => {
         })
         group.numMembers = numMembers;
 
-        let previewImage = 'Preview not available';
-        if (!group.GroupImages) previewImage = 'Group hasn\'t added any images'
+        let previewImage = 'default url';
 
         group.GroupImages.forEach(image => {
             if (image.preview === true) {
@@ -785,8 +779,7 @@ router.get('/',  async (req, res) => {
         users.forEach(user => {
             if (user.Membership.status !== 'pending') group.numMembers ++
         })
-        let previewImage = 'Preview not available';
-        if (!group.GroupImages) previewImage = 'Group hasn\'t added any images'
+        let previewImage = 'default url';
 
         group.GroupImages.forEach(image => {
             if (image.preview === true) {
