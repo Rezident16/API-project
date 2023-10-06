@@ -442,8 +442,8 @@ router.get('/:eventId', async (req, res) => {
     const group = await Group.findByPk(event.groupId, {
         attributes: ['id', 'name', 'private', 'city', 'state']
     })
-    parseGroup = group.toJSON()
-    parseGroup.price = parseFloat(parseGroup.price)
+    
+    event.price = parseFloat(event.price)
     eventJson.Group = parseGroup
 
     // Venue info
