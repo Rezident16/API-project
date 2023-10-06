@@ -281,8 +281,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     if (!price || price < 0) {
         errors.price = "Price is invalid" 
     } else {
-        newEvent.price = JSON.parse(price)
-
+        newEvent.price = price
     }
     // Validate description
     if (!description) {
@@ -376,7 +375,8 @@ router.get('/:groupId/events', async (req, res) => {
                 }
             }
         })
-    
+        
+        event.price = parseFloat(event.price)
         event.numAttending = numAttending
         event.previewImage = 'default url'
         event.Group = group
