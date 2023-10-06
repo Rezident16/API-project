@@ -587,7 +587,7 @@ router.get('/', async (req, res) => {
             }
         })
         event.numAttending = numAttending
-        event.previewImage = 'No images available for preview'
+        event.previewImage = 'default.url'
         
         event.EventImages.forEach(image => {
             // console.log(image)
