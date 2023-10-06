@@ -28,7 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn: [['attending',
           'waitlist',
-          'pending']]
+          'pending',
+        'host',
+      'co-host']]
       }
     },
   }, {

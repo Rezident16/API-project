@@ -25,7 +25,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
             groupId: group.id
         }
     })
-
+    if (!membership) return res.status(403).json({message: "Forbidden"})
     if (membership.status !== 'co-host' && group.organizerId !== userId) {
         return res.status(403).json({message: "Forbidden"})
     } else {

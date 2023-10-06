@@ -95,6 +95,8 @@ router.put('/:eventId/attendance', requireAuth, async(req, res, next) => {
             userId:curruserId,
             groupId: group.id
         }})
+
+    if (!membership) return res.status(403).json({message: "Forbidden"})
     if (group.organizerId !== curruserId && membership.status !== 'co-host') {
         return res.status(403).json({message: "Forbidden"})
     }
@@ -147,7 +149,7 @@ router.post('/:eventId/attendance', requireAuth, async(req, res, next) => {
     })
 
     if (attendance) {
-        if(attendance.status === 'attending') {
+        if(attendance.status === 'attending' || attendance.status === 'co-host' || attendance.status === 'host' ) {
             return res.status(400).json({
                 message: "User is already an attendee of the event"
             })
@@ -191,17 +193,24 @@ router.get('/:eventId/attendees', async (req, res) => {
     })
     let attendeesList = event.Users
     let attendees = []
-
-    if (membership.status === 'co-host' || group.organizerId === userId) {
-        attendeesList.forEach(attendee => {
-            attendees.push(attendee.toJSON())
-        })
-    } else {
+    if (!membership) {
         attendeesList.forEach(attendee => {
             if (attendee.Attendance.status !== 'pending') {
                 attendees.push(attendee.toJSON())
             }
         })
+    } else {
+        if (membership.status === 'co-host' || group.organizerId === userId) {
+            attendeesList.forEach(attendee => {
+                attendees.push(attendee.toJSON())
+            })
+        } else {
+            attendeesList.forEach(attendee => {
+                if (attendee.Attendance.status !== 'pending') {
+                    attendees.push(attendee.toJSON())
+                }
+            })
+        }
     }
     attendees.forEach(attendee => {
         delete attendee.username
@@ -236,8 +245,15 @@ router.post('/:eventId/images', requireAuth, async (req, res, next) => {
             groupId: groupId
         }
     })
-
-    if (membership.status !== 'co-host' && group.organizerId !== userId){
+    const attendance = await Attendance.findOne({
+        where: {
+            eventId: eventId,
+            userId: userId
+        }
+    })
+    if (!membership) return res.status(403).json({message: "Forbidden"})
+    if (!attendance) return res.status(403).json({message: "Forbidden"})
+    if (membership.status !== 'co-host' && group.organizerId !== userId && attendance.status !== 'attending' && attendance.status !== 'host' && attendance.status !== 'co-host'){
         return res.status(403).json({message: "Forbidden"})
     }
     
@@ -275,6 +291,7 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
         }
     })
 
+    if (!membership) return res.status(403).json({message: "Forbidden"})
     if (membership.status !== 'co-host' && group.organizerId !== userId){
         return res.status(403).json({message: "Forbidden"})
     }
@@ -307,6 +324,7 @@ router.put('/:eventId', requireAuth, async(req, res, next) => {
             groupId: group.id
         }
     })
+    if(!membership) return res.status(403).json({message: "Forbidden"})
     if (membership.status !== 'co-host' && group.organizerId !== userId){
         return res.status(403).json({message: "Forbidden"})
     }
@@ -400,14 +418,7 @@ router.put('/:eventId', requireAuth, async(req, res, next) => {
 // Get details of an Event specified by its id
 router.get('/:eventId', async (req, res) => {
     const eventId = req.params.eventId
-    const event = await Event.findByPk(eventId, {
-        include: [
-            {
-                model: EventImage,
-                attributes: ['id', 'url', 'preview']
-            }
-        ]
-    })
+    const event = await Event.findByPk(eventId)
 
     if (!event) {
         return res.status(404).json({
@@ -415,18 +426,40 @@ router.get('/:eventId', async (req, res) => {
           })
     }
     let eventJson = event.toJSON()
+    // num Attending
+    const attendances = await Attendance.findAll({
+        where:{
+            eventId: event.id
+        }
+    })
+    let numAttending = 0
+    attendances.forEach(attendance => {
+        if (attendance.status === 'attending' || attendance.status === 'host' || attendance.status === 'co-host') numAttending++
+    })
+    eventJson.numAttending = numAttending
 
+    // Group Info
     const group = await Group.findByPk(event.groupId, {
         attributes: ['id', 'name', 'private', 'city', 'state']
     })
     eventJson.Group = group
 
+    // Venue info
     eventJson.Venue = null
+
     const venue = await Venue.findByPk(event.venueId, {
         attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
     })
     if (venue) eventJson.Venue = venue
 
+    const EventImages = await EventImage.findAll({
+        where: {
+            eventId: event.id
+        },
+        attributes: ['id', 'url', 'preview']
+    })
+
+    eventJson.EventImages = EventImages
     delete eventJson.createdAt
     delete eventJson.updatedAt
     
@@ -467,22 +500,43 @@ router.get('/', async (req, res) => {
             errors.name = "Name must be a string"
             errorTrigger = true
         } else {
-            where.name = name
+            let nameWithNoQuotes
+            if (name.includes("'")) {
+                nameWithNoQuotes = name.split("'")[1]
+            } else if (name.includes('"')) {
+                nameWithNoQuotes = name.split('"')[1]
+            } else {
+                nameWithNoQuotes = name
+            }
+            where.name = nameWithNoQuotes
         }
     }
 
     if (type !== undefined) {
-        if (type !== 'Online' && type !== 'In Person') {
+        let passedType = type.toLowerCase()
+        if (!passedType.includes("online") && !passedType.includes("in person")) {
             errors.type = "Type must be 'Online' or 'In Person'"
             errorTrigger = true
         } else {
-            where.type = type
+            if (passedType.includes("online")) where.type = 'Online'
+            if (passedType.includes("in person")) where.type = 'In person'
         }
     }
 
     if (startDate !== undefined) {
-        const reqDate = new Date(startDate)
-        if (reqDate.toString() === 'Invalid Date' || startDate.length !== 10) {
+        let dateWithNoQuotes
+            if (startDate.includes("'")) {
+                dateWithNoQuotes = startDate.split("'")[1]
+            } else if (startDate.includes('"')) {
+                dateWithNoQuotes = startDate.split('"')[1]
+            } else {
+                dateWithNoQuotes = startDate
+            }
+        
+        const [date, time] = dateWithNoQuotes.split(' ')
+        
+        const reqDate = new Date(date)
+        if (reqDate.toString() === 'Invalid Date') {
             errors.startDate = "Start date must be a valid datetime"
             errorTrigger = true
         } 
@@ -490,7 +544,7 @@ router.get('/', async (req, res) => {
             let after = new Date(reqDate.getTime());
             after.setDate(reqDate.getDate() + 1)
             where.startDate = {
-                [Op.gt]: reqDate,
+                [Op.gte]: reqDate,
                 [Op.lt]: after
             }
         }
@@ -517,6 +571,8 @@ router.get('/', async (req, res) => {
         attributes: ['id', 'city', 'state']
     })
 
+    const attendance = await Attendance.findAll()
+
     let eventList = []
 
     events.forEach(event => {
@@ -524,15 +580,20 @@ router.get('/', async (req, res) => {
     });
 
     eventList.forEach(event => {
-        
+        let numAttending = 0
+        attendance.forEach(attendee => {
+            if (event.id === attendee.eventId && attendee.status === 'attending') {
+                numAttending++
+            }
+        })
+        event.numAttending = numAttending
+        event.previewImage = 'No images available for preview'
         
         event.EventImages.forEach(image => {
             // console.log(image)
             if (image.preview === true) {
                 event.previewImage = image.url
                 return
-            } else {
-                event.previewImage = 'No images available for preview'
             }
         })
         
