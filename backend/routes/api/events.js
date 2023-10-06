@@ -586,6 +586,7 @@ router.get('/', async (req, res) => {
                 if (attendee.status === 'attending' || attendee.status === 'host' || attendee.status === 'co-host') {
                     numAttending++
                 }
+
             }
         })
         event.numAttending = numAttending
