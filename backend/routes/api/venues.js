@@ -85,6 +85,7 @@ router.put('/:venueId', requireAuth, async(req, res, next) => {
 
     let updatedVenue = {
         id: venue.id,
+        groupId: venue.groupId,
         address: venue.address,
         city: venue.city,
         state: venue.state,
