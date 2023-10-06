@@ -442,6 +442,8 @@ router.get('/:groupId/venues', requireAuth, async(req, res, next) => {
     })
 
     venues.forEach(venue => {
+        venue.lat = parseFloat(venue.lat)
+        venue.lng = parseFloat(venue.lng)
         delete venue.createdAt
         delete venue.updatedAt
     })
