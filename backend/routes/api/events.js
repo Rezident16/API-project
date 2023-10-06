@@ -582,8 +582,10 @@ router.get('/', async (req, res) => {
     eventList.forEach(event => {
         let numAttending = 0
         attendance.forEach(attendee => {
-            if (event.id === attendee.eventId && attendee.status === 'attending' && attendee.status === 'host' && attendee.status === 'co-host') {
-                numAttending++
+            if (event.id === attendee.eventId) {
+                if (attendee.status === 'attending' || attendee.status === 'host' || attendee.status === 'co-host') {
+                    numAttending++
+                }
             }
         })
         event.numAttending = numAttending
