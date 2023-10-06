@@ -509,8 +509,8 @@ router.post('/:groupId/venues', requireAuth, async(req, res, next) => {
         address,
         city,
         state,
-        lat,
-        lng
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
     })
 
     return res.status(200).json({
