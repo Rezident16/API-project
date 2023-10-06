@@ -702,13 +702,17 @@ router.get('/:groupId', async (req, res, next) => {
         if (membership.status !== 'pending') numMembers++
     })
 
-    const venues = await Venue.findAll({
+    const venuesPromise = await Venue.findAll({
         where: {
             groupId: groupId
         },
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
     })
 
+    let venues = []
+    venuesPromise.forEach(venue => {
+        venues.push(venue.toJSON())
+    })
     venues.forEach(venue => {
         venue.lat = parseFloat(venue.lat)
         venue.lng = parseFloat(venue.lng)
