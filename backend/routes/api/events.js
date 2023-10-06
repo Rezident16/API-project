@@ -443,7 +443,7 @@ router.get('/:eventId', async (req, res) => {
         attributes: ['id', 'name', 'private', 'city', 'state']
     })
     
-    event.price = parseFloat(event.price)
+    eventJson.price = parseFloat(eventJson.price)
     eventJson.Group = group
 
     // Venue info
