@@ -442,7 +442,9 @@ router.get('/:eventId', async (req, res) => {
     const group = await Group.findByPk(event.groupId, {
         attributes: ['id', 'name', 'private', 'city', 'state']
     })
-    eventJson.Group = group
+    parseGroup = group.toJSON()
+    parseGroup.price = parseFloat(parseGroup.price)
+    eventJson.Group = parseGroup
 
     // Venue info
     eventJson.Venue = null
@@ -459,7 +461,6 @@ router.get('/:eventId', async (req, res) => {
         attributes: ['id', 'url', 'preview']
     })
 
-    eventJson.Group.price = parseFloat(eventJson.Group.price)
     eventJson.EventImages = EventImages
     delete eventJson.createdAt
     delete eventJson.updatedAt
