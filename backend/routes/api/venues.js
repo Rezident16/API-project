@@ -17,7 +17,7 @@ router.put('/:venueId', requireAuth, async(req, res, next) => {
         include: [Group]
     })
     if (!venue) {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Venue couldn't be found"
           })
     }
@@ -84,6 +84,7 @@ router.put('/:venueId', requireAuth, async(req, res, next) => {
     await venue.save()
 
     let updatedVenue = {
+        id: venue.id,
         address: venue.address,
         city: venue.city,
         state: venue.state,

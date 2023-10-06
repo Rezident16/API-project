@@ -604,7 +604,7 @@ router.put('/:groupId', requireAuth, async(req, res, next) => {
     const { name, about, type, private, city, state } = req.body
     const group = await Group.findByPk(groupId)
     if (!group) {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Group couldn't be found",
         })
     }
@@ -667,7 +667,7 @@ router.put('/:groupId', requireAuth, async(req, res, next) => {
 
     await group.save()
 
-    res.json({
+    return res.json({
         id: group.id,
         organizerId: group.organizerId,
         name: group.name,
@@ -717,7 +717,7 @@ router.get('/:groupId', async (req, res, next) => {
     
 
 
-    res.json({
+    return res.json({
         id: group.id,
         organizerId: group.organizerId,
         name: group.name,

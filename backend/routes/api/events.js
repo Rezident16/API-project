@@ -110,7 +110,7 @@ router.put('/:eventId/attendance', requireAuth, async(req, res, next) => {
             userId: userId
         }
     })
-    if (!attendance) res.status(404).json({
+    if (!attendance) return res.status(404).json({
         message: "Attendance between the user and the event does not exist"
     })
     attendance.status = status
