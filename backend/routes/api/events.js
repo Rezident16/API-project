@@ -444,7 +444,7 @@ router.get('/:eventId', async (req, res) => {
     })
     
     event.price = parseFloat(event.price)
-    eventJson.Group = parseGroup
+    eventJson.Group = group
 
     // Venue info
     eventJson.Venue = null
