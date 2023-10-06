@@ -454,6 +454,8 @@ router.get('/:eventId', async (req, res) => {
     })
     if (venue) eventJson.Venue = venue
 
+    eventJson.Venue.lat = parseFloat(eventJson.Venue.lat)
+    eventJson.Venue.lng = parseFloat(eventJson.Venue.lng)
     const EventImages = await EventImage.findAll({
         where: {
             eventId: event.id
