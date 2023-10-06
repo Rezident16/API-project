@@ -496,18 +496,18 @@ router.get('/', async (req, res) => {
     const where = {}
 
     if (name !== undefined) {
-        if (!isNaN(parseInt(name))) {
+        let nameWithNoQuotes
+        if (name.includes("'")) {
+            nameWithNoQuotes = name.split("'")[1]
+        } else if (name.includes('"')) {
+            nameWithNoQuotes = name.split('"')[1]
+        } else {
+            nameWithNoQuotes = name
+        }
+        if (!isNaN(parseInt(nameWithNoQuotes))) {
             errors.name = "Name must be a string"
             errorTrigger = true
         } else {
-            let nameWithNoQuotes
-            if (name.includes("'")) {
-                nameWithNoQuotes = name.split("'")[1]
-            } else if (name.includes('"')) {
-                nameWithNoQuotes = name.split('"')[1]
-            } else {
-                nameWithNoQuotes = name
-            }
             where.name = nameWithNoQuotes
         }
     }
