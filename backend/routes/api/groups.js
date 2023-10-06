@@ -281,7 +281,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
     if (!price || price < 0) {
         errors.price = "Price is invalid" 
     } else {
-        newEvent.price = JSON.parse(price)
+        newEvent.price = price
 
     }
     // Validate description
@@ -317,6 +317,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
             userId: userId,
             status: 'host'
         })
+        
         return res.status(200).json({
             id: createNewEvent.id,
             groupId: createNewEvent.groupId,
@@ -324,7 +325,7 @@ router.post('/:groupId/events', requireAuth, async (req, res, next) => {
             name: createNewEvent.name,
             type: createNewEvent.type,
             capacity: createNewEvent.capacity,
-            price: createNewEvent.price,
+            price: JSON.parse(createNewEvent.price),
             description: createNewEvent.description,
             startDate: createNewEvent.startDate,
             endDate: createNewEvent.endDate
