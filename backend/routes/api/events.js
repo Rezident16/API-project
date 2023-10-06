@@ -459,6 +459,7 @@ router.get('/:eventId', async (req, res) => {
         attributes: ['id', 'url', 'preview']
     })
 
+    eventJson.Group.price = parseFloat(eventJson.Group.price)
     eventJson.EventImages = EventImages
     delete eventJson.createdAt
     delete eventJson.updatedAt
