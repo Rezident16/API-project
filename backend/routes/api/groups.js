@@ -709,6 +709,10 @@ router.get('/:groupId', async (req, res, next) => {
         attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
     })
 
+    venues.forEach(venue => {
+        venue.lat = parseFloat(venue.lat)
+        venue.lng = parseFloat(venue.lng)
+    })
     const images = await GroupImage.findAll({
         where: {
             groupId:groupId
