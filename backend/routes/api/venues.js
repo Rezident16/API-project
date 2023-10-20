@@ -6,29 +6,8 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
-const validateVenueVals = [
-    check('address')
-        .exists({ checkFalsy: true })
-        .withMessage('Street address is required'),
-    check('city')
-        .exists({ checkFalsy: true })
-        .withMessage('City is required'),
-    check('state')
-        .exists({ checkFalsy: true })
-        .withMessage('State is required'),
-    check('lat')
-      .exists({ checkFalsy: true })
-      .isFloat({ min: -90, max: 90 })
-      .withMessage('Latitude is not valid'),
-    check('lng')
-      .exists({ checkFalsy: true })
-      .isFloat({ min: -180, max: 180 })
-      .withMessage('Longitude is not valid'),
-    handleValidationErrors
-  ];
-
 //Edit a Venue specified by its id
-router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) => {
+router.put('/:venueId', requireAuth, async(req, res, next) => {
     const { user } = req
     const userId = user.id
     const venueId = req.params.venueId
@@ -38,7 +17,7 @@ router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) =>
         include: [Group]
     })
     if (!venue) {
-        res.status(404).json({
+        return res.status(404).json({
             message: "Venue couldn't be found"
           })
     }
@@ -51,21 +30,62 @@ router.put('/:venueId', requireAuth, validateVenueVals, async(req, res, next) =>
     })
     // Get organizer Id
     const group = await Group.findByPk(venue.groupId) 
-
+    if(!membership) return res.status(403).json({message: "Forbidden"})
     if (membership.status !== 'co-host' && group.organizerId !== userId) {
         return res.status(403).json({message: "Forbidden"})
     }
 
-    if (address) venue.address = address
-    if (city) venue.city = city
-    if (state) venue.state = state
-    if (lat) venue.lat = lat
-    if (lng) venue.lng = lng
+    const errors = {}
+    let errorTrigger = false
+    if (!address) {
+        errors.address = "Street address is required"
+        errorTrigger = true
+    } else {
+        venue.address = address
+    }
+
+    if (!city) {
+        errors.city = "City is required"
+        errorTrigger = true
+    } else {
+        venue.city = city
+    }
+
+    if (!state) {
+        errors.state = "State address is required"
+        errorTrigger = true
+    } else {
+        venue.state = state
+    }
+
+    if (!lat || lat < -90 || lat > 90) {
+        errors.lat = "Latitude is not valid"
+        errorTrigger = true
+    } else {
+        venue.lat = lat
+    }
+
+    if (!lng || lng < -180 || lng > 180) {
+        errors.lng = "Longitude is not valid"
+        errorTrigger = true
+    } else {
+        venue.lng = lng
+    }
+
+    if (errorTrigger === true) {
+        return res.status(400).json({
+            message: "Bad Request",
+            errors
+        })
+    }
+    
     venue.updatedAt = new Date()
 
     await venue.save()
 
     let updatedVenue = {
+        id: venue.id,
+        groupId: venue.groupId,
         address: venue.address,
         city: venue.city,
         state: venue.state,
