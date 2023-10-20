@@ -1,1 +1,17 @@
-/* TODO Add site wide styles */
+/* Heading */
+h1 {
+    font-size: 24pt;
+    font-weight: bold;
+  }
+  
+  /* Subheading */
+  h2 {
+    font-size: 18pt;
+    font-weight: bold;
+  }
+  
+  /* Normal text */
+  p {
+    font-size: 14pt;
+    font-weight: normal;
+  }
