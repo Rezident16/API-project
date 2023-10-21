@@ -9,8 +9,11 @@
     padding: 10px;
     z-index: 1;
     max-width: 100%;
-    transition: right 0.3s;
+    transition: left 0.3s;
     list-style-type: none;
+    left: auto;
+    right: 10px;
+    margin-top: 5px
 }
 
 .hidden {
@@ -45,10 +48,18 @@ ul {
 
 .navigation_container {
     list-style-type: none;
+    display: flex;
+    justify-content: space-between;
 }
 
 
 .image_container {
     width: 3em;
     height: 3em;
+}
+
+.login_signup_container {
+    display: flex;
+    gap: 3em;
+    margin-right: 5px;
 }

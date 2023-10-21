@@ -11,7 +11,7 @@ function Navigation({ isLoaded }){
     <ul className='navigation_container'>
       <li>
         <NavLink exact to="/" >
-          <img className='image_container' src='https://cdn-icons-png.flaticon.com/128/2400/2400800.png'/>
+          <img className='image_container' src='https://cdn-icons-png.flaticon.com/128/2400/2400800.png' alt='logo'/>
         </NavLink>
       </li>
       {isLoaded && (

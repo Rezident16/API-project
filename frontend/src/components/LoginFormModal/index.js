@@ -11,13 +11,14 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  useEffect(() => {
-    const errorsObj = {}
-    if (credential.length < 4) errorsObj.username = "Username/Email must be at least 4 characters"
-    if (password.length < 6) errorsObj.password="password must be at least 6 characters"
+  // useEffect(() => {
+  //   const errorsObj = {}
+  //   if (credential.length < 4) errorsObj.username = "Username/Email must be at least 4 characters"
+  //   if (password.length < 6) errorsObj.password="password must be at least 6 characters"
 
-    setErrors(errorsObj)
-  }, [credential, password])
+  //   setErrors(errorsObj)
+  // }, [credential, password])
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +31,15 @@ function LoginFormModal() {
         setErrors(data.errors);
       }
     });
+  };
 
+  const demoLogin = (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login({ 
+      credential: 'Demo-lition', 
+      password: 'password' 
+    }))
+    .then(closeModal)
   };
 
   return (
@@ -61,10 +70,11 @@ function LoginFormModal() {
         {/* {errors.password && (
             <p className="errors">{errors.password}</p>
           )} */}
-        <button type="submit" disabled={Object.keys(errors).length}>Log In</button>
+        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
         {errors.credential && (
             <p className="errors">{errors.credential}</p>
           )}
+        <button onClick={demoLogin}>DemoUser</button>
       </form>
     </div>
   );
