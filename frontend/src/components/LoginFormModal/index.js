@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import { useHistory } from 'react-router-dom';
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -10,20 +11,16 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-
-  // useEffect(() => {
-  //   const errorsObj = {}
-  //   if (credential.length < 4) errorsObj.username = "Username/Email must be at least 4 characters"
-  //   if (password.length < 6) errorsObj.password="password must be at least 6 characters"
-
-  //   setErrors(errorsObj)
-  // }, [credential, password])
+const history = useHistory()
+  const disabled = (credential.length < 4 || password.length < 6)
+  const className = disabled ? "disabled_button" : "loginButton"
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // setErrors({});
-    return dispatch(sessionActions.login({ credential, password }))
+    // return 
+    dispatch(sessionActions.login({ credential, password }))
     .then(closeModal)
     .catch(async (res) => {
       const data = await res.json();
@@ -31,15 +28,18 @@ function LoginFormModal() {
         setErrors(data.errors);
       }
     });
+    history.push('/')
   };
 
   const demoLogin = (e) => {
     e.preventDefault();
-    return dispatch(sessionActions.login({ 
+    // return 
+    dispatch(sessionActions.login({ 
       credential: 'Demo-lition', 
       password: 'password' 
     }))
     .then(closeModal)
+    history.push('/')
   };
 
   return (
@@ -52,29 +52,31 @@ function LoginFormModal() {
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
+            className="login_input"
             required
           />
         </label>
-          {/* {errors.username && (
-            <p className="errors">{errors.username}</p>
-          )} */}
         <label>
           Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="login_input"
             required
           />
         </label>
-        {/* {errors.password && (
-            <p className="errors">{errors.password}</p>
-          )} */}
-        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+        <div className="buttons_container">
+        <button type="submit" 
+        className={className}
+        disabled={credential.length < 4 || password.length < 6}>Log In</button>
         {errors.credential && (
             <p className="errors">{errors.credential}</p>
           )}
-        <button onClick={demoLogin}>DemoUser</button>
+        <button 
+        className="loginButton"
+        onClick={demoLogin}>DemoUser</button>
+        </div>
       </form>
     </div>
   );

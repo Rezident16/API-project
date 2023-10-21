@@ -15,3 +15,10 @@ h1 {
     font-size: 14pt;
     font-weight: normal;
   }
+
+  html *{
+    /* background-color: whitesmoke; */
+    font-family: sans-serif ;
+    box-sizing:content-box;
+    padding: 2px;
+    }

@@ -42,8 +42,13 @@ ul {
       cursor: pointer;
 }
 
-.login_signup_button:hover {
+.login_signup_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
+    height: 100%;
+    width: 100%;
 }   
 
 .navigation_container {
@@ -62,4 +67,13 @@ ul {
     display: flex;
     gap: 3em;
     margin-right: 5px;
+}
+
+.home-button-container {
+    display: flex;
+    gap: 15px;
+}
+
+.home-button-container > div {
+    text-decoration: none;
 }
