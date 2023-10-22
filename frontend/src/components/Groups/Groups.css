@@ -1,0 +1,145 @@
+.groups_list_details_container {
+    display: flex;
+    gap: 50px;
+    text-decoration: none;
+    color: black;
+}
+.groups_list_details_container:visited {
+    color: black;
+}
+
+.groups_list_images > img {
+    width: 350px;
+}
+
+.groups_list_container {
+    padding-left: 180px;
+    padding-right: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.groups_list_data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 5px;
+}
+.location_name {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.location_name > h2, h4 {
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+.public {
+    margin-bottom: 10px;
+}
+
+.groups_list_events_container {
+    font-size: medium;
+    color: gray;
+    font-size: bold;
+    display: flex;
+    gap: 15px
+}
+
+.location_name > h4 {
+    color: gray;
+}
+
+.lower_rotation_image {
+    height: 80px;
+    width: 100px;
+}
+
+.main_group_image {
+    height: 400px;
+    width: 600px
+}
+
+.next_previos {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.group_upper_container{
+    display: flex;
+    gap: 40px;
+    
+}
+
+.group_text_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.groupInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 70px;
+}
+
+.groupInfo > button {
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 35px;
+    width: 200px;    
+    background-color: #fe6d72;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.group_details_whole_container {
+    padding: 30px;
+    margin-left: 150px;
+    margin-right: 50px;
+}
+
+.enabled_next_image_button {
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 25px;
+    width: 100px;    
+    background-color: #00798a;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none 
+}
+.disabled_next_image_button {
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 25px;
+    width: 100px;    
+    background-color: gray;
+    color: white;
+    border-radius: 10px;
+    cursor:default;
+    border: none 
+}
+.groupImage > img {
+    border: 1px solid black;
+}
+
+.group_text_info_details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

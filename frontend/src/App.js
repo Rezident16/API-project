@@ -4,6 +4,9 @@ import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
+import GroupsList from './components/Groups/index'
+import GroupDetails from "./components/Groups/group";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +22,12 @@ function App() {
       <Switch>
         <Route exact path='/'>
           <LandingPage/>
+        </Route>
+        <Route exact path='/groups'>
+          <GroupsList/>
+        </Route>
+        <Route exact path='/groups/:groupId'>
+          <GroupDetails/>
         </Route>
         </Switch>
         }

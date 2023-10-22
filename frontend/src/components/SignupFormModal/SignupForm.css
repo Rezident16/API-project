@@ -24,9 +24,14 @@
     justify-content: center;
     text-align: left;
     /* margin-top: 10px; */
-    background-color: #e8fdfe;
+    background-color: white;
     height: 20px;
-    width: 206px;
+    width: 200px;
+    border: 1px solid rgb(229, 229, 229);
+    border-radius: 5px;
+}
+.signup_input:hover {
+    border: 1px solid black
 }
 
 .signup_disabled_button {
@@ -34,10 +39,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    height: 45px;
+    height: 35px;
     width: 200px;    
     background-color: grey;
     color: white;
+    border: none;
+    border-radius: 10px;
+
 }
 
 .signupButton {
@@ -45,8 +53,10 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    height: 45px;
+    height: 35px;
     width: 200px;    
     background-color: #fe6d72;
     color: white;
+    border: none;
+    border-radius: 10px;
 }

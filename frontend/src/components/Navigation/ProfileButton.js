@@ -41,6 +41,12 @@ function ProfileButton({ user }) {
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
+  const redirectToGroups = (e) => {
+    e.preventDefault()
+    setShowMenu(false);
+    history.push('/groups')
+  }
+
   return (
     <>
       {user ? (
@@ -52,6 +58,8 @@ function ProfileButton({ user }) {
             {/* <li>{user.username}</li> */}
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li className="seperator"></li>
+            <li className = 'profile_buttons'onClick={redirectToGroups}>View Groups</li>
             <li className="logout_button_container">
               <button className="logout_button" onClick={logout}>
                 Log Out

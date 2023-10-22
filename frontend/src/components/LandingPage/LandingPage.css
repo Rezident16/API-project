@@ -46,6 +46,8 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    text-decoration: none;
+    color: teal;
 }
 
 .see_groups_events_start_new_container_button {
@@ -85,4 +87,18 @@
     font-weight: bold;
     color: gray;
     pointer-events: none;
+}
+
+.groups_events_nav {
+    display: flex;
+    gap: 35px
+}
+
+.groups_events_nav_groups, .groups_events_nav_events {
+    font-size: 25px;
+}
+
+.groups_events_nav_events {
+    text-decoration: none;
+    color: black;
 }

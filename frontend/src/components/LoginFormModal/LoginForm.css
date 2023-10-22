@@ -22,9 +22,15 @@
     justify-content: center;
     text-align: left;
     /* margin-top: 10px; */
-    background-color: #e8fdfe;
+    background-color: white;
     height: 20px;
-    width: 206px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid rgb(229, 229, 229);
+}
+
+.login_input:hover {
+    border: 1px solid black
 }
 
 .loginButton {
@@ -32,10 +38,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    height: 45px;
+    height: 35px;
     width: 200px;    
     background-color: #fe6d72;
     color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none
 }
 
 .disabled_button {
@@ -43,10 +52,12 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    height: 45px;
+    height: 35px;
     width: 200px;    
-    background-color: grey;
+    background-color: #ffbbbd;
     color: white;
+    border-radius: 10px;
+    border: none;
 }
 
 .buttons_container {

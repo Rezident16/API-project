@@ -55,6 +55,15 @@ ul {
     list-style-type: none;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+
+.seperator {
+    border-top: 1px solid gray;
+}
+
+.profile_buttons{
+    cursor: pointer;
 }
 
 

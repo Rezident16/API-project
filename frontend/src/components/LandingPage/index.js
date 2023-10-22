@@ -42,18 +42,18 @@ function LandingPage() {
         </p>
       </div>
       <div className="see_groups_events_start_new_container">
-        <div className="sub_see_groups_events_start_new_container">
+        <NavLink to='/groups'  className="sub_see_groups_events_start_new_container">
           <img className='about_us_img' src="https://img.freepik.com/free-vector/group-happy-smiling-people-looking-up-top-view-white-background-flat-vector-illustration_1284-78599.jpg" />
-          <NavLink to='/groups' className="see_groups_events_start_new_container_link">See All Groups</NavLink>
-        </div>
-        <div className="sub_see_groups_events_start_new_container">
+          <div className="see_groups_events_start_new_container_link">See All Groups</div>
+        </NavLink>
+        <NavLink to='/events' className="sub_see_groups_events_start_new_container">
           <img className='about_us_img'  src="https://img.freepik.com/premium-vector/group-friends-hanging-out-home-talking-playing-music-drinking-wine-eating-chips_318844-306.jpg" />
-          <NavLink to='/events' className="see_groups_events_start_new_container_link"> Find an event</NavLink>
-        </div>
-        <div className="sub_see_groups_events_start_new_container">
+          <div className="see_groups_events_start_new_container_link"> Find an event</div>
+        </NavLink>
+        <NavLink  to='/groups/new'  className={`sub_see_groups_events_start_new_container ${userClass}`}>
           <img className='about_us_img'  src="https://media.istockphoto.com/id/1405367167/vector/team-with-young-people-character-standing-together-with-folded-arms-and-smiling-vector.jpg?s=612x612&w=0&k=20&c=JkdtiWDbErQpoxbhqv_7K2A0mzsDnmVzP_vUZrrPNZM=" />
-          <NavLink to='/groups/new' className={userClass}>Start a group</NavLink>
-        </div>
+          <div className={userClass}>Start a group</div>
+        </NavLink>
       </div>
       {!sessionUser && (
           <div className="join_us"><button 
