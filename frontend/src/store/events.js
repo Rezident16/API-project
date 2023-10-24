@@ -1,3 +1,5 @@
+import { csrfFetch } from "./csrf";
+
 /** Action Type Constants: */
 export const LOAD_EVENTS = 'events/LOAD_EVENTS';
 export const RECEIVE_EVENT = 'events/RECEIVE_EVENT';
@@ -29,9 +31,25 @@ export const removeEvent = (id) => ({
 
 // Your code here
 export const fetchEvents = () => async dispatch => {
-  const response = await fetch('/api/events')
+  const response = await csrfFetch('/api/events')
   const data = await response.json()
   dispatch(loadEvents(data))
+}
+
+export const fetchEventsbyGroupId = (id) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${id}/events`)
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(loadEvents(data))
+  }
+}
+
+export const fetchEventDetails = (id) => async dispatch => {
+  const response = await csrfFetch (`/api/events/${id}`)
+  if(response.ok) {
+    const data = await response.json ()
+    dispatch(receiveEvent(data))
+  }
 }
 
 // export const deleteReports = (id) => async dispatch => {
@@ -93,8 +111,8 @@ const eventsReducer = (state = {}, action) => {
         eventsState[event.id] = event;
       });
       return eventsState;
-    // case RECEIVE_REPORT:
-    //   return { ...state, [action.report.id]: action.report };
+    case RECEIVE_EVENT:
+      return { ...state, [action.event.id]: action.event };
     // case UPDATE_REPORT:
     //   return { ...state, [action.report.id]: action.report };
     // case REMOVE_REPORT:

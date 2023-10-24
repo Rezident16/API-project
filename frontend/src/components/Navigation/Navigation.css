@@ -86,3 +86,22 @@ ul {
 .home-button-container > div {
     text-decoration: none;
 }
+
+/* .nav_logo {
+    display: flex;
+    align-items: center;
+    gap: 15px
+}
+
+.nav_logo_text {
+    text-decoration: none;
+    color: black;
+}
+
+.nav_logo > h3 {
+    font-size: 20px;
+}
+
+.logo {
+    margin-top: 0px;
+} */

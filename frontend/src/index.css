@@ -21,4 +21,9 @@ h1 {
     font-family: sans-serif ;
     box-sizing:content-box;
     padding: 2px;
+    /* background-color: whitesmoke; */
+    }
+
+    #root {
+      background-color: white;
     }

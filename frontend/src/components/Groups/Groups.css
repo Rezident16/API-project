@@ -3,7 +3,10 @@
     gap: 50px;
     text-decoration: none;
     color: black;
+    border-top: 1px solid gray;
+    padding: 10px;
 }
+
 .groups_list_details_container:visited {
     color: black;
 }
@@ -44,7 +47,7 @@
     color: gray;
     font-size: bold;
     display: flex;
-    gap: 15px
+    gap: 15px;
 }
 
 .location_name > h4 {
@@ -87,7 +90,7 @@
     margin-bottom: 70px;
 }
 
-.groupInfo > button {
+.user_logged_in_group {
     flex-direction: flex;
     align-items: center;
     justify-content: center;
@@ -100,6 +103,10 @@
     cursor: pointer;
     border: none;
     margin-bottom: 15px;
+}
+
+.user_not_logged_in_group {
+    display: none;
 }
 
 .group_details_whole_container {
@@ -142,4 +149,95 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.group_lower_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.image_group_details > img {
+    height: 200px;
+    width: 250px;
+    border: 1px solid black;
+}
+
+.lower_container_group_upper_details > h2 {
+    margin-bottom: 0px;
+}
+
+.first_last_name_group {
+    font-size: medium;
+    color: gray;
+    display: flex;
+    gap: 15px;
+    margin-top: 0px;
+}
+
+.groups-in-gatherup {
+    color: gray;
+}
+
+.image_group_details {
+    display: flex;
+    gap: 20px;
+}
+
+.event_type {
+    margin-top: 25px;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+.event-details-container-on-a-group {
+    background-color: whitesmoke;
+    width: 560px;
+    border-radius: 25px;
+    padding: 20px;
+    margin-top: 15px;
+    text-decoration: none;
+    color: black;
+    /* border: 1px solid red; */
+}
+
+.event-details-container-on-a-group-link {
+    text-decoration: none;
+}
+.event-details-container-on-a-group-upper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px
+}
+
+.organizer_buttons {
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 25px;
+    width: 100px;    
+    background-color: rgb(94, 93, 93);
+    color: white;
+    cursor:default;
+    border: none;
+    border: 1px solid black;
+}
+
+.organizer_buttons_container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.event-list-event-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.event-list-event-date{
+    color: #014953;
+}
+
+.event-list-event-location{
+    color: rgb(83, 83, 83);
 }

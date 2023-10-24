@@ -1,3 +1,6 @@
+import { csrfFetch } from "./csrf";
+
+
 /** Action Type Constants: */
 export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
 export const RECEIVE_GROUP = 'groups/RECEIVE_GROUP';
@@ -29,7 +32,7 @@ export const removeGroup = (id) => ({
 
 // Your code here
 export const fetchGroups = () => async dispatch => {
-  const response = await fetch('/api/groups')
+  const response = await csrfFetch('/api/groups')
   const data = await response.json()
   dispatch(loadGroups(data))
 }
@@ -45,7 +48,7 @@ export const fetchGroups = () => async dispatch => {
 // }
 
 export const loadGroupData = (id) => async dispatch => {
-  const response = await fetch(`/api/groups/${id}`)
+  const response = await csrfFetch(`/api/groups/${id}`)
   if (response.ok) {
     const data = await response.json()
     dispatch(receiveGroup(data))
