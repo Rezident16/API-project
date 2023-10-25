@@ -56,6 +56,10 @@ ul {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* padding-top: 5px; */
+    align-items: center;
 }
 
 .seperator {
@@ -105,3 +109,13 @@ ul {
 .logo {
     margin-top: 0px;
 } */
+
+.navigation-right-side-container {
+    display: flex;
+    gap: 30px;
+}
+
+.event-link {
+    text-decoration: none;
+    color: #014953;
+}

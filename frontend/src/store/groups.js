@@ -37,15 +37,16 @@ export const fetchGroups = () => async dispatch => {
   dispatch(loadGroups(data))
 }
 
-// export const deleteReports = (id) => async dispatch => {
-//   const response = await fetch(`/api/reports/${id}`, {
-//     method: 'DELETE',
-//     headers: {'Content-Type': 'application/json'},
-//   })
-//   if (response.ok) {
-//     dispatch(removeReport(id))
-//   }
-// }
+export const deleteGroups = (id) => async dispatch => {
+  console.log(typeof id)
+  const response = await csrfFetch(`/api/groups/${id}`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'},
+  })
+  if (response.ok) {
+    dispatch(removeGroup(id))
+  }
+}
 
 export const loadGroupData = (id) => async dispatch => {
   const response = await csrfFetch(`/api/groups/${id}`)
@@ -55,37 +56,38 @@ export const loadGroupData = (id) => async dispatch => {
   }
 }
 
-// export const createNewReport = (payload) => async dispatch => {
-//   const response = await fetch ('/api/reports', {
-//     method: 'POST',
-//     headers: {'Content-Type': 'application/json'},
-//     body: JSON.stringify(payload)
-//   })
-//   if (response.ok) {
-//     const data = await response.json()
-//     dispatch(receiveReport(data))
-//     return data
-//   } else {
-//     const errors = await response.json()
-//     return errors
-//   }
-// }
+export const createNewGroup = (payload) => async dispatch => {
+  const response = await csrfFetch ('/api/groups', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  })
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(receiveGroup(data))
+    return data
+  } else {
+    const errors = await response.json()
+    return errors
+  }
+}
 
-// export const updateReportThunk = (payload) => async dispatch => {
-//   const response = await fetch (`/api/reports/${payload.id}`, {
-//     method: 'PUT',
-//     headers: {'Content-Type': 'application/json'},
-//     body: JSON.stringify(payload)
-//   })
-//   if (response.ok) {
-//     const data = await response.json()
-//     dispatch(editReport(data))
-//     return data
-//   } else {
-//     const errors = await response.json()
-//     return errors
-//   }
-// }
+export const updateGroupThunk = (payload) => async dispatch => {
+  const response = await csrfFetch (`/api/groups/${payload.id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  })
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(editGroup(data))
+    console.log(data)
+    return data
+  } else {
+    const errors = await response.json()
+    return errors
+  }
+}
 
 /** The reports reducer is complete and does not need to be modified */
 const groupsReducer = (state = {}, action) => {
@@ -98,12 +100,13 @@ const groupsReducer = (state = {}, action) => {
       return groupsState;
     case RECEIVE_GROUP:
       return { ...state, [action.group.id]: action.group };
-    // case UPDATE_REPORT:
-    //   return { ...state, [action.report.id]: action.report };
-    // case REMOVE_REPORT:
-    //   const newState = { ...state };
-    //   delete newState[action.id];
-    //   return newState;
+    case UPDATE_GROUP:
+      return { ...state, [action.group.id]: action.group };
+    case REMOVE_GROUP:
+      const newState = { ...state };
+      delete newState[action.id];
+      console.log('newState', newState[action.id])
+      return newState;
     default:
       return state;
   }

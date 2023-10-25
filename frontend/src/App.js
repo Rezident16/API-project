@@ -4,9 +4,11 @@ import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import LandingPage from "./components/LandingPage";
-import GroupsList from './components/Groups/index'
+import GroupsList from "./components/Groups/index";
 import GroupDetails from "./components/Groups/group";
-
+import CreateGroupForm from "./components/Groups/createNewGroupForm";
+import EditGroupForm from "./components/Groups/updateGroupForm";
+import EventsList from "./components/EventsComponent/loadAllEvents";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,19 +20,26 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && 
-      <Switch>
-        <Route exact path='/'>
-          <LandingPage/>
-        </Route>
-        <Route exact path='/groups'>
-          <GroupsList/>
-        </Route>
-        <Route exact path='/groups/:groupId'>
-          <GroupDetails/>
-        </Route>
+      {isLoaded && (
+        <Switch>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
+          <Route path="/groups/new" component={CreateGroupForm}></Route>
+          <Route exact path="/groups">
+            <GroupsList />
+          </Route>
+          <Route exact path="/groups/:groupId">
+            <GroupDetails />
+          </Route>
+          <Route
+            exact
+            path="/groups/:groupId/edit"
+            component={EditGroupForm}
+          ></Route>
+          <Route exact path = '/events' component = {EventsList}></Route>
         </Switch>
-        }
+      )}
     </>
   );
 }

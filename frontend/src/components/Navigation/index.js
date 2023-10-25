@@ -22,9 +22,19 @@ function Navigation({ isLoaded }) {
         </Link>
       </li>
       {isLoaded && (
+        <div className="navigation-right-side-container">
+          {sessionUser && (
+        <li >
+          <Link to='/groups/new' className="event-link">
+        Start a new group
+          </Link>
+        </li>
+          )}
         <li>
           <ProfileButton user={sessionUser} />
         </li>
+          
+        </div>
       )}
     </ul>
   );

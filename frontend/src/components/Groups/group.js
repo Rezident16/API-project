@@ -8,9 +8,12 @@ import { fetchGroups, loadGroupData } from "../../store/groups";
 import "./Groups.css";
 import { fetchEventsbyGroupId } from "../../store/events";
 import EventDetailsForAGroup from "./eventsDetails";
+import OpenModelDeleteButton from "./deleteButton";
+import DeleteButtonModal from "./deleteButton";
 
 function GroupDetails() {
   const dispatch = useDispatch();
+  const history = useHistory()
   const { groupId } = useParams();
   const id = parseInt(groupId);
   const [currentImage, setCurrentImage] = useState(0);
@@ -33,7 +36,16 @@ function GroupDetails() {
   const group = groupSelector[groupId];
   const organizer = group.Organizer;
   if (!organizer) return null;
-  const groupImages = group.GroupImages;
+  const groupImages = []
+  
+  for (let i = group.GroupImages.length - 1; i >= 0; i--) {
+    let image = group.GroupImages[i]
+    if (image.preview === true) groupImages.push(image)
+  }
+  for (let i = 0; i < group.GroupImages.length; i++) {
+    let image = group.GroupImages[i]
+    if (image.preview === false) groupImages.push(image)
+  }
 
   const changeImageNext = () => {
     const nextIndex = (currentImage + 1) % groupImages.length;
@@ -49,6 +61,10 @@ function GroupDetails() {
   const joinGroupButton = () => {
     alert("Feature Coming Soon...");
   };
+
+  const updateGroup = () => {
+    history.push(`/groups/${id}/edit`)
+  }
   const disabled = () => {
     if (groupImages.length > 1) {
       return "enabled_next_image_button";
@@ -88,15 +104,8 @@ function GroupDetails() {
   pastEvents.sort((a, b) => {
     const dateA = new Date(a.startDate);
     const dateB = new Date(b.startDate);
-    return dateA - dateB;
+    return dateB - dateA;
   });
-
-
-  //   const hours = String(newDate.getUTCHours()).padStart(2, '0');
-  // const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
-  // const seconds = String(newDate.getUTCSeconds()).padStart(2, '0');
-
-  // const formattedDateTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
   return (
     <section className="group_details_whole_container">
@@ -166,8 +175,14 @@ function GroupDetails() {
             {sessionUser && sessionUser.id === organizer.id && (
               <div className="organizer_buttons_container">
                 <button className="organizer_buttons">Create event</button>
-                <button className="organizer_buttons">Update</button>
-                <button className="organizer_buttons">Delete</button>
+                <button onClick={updateGroup} className="organizer_buttons">Update</button>
+                <div><button 
+          className="organizer_buttons">
+            <OpenModalMenuItem
+          itemText='Delete'
+          modalComponent={<DeleteButtonModal id = {groupId} />}
+          /></button></div>
+                {/* <button className="organizer_buttons" modalComponent={<SignupFormModal/>}>Delete</button> */}
               </div>
             )}
           </div>

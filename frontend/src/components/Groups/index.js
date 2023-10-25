@@ -24,15 +24,15 @@ function GroupsList() {
   return (
     <section className="groups_list_container">
       <div className="groups_events_nav">
-        <Link exact to="/groups" className="groups_events_nav_groups">
-          Groups
-        </Link>
         <Link exact to="/events" className="groups_events_nav_events">
           Events
         </Link>
+        <Link exact to="/groups" className="groups_events_nav_groups">
+          Groups
+        </Link>
       </div>
       <div className="groups-in-gatherup"> Groups in GatherUp</div>
-      <div>
+      <div className="test">
         {groups.map((group) => (
           <Link
             exact
