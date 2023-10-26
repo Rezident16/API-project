@@ -15,6 +15,14 @@
     color: black;
 }
 
+.groups_events_nav_groups{
+    color: black;
+}
+
+.groups_events_nav_events{
+    color: black
+}
+
 .events_list_details_container:visited {
     color: black
 }
