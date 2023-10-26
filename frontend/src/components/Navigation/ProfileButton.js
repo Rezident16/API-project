@@ -51,8 +51,10 @@ function ProfileButton({ user }) {
     <>
       {user ? (
         <>
-          <button onClick={openMenu}>
+          <button onClick={openMenu} className="user_icon_button">
             <i className="fas fa-user-circle" />
+            {/* < img className="user_icon" src='https://assets.materialup.com/uploads/b6c33467-82c3-442c-a2dc-c089bbff9fa1/preview.png'/> */}
+            
           </button>
           <ul className={ulClassName} ref={ulRef}>
             {/* <li>{user.username}</li> */}

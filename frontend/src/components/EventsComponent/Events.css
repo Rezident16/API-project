@@ -15,6 +15,8 @@
     color: black;
 }
 
+
+
 .events_list_details_container:visited {
     color: black
 }
@@ -191,10 +193,11 @@
     display: flex;
     flex-direction: column;
     padding-top: 30px;
+    padding-bottom: 10px;
     justify-content: space-between;
     padding-left: 50px;
-    padding-right: 10px;
-    background-color: whitesmoke;
+    padding-right: 50px;
+    background-color: white;
 }
 
 .form_event_sub_container{

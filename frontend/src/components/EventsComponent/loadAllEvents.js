@@ -66,10 +66,10 @@ function EventsList() {
   return (
     <section className="groups_list_container">
       <div className="groups_events_nav">
-        <Link exact to="/events" className="groups_nav_groups">
+        <Link exact to="/events" className="events_nav_groups">
           Events
         </Link>
-        <Link exact to="/groups" className="groups_nav_events">
+        <Link exact to="/groups" className="events_nav_events">
           Groups
         </Link>
       </div>

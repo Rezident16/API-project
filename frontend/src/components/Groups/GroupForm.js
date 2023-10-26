@@ -61,7 +61,7 @@ const GroupForm = ({ group, formType }) => {
     if (!type) errorsObj.type = "Group Type is required";
     if (!isPrivate) errorsObj.isPrivate = "Visibility Type is required";
 
-    let privateGroup
+    let privateGroup;
     if (isPrivate) {
       privateGroup = isPrivate === "Private";
     }
@@ -102,11 +102,14 @@ const GroupForm = ({ group, formType }) => {
       setErrors(errorsObj);
     }
   };
-  const selectedClassType = type ? "selected-form-options-selector" : "form-options-selector"
-  const selectedClassPrivate = isPrivate ? "selected-form-options-selector" : "form-options-selector"
+  const selectedClassType = type
+    ? "selected-form-options-selector"
+    : "form-options-selector";
+  const selectedClassPrivate = isPrivate
+    ? "selected-form-options-selector"
+    : "form-options-selector";
   /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
-    
     <form onSubmit={handleSubmit} className="group_form">
       <label>
         <h2>First, set your group's location.</h2>
@@ -115,19 +118,24 @@ const GroupForm = ({ group, formType }) => {
           with people in your area, and more can join you online.
         </p>
         <input
-        className="form_textarea"
+          className="form_textarea"
           type="text"
           value={location}
-          onChange={(e) => {setLocation(e.target.value)
-          if (!e.target.value) errors.location = "Location is required"
-          else {errors.location = null}
+          onChange={(e) => {
+            setLocation(e.target.value);
+            if (!e.target.value) errors.location = "Location is required";
+            else {
+              errors.location = null;
+            }
           }}
           placeholder="city, STATE"
         />
       </label>
       {errors.location && <p className="errors">{errors.location}</p>}
       {errors.city ||
-        (errors.state && <p className="errors">Location is required (eg. Concord, CA)</p>)}
+        (errors.state && (
+          <p className="errors">Location is required (eg. Concord, CA)</p>
+        ))}
       <label>
         <h2>What will your group's name be?</h2>
         <p className="group-form-p-descriptions">
@@ -136,14 +144,23 @@ const GroupForm = ({ group, formType }) => {
           change your mind.
         </p>
         <input
-        className="form_textarea"
+          className="form_textarea"
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            if (!e.target.value) {
+              errors.name = "Name is required";
+            } else if (e.target.value.length > 60) {
+              errors.name = "Name must be 60 characters or less";
+            } else {
+              errors.name = null;
+            }
+            setName(e.target.value);
+          }}
           placeholder="What is your group name?"
         />
       </label>
-      {errors.name && <p className="errors">Name is required</p>}
+      {errors.name && <p className="errors">{errors.name}</p>}
       <label>
         <h2>Now describe what your group will be about</h2>
         <p className="group-form-p-descriptions">
@@ -155,64 +172,99 @@ const GroupForm = ({ group, formType }) => {
           <li>Who should join?</li>
           <li>What will you do at your events?</li>
         </ol>
-        <textarea 
-        className="form_textarea form-textarea-about"
+        <textarea
+          className="form_textarea form-textarea-about"
           value={about}
-          onChange={(e) => setAbout(e.target.value)}
+          onChange={(e) => {
+            setAbout(e.target.value);
+            console.log(e.target.value.length);
+            if (e.target.value.length < 50) {
+              errors.about = "Description must be 50 characters or more";
+            } else {
+              errors.about = null;
+            }
+          }}
           placeholder="Please write at least 50 characters"
         />
       </label>
-      {errors.about && <p className="errors">Description must be at least 50 characters long</p>}
-      
+      {errors.about && <p className="errors">{errors.about}</p>}
+
       <div className="selection-buttons">
         <h2>Final steps...</h2>
         <label for="online">
-        <div>
-        Is this an in person or online group?
-        </div>
-        <select
-          id="online"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className={selectedClassType}
-        >
-          <option value="" disabled hidden>
-            (Select One)
-          </option>
-          <option value="Online">Online</option>
-          <option value="In person">In Person</option>
-        </select>
+          <div>Is this an in person or online group?</div>
+          <select
+            id="online"
+            value={type}
+            onChange={(e) => {
+              if (!e.target.value) {
+                errors.type = "Group Type is required";
+              } else {
+                errors.type = null;
+              }
+              setType(e.target.value);
+            }}
+            className={selectedClassType}
+          >
+            <option value="" disabled hidden>
+              (Select One)
+            </option>
+            <option value="Online">Online</option>
+            <option value="In person">In Person</option>
+          </select>
         </label>
-        {errors.type && <p className="errors">Group Type is required</p>}
+        {errors.type && <p className="errors">{errors.type}</p>}
 
-        <label for="privacy">Is this group private or public?
-        <select
-          id="privacy"
-          value={isPrivate}
-          onChange={(e) => setIsPrivate(e.target.value)}
-          className={selectedClassPrivate}
-        >
-          <option value="" disabled hidden>
-            (Select One)
-          </option>
-          <option value={'Private'}>Private</option>
-          <option value={'Public'}>Public</option>
-        </select>
+        <label for="privacy">
+          Is this group private or public?
+          <select
+            id="privacy"
+            value={isPrivate}
+            onChange={(e) => {
+              setIsPrivate(e.target.value);
+              if (!e.target.value) {
+                errors.isPrivate = "Visibility Type is required";
+              } else {
+                errors.isPrivate = null;
+              }
+            }}
+            className={selectedClassPrivate}
+          >
+            <option value="" disabled hidden>
+              (Select One)
+            </option>
+            <option value={"Private"}>Private</option>
+            <option value={"Public"}>Public</option>
+          </select>
         </label>
-        {errors.private && <p className="errors">Visibility Type is required</p>}
+        {errors.private && <p className="errors">{errors.isPrivate}</p>}
         {errors.isPrivate && <p className="errors">{errors.isPrivate}</p>}
-        <label>Please add an image url for your group below:
-        <input
-          type="text"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          placeholder="Image Url"
-          className="form_textarea"
-        />
+        <label>
+          Please add an image url for your group below:
+          <input
+            type="text"
+            value={image}
+            onChange={(e) => {
+              if (
+                !e.target.value.includes(".png") &&
+                !e.target.value.includes(".jpg") &&
+                !e.target.value.includes(".jpeg")
+              ) {
+                errors.url = "Image URL must end in .png, .jpg, or .jpeg";
+              } else {
+                errors.url = null;
+              }
+              setImage(e.target.value);
+            }}
+            placeholder="Image Url"
+            className="form_textarea"
+          />
         </label>
-      {errors.url && <p className="errors">Image URL must end in .png, .jpg, or .jpeg</p>}
+        {errors.url && <p className="errors">{errors.url}</p>}
       </div>
-      <button type="submit" className="form-submit-button">{formType}</button>
+      <button type="submit" className="form-submit-button">
+        {formType}
+      </button>
     </form>
   );
 };

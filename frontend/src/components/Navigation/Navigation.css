@@ -67,10 +67,17 @@ ul {
     border-top: 1px solid gray;
 }
 
+.fa-user-circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
 .profile_buttons{
     cursor: pointer;
 }
-
 
 .image_container {
     width: 3em;

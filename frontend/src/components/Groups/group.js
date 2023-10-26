@@ -22,22 +22,30 @@ function GroupDetails() {
   let userClass = sessionUser
     ? "user_logged_in_group"
     : "user_not_logged_in_group";
+    const state = useSelector(state => state)
+    console.log(state)
+    const groupSelector = useSelector((state) => state.groups);
+    const group = groupSelector[groupId];
 
   useEffect(() => {
-    dispatch(loadGroupData(id));
-    dispatch(fetchEventsbyGroupId(id));
+    const attempt = async () => {
+      try {
+        await dispatch(loadGroupData(id));
+        dispatch(fetchEventsbyGroupId(id));
+      } catch (e) {
+        if (e) history.push('/groups')
+      }
+    }
+    attempt()
   }, [dispatch, id]);
-
+  
   
 
-  const groupSelector = useSelector((state) => state.groups);
   const eventsObj = useSelector((state) => state.events);
   let events = Object.values(eventsObj);
-  if (!events) return null
 
   if (!Object.keys(groupSelector).length) return null;
 
-  const group = groupSelector[groupId];
   const organizer = group.Organizer;
   if (!group) return null
   if (!organizer) return null;
@@ -118,7 +126,7 @@ function GroupDetails() {
 
   return (
     <section className="group_details_whole_container">
-      <div>
+      <div className="whole_upper_conainer">
         <div>
           {"<"}
           <Link to="/groups">Groups</Link>
@@ -197,6 +205,8 @@ function GroupDetails() {
           </div>
         </div>
       </div>
+      <div className="group_full_container_lower">
+
       <div className="group_lower_container">
         <div className="lower_container_group_upper_details">
           <h2>Organizer</h2>
@@ -239,6 +249,7 @@ function GroupDetails() {
             ))}
           </div>
         )}
+      </div>
       </div>
     </section>
   );

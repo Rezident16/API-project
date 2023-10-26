@@ -138,7 +138,7 @@ function EventDetails() {
                   />
                   <div className="event_timeline">{event.type}</div>
                 </div>
-                {
+                { sessionUser &&
                     sessionUser.id === group.Organizer.id && (
 
                 <button className="event_button"><OpenModalMenuItem

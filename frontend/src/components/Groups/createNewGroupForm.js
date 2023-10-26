@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import GroupForm from "./GroupForm";
 import { useSelector } from "react-redux";
 const CreateGroupForm = () => {
@@ -10,11 +11,10 @@ const CreateGroupForm = () => {
     image: "",
   };
   const sessionUser = useSelector((state) => state.session.user);
+  const history = useHistory('/')
 
   if (!sessionUser) {
-    return (
-        <div>YOU CAN'T BE HERE</div>
-    )
+    history.push('/')
   }
   /* **DO NOT CHANGE THE RETURN VALUE** */
   return (

@@ -103,7 +103,7 @@
     font-size: 25px;
 }
 
-.groups_events_nav_events, .events_nav_groups {
+.groups_events_nav_events, .events_nav_events {
     text-decoration: none;
     color: black;
 }
