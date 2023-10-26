@@ -6,38 +6,6 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
-// Authorization with eventId and {user} = req
-// router.use('/:eventId', async (req,res,next) => {
-//     const { user } = req
-//     const userId = user.id
-
-//     const eventId = req.params.eventId
-
-//     const event = await Event.findByPk(eventId)
-//     if(!event) {
-//         return res.status(404).json({
-//             message: "Event couldn't be found"
-//           })
-//     }
-//     const groupId = event.groupId
-//     const group = await Group.findByPk(groupId)
-//     const membership = await Membership.findOne({
-//         where: {
-//             userId: userId,
-//             groupId: groupId
-//         }
-//     })
-
-//     if (membership.status !== 'co-host' && group.organizerId !== userId){
-//         return res.status(401).json({
-//             message: "Unauthorized"
-//         })
-//     }
-//     next()
-// })
-
-
-
 // Delete attendance to an event specified by id
 router.delete('/:eventId/attendance', requireAuth, async (req, res, next) => {
     const eventId = req.params.eventId
@@ -561,7 +529,7 @@ router.get('/', async (req, res) => {
         })
     }
     const events = await Event.findAll({
-        where,
+        // where,
         include: [EventImage],
         limit: pagination.limit,
         offset: pagination.offset
@@ -615,10 +583,10 @@ router.get('/', async (req, res) => {
             }
         })
         if (!event.Venue) event.Venue = null
-        delete event.price
-        delete event.capacity
-        delete event.description
-        delete event.EventImages
+        // delete event.price
+        // delete event.capacity
+        // delete event.description
+        // delete event.EventImages
         delete event.createdAt
         delete event.updatedAt
         // console.log(event)

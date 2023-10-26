@@ -19,7 +19,7 @@ module.exports = {
       {
         groupId: 2,
         url: 'https://freetourcommunity.com/wp-content/uploads/2020/12/free_tour_sf_3.jpg',
-        preview: false,
+        preview: true,
       },
       {
         groupId: 3,
@@ -64,17 +64,17 @@ module.exports = {
       {
         groupId: 1,
         url: 'https://theedgesportscenter.com/wp-content/uploads/2022/08/Pickup-Soccer-01.jpeg',
-        preview: true,
+        preview: false,
       },
       {
         groupId: 2,
         url: 'https://www.freetour.com/images/tours/729/free-san-francisco-tour-24.jpg',
-        preview: true,
+        preview: false,
       },
       {
         groupId: 3,
         url: 'https://www.thegoodbook.co.uk/downloads/bookclub.jpg',
-        preview: true,
+        preview: false,
       },
       {
         groupId: 4,
@@ -94,17 +94,17 @@ module.exports = {
       {
         groupId: 1,
         url: 'https://soccerworldcentral.ca/wp-content/uploads/2015/12/pick-up-image-772x528.jpg',
-        preview: true,
+        preview: false,
       },
       {
         groupId: 1,
         url: 'https://static01.nyt.com/images/2023/09/15/multimedia/15soccer-pickup-01-vmzh/15soccer-pickup-01-vmzh-videoSixteenByNine3000.jpg',
-        preview: true,
+        preview: false,
       },
       {
         groupId: 1,
         url: 'https://entrepreneurship.babson.edu/wp-content/uploads/2022/08/1200b-1.jpg',
-        preview: true,
+        preview: false,
       },
     ], { validate: true });
   },

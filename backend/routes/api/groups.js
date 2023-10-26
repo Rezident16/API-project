@@ -538,11 +538,26 @@ router.post('/:groupId/images', requireAuth, async(req,res,next) => {
     }
 
     if (user.id !== group.organizerId) return res.status(403).json({message: "Forbidden"})
+    const errors = {}
+    let errorTrigger = false
+    if (!url.includes('.png') && !url.includes('.jpg') && !url.includes('.jpeg')) {
+        errors.url = "Image URL must end in .png, .jpg, or .jpeg"
+        errorTrigger = true
+    }
+    
+    if (errorTrigger === true) {
+        return res.status(400).json({
+            message: "Bad Request",
+            errors
+        })
+    }
+
     const newImage = await GroupImage.create({
         groupId: group.id,
         url: url,
         preview: preview
     })
+
     
     return res.status(200).json({
         id: newImage.id,
@@ -588,12 +603,15 @@ router.get('/current', requireAuth, async(req,res, next) => {
 
         let previewImage = 'default url';
 
-        group.GroupImages.forEach(image => {
+        for (let i = group.GroupImages.length - 1; i >= 0; i--) {
+            const image = group.GroupImages[i];
             if (image.preview === true) {
-                previewImage = image.url
+                previewImage = image.url;
+                break; 
             }
-            return
-        })
+        }
+        
+
         group.previewImage = previewImage
         delete group.Users
         delete group.GroupImages
@@ -726,7 +744,12 @@ router.get('/:groupId', async (req, res, next) => {
     const organizer = await User.findByPk(group.organizerId, {
         attributes: ['id', 'firstName', 'lastName']
     })
-    
+    images.forEach(image => {
+        if (image.preview === true) {
+            previewImage = image.url
+        }
+    })
+    group.previewImage = previewImage
 
 
     return res.json({
@@ -741,6 +764,7 @@ router.get('/:groupId', async (req, res, next) => {
         createdAt: group.createdAt,
         updatedAt: group.updatedAt,
         numMembers: numMembers,
+        previewImage: group.previewImage,
         GroupImages: images,
         Organizer: organizer,
         Venues: venues
@@ -762,7 +786,6 @@ router.delete('/:groupId', requireAuth, async(req,res,next) => {
     if (user.id !== group.organizerId) return res.status(403).json({message: "Forbidden"})
 
     await group.destroy()
-
     return res.status(200).json({
         message: "Successfully deleted"
       })
@@ -793,13 +816,12 @@ router.get('/',  async (req, res) => {
         users.forEach(user => {
             if (user.Membership.status !== 'pending') group.numMembers ++
         })
-        let previewImage = 'default url';
+        let previewImage = 'https://cdn.vectorstock.com/i/preview-1x/65/30/default-image-icon-missing-picture-page-vector-40546530.jpg';
 
         group.GroupImages.forEach(image => {
             if (image.preview === true) {
                 previewImage = image.url
             }
-            return
         })
         group.previewImage = previewImage
         delete group.Users
@@ -815,6 +837,7 @@ router.post('/', requireAuth, async (req,res, next) => {
     const errors = {}
     let errorTrigger = false
     // Validate name
+
     if (!name || name.length > 60) {
         errors.name = "Name must be 60 characters or less"
         errorTrigger = true
@@ -851,12 +874,15 @@ router.post('/', requireAuth, async (req,res, next) => {
         errors.state = "State is required"
         errorTrigger = true
     }
-    
+    console.log(req.body)
+    console.log(errors)
     if (errorTrigger === true) {
         return res.status(400).json({
             message: "Bad Request",
             errors: errors
         })
+
+        
     }
 
     const group = await Group.create({ 
