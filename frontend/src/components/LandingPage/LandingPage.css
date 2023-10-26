@@ -99,11 +99,11 @@
     gap: 35px
 }
 
-.groups_events_nav_groups, .groups_events_nav_events {
+.groups_events_nav_groups, .groups_events_nav_events, .events_nav_groups, .events_nav_events {
     font-size: 25px;
 }
 
-.groups_events_nav_events {
+.groups_events_nav_events, .events_nav_groups {
     text-decoration: none;
     color: black;
 }

@@ -15,15 +15,6 @@
     color: black;
 }
 
-.events_nav_groups{
-    color: black;
-    text-decoration: none;
-}
-
-.events_nav_events{
-    color: rgb(0, 94, 94)
-}
-
 .events_list_details_container:visited {
     color: black
 }
