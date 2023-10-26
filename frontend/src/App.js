@@ -9,6 +9,8 @@ import GroupDetails from "./components/Groups/group";
 import CreateGroupForm from "./components/Groups/createNewGroupForm";
 import EditGroupForm from "./components/Groups/updateGroupForm";
 import EventsList from "./components/EventsComponent/loadAllEvents";
+import EventDetails from "./components/EventsComponent/eventDetails";
+import CreateEvent from "./components/EventsComponent/eventForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ function App() {
             <LandingPage />
           </Route>
           <Route path="/groups/new" component={CreateGroupForm}></Route>
+          <Route exact path = '/groups/:groupId/events/new' component={CreateEvent}></Route>
           <Route exact path="/groups">
             <GroupsList />
           </Route>
@@ -38,6 +41,8 @@ function App() {
             component={EditGroupForm}
           ></Route>
           <Route exact path = '/events' component = {EventsList}></Route>
+          <Route exact path = '/events/:eventId' component={EventDetails}>
+          </Route>
         </Switch>
       )}
     </>

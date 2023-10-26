@@ -1,0 +1,255 @@
+.test_for_test {
+    display: flex;
+    flex-direction: column;
+    gap: 15px
+}
+
+.events_list_details_container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-decoration: none;
+    border-top: 1px solid gray;
+    padding: 10px;
+    width: 100%;
+    color: black;
+}
+
+.events_list_details_container:visited {
+    color: black
+}
+
+.event_image_quickdesc {
+    display: flex;
+    gap: 50px;
+}
+
+
+.events_location_name {
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+    /* justify-content: space-around; */
+}
+.events_location_name > div {
+    color: rgb(0, 71, 71)
+}
+.events_location_name > h2, h4 {
+    margin-top: 4px;
+    margin-bottom: 3px;
+}
+.events_location_name > h4 {
+    color: gray;
+}
+
+
+.event-details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: whitesmoke;
+}
+
+.photo_event_info{
+    display: flex;
+    padding: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    gap: 40px;
+    align-items: flex-start;
+
+}
+
+.event_details_img{
+    height: 70%;
+    width: 60%;
+    max-width: 500px;
+    min-height: 340px;
+    max-height: 400px;
+}
+
+.event_group_info {
+    display: flex;
+    gap: 20px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+}
+
+.event_group_details_img {
+    height: 70%;
+    width: 20%;
+    max-width: 500px;
+}
+.event_details_info {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.event_each_detail {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px;
+}
+
+.icon_on_events{
+    width: 30px;
+    height: 30px;
+}
+
+.event_timeline_container {
+    display: flex;
+    gap: 20px;
+}
+
+.event_timeline{
+    font-weight: normal;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event_each_detail_with_delete{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+}
+
+.event_all_details{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: baseline;
+}
+
+.event_group_info_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.event_group_info_text > h4 {
+    font-size: 13px;
+}
+
+.event_group_info_text_isPrivate {
+    color: gray;
+}
+
+.event_timeline_date {
+    color: rgb(0, 78, 78)
+}
+
+.event_timeline_text {
+    color: gray;
+}
+.event_type_text {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.event_details_info > div {
+    height: 33%;
+}
+
+.event_button {
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 10px; */
+    height: 25px;
+    width: 100px;
+    background-color: rgb(94, 93, 93);
+    color: white;
+    cursor: default;
+    border: none;
+    border: 1px solid black;
+}
+
+.event_details_description {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-left: 40px;
+    margin-right: 150px;
+    align-items: flex-start;
+}
+
+.event_upper_description{
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    justify-content: space-between;
+    padding-left: 50px;
+    padding-right: 10px;
+    background-color: whitesmoke;
+}
+
+.form_event_sub_container{
+
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  
+}
+
+.form_event_sub_container2{
+    border-top: 1px solid black;
+}
+
+.form_event_sub_container3{
+    border-top: 1px solid black;
+}
+
+.form_event_sub_container4{
+    border-top: 1px solid black;
+}
+
+.form_event_sub_container5{
+    border-top: 1px solid black;
+}
+
+.create_event_text{
+    font-size: 22px;
+}
+
+.event_labels > p {
+    font-size: 13px;
+}
+
+.event_name_ulr {
+    width: 40%;
+    max-width: 280px;
+}
+
+.event_about_input{
+    width: 100%;
+    max-width: 680px;
+    height: 140px;
+    max-height: 140px;
+}
+
+.price_event_input{
+    width: 50px;
+    max-width: 120px;
+    display: flex;
+
+}
+
+.event_input_field{
+    background-color: rgb(219, 245, 252);
+    border: 1px solid black;
+}

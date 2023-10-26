@@ -52,49 +52,43 @@ export const fetchEventDetails = (id) => async dispatch => {
   }
 }
 
-// export const deleteReports = (id) => async dispatch => {
-//   const response = await fetch(`/api/reports/${id}`, {
-//     method: 'DELETE',
-//     headers: {'Content-Type': 'application/json'},
-//   })
-//   if (response.ok) {
-//     dispatch(removeReport(id))
-//   }
-// }
+export const deleteEvents = (id, groupId) => async dispatch => {
+    const res = await csrfFetch(`/api/events/${id}`, {
+        method: 'DELETE'
+    })
 
-// export const loadReportData = (id) => async dispatch => {
-//   const response = await fetch(`/api/reports/${id}`)
-//   if (response.ok) {
-//     const data = await response.json()
-//     dispatch(receiveReport(data))
-//   }
-// }
+    if (res.ok) {
+        dispatch(removeEvent(id));
+    }
 
-// export const createNewReport = (payload) => async dispatch => {
-//   const response = await fetch ('/api/reports', {
-//     method: 'POST',
-//     headers: {'Content-Type': 'application/json'},
-//     body: JSON.stringify(payload)
-//   })
-//   if (response.ok) {
-//     const data = await response.json()
-//     dispatch(receiveReport(data))
-//     return data
-//   } else {
-//     const errors = await response.json()
-//     return errors
-//   }
-// }
+    return res;
+}
 
-// export const updateReportThunk = (payload) => async dispatch => {
-//   const response = await fetch (`/api/reports/${payload.id}`, {
+export const createNewEvent = (payload) => async dispatch => {
+  const response = await csrfFetch (`/api/groups/${payload.groupId}/events`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  })
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(receiveEvent(data))
+    return data
+  } else {
+    const errors = await response.json()
+    return errors
+  }
+}
+
+// export const updateEvent = (payload) => async dispatch => {
+//   const response = await csrfFetch (, {
 //     method: 'PUT',
 //     headers: {'Content-Type': 'application/json'},
 //     body: JSON.stringify(payload)
 //   })
 //   if (response.ok) {
 //     const data = await response.json()
-//     dispatch(editReport(data))
+//     dispatch(editEvent(data))
 //     return data
 //   } else {
 //     const errors = await response.json()
@@ -112,13 +106,14 @@ const eventsReducer = (state = {}, action) => {
       });
       return eventsState;
     case RECEIVE_EVENT:
+      
       return { ...state, [action.event.id]: action.event };
-    // case UPDATE_REPORT:
-    //   return { ...state, [action.report.id]: action.report };
-    // case REMOVE_REPORT:
-    //   const newState = { ...state };
-    //   delete newState[action.id];
-    //   return newState;
+    case UPDATE_EVENT:
+      return { ...state, [action.event.id]: action.event };
+    case REMOVE_EVENT:
+      const newState = { ...state };
+      delete newState[action.id];
+      return newState;
     default:
       return state;
   }

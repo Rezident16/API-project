@@ -38,8 +38,7 @@ export const fetchGroups = () => async dispatch => {
 }
 
 export const deleteGroups = (id) => async dispatch => {
-  console.log(typeof id)
-  const response = await csrfFetch(`/api/groups/${id}`, {
+  const response = await csrfFetch(`/api/reports/${id}`, {
     method: 'DELETE',
     headers: {'Content-Type': 'application/json'},
   })
@@ -81,7 +80,6 @@ export const updateGroupThunk = (payload) => async dispatch => {
   if (response.ok) {
     const data = await response.json()
     dispatch(editGroup(data))
-    console.log(data)
     return data
   } else {
     const errors = await response.json()
@@ -105,7 +103,6 @@ const groupsReducer = (state = {}, action) => {
     case REMOVE_GROUP:
       const newState = { ...state };
       delete newState[action.id];
-      console.log('newState', newState[action.id])
       return newState;
     default:
       return state;

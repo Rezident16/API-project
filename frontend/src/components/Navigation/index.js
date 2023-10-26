@@ -17,7 +17,7 @@ function Navigation({ isLoaded }) {
               src="https://cdn-icons-png.flaticon.com/128/2400/2400800.png"
               alt="logo"
             />
-            {/* <h3>GatherUp</h3> */}
+            <h3 className="logo_text">GatherUp</h3>
           </div>
         </Link>
       </li>

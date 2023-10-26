@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import "./Groups.css";
-import { fetchEventDetails } from "../../store/events";
+import { fetchEventDetails, fetchEvents } from "../../store/events";
 import { Link, NavLink } from "react-router-dom";
 
 
@@ -10,10 +10,20 @@ function EventDetailsForAGroup({ id }) {
   const dispatch = useDispatch();
   const eventsObj = useSelector((state) => state.events);
   const event = eventsObj[id];
-  
+  // useEffect(() => {
+  //   dispatch(fetchEventDetails(id))
+  // }, [dispatch, id])
+
   useEffect(() => {
-      dispatch(fetchEventDetails(id));
-    }, [dispatch, id]);
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchEventDetails(id));
+      } catch (error) {
+        return null
+      }
+    };
+    fetchData();
+  }, [dispatch, id]);
 
     if (!event || !event.EventImages || event.EventImages.length === 0) {
       return null;
@@ -43,7 +53,6 @@ function EventDetailsForAGroup({ id }) {
             </div>
           </div>
         </div>
-
         <div>{event.description}</div>
       </div>
     </div>

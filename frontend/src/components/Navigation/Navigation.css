@@ -60,6 +60,7 @@ ul {
     padding-right: 10px;
     /* padding-top: 5px; */
     align-items: center;
+    margin: 0px;
 }
 
 .seperator {
@@ -91,16 +92,27 @@ ul {
     text-decoration: none;
 }
 
+.nav_logo_text {
+    text-decoration: none;
+    color: black;
+}
+
+.nav_logo {
+    display: flex;
+    align-items: center;
+    gap: 15px
+}
+
+.logo_text{
+    font-size: 20px;
+    color: rgb(71, 0, 71);
+}
 /* .nav_logo {
     display: flex;
     align-items: center;
     gap: 15px
 }
 
-.nav_logo_text {
-    text-decoration: none;
-    color: black;
-}
 
 .nav_logo > h3 {
     font-size: 20px;

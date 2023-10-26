@@ -10,6 +10,7 @@ import { fetchEventsbyGroupId } from "../../store/events";
 import EventDetailsForAGroup from "./eventsDetails";
 import OpenModelDeleteButton from "./deleteButton";
 import DeleteButtonModal from "./deleteButton";
+import { fetchEvents } from "../../store/events";
 
 function GroupDetails() {
   const dispatch = useDispatch();
@@ -23,18 +24,22 @@ function GroupDetails() {
     : "user_not_logged_in_group";
 
   useEffect(() => {
-    dispatch(fetchEventsbyGroupId(id));
     dispatch(loadGroupData(id));
+    dispatch(fetchEventsbyGroupId(id));
   }, [dispatch, id]);
+
+  
 
   const groupSelector = useSelector((state) => state.groups);
   const eventsObj = useSelector((state) => state.events);
   let events = Object.values(eventsObj);
+  if (!events) return null
 
   if (!Object.keys(groupSelector).length) return null;
 
   const group = groupSelector[groupId];
   const organizer = group.Organizer;
+  if (!group) return null
   if (!organizer) return null;
   const groupImages = []
   
@@ -64,6 +69,10 @@ function GroupDetails() {
 
   const updateGroup = () => {
     history.push(`/groups/${id}/edit`)
+  }
+
+  const createEvent = () => {
+    history.push(`/groups/${id}/events/new`)
   }
   const disabled = () => {
     if (groupImages.length > 1) {
@@ -174,7 +183,7 @@ function GroupDetails() {
             )}
             {sessionUser && sessionUser.id === organizer.id && (
               <div className="organizer_buttons_container">
-                <button className="organizer_buttons">Create event</button>
+                <button onClick={createEvent} className="organizer_buttons">Create event</button>
                 <button onClick={updateGroup} className="organizer_buttons">Update</button>
                 <div><button 
           className="organizer_buttons">
@@ -205,8 +214,13 @@ function GroupDetails() {
               Upcoming Events ({upcomingEvents.length})
             </div>
             {upcomingEvents.map((event) => (
+              
               <div>
                 <EventDetailsForAGroup id={event.id} />
+                {/* <Link exact to={`/events/${event.id}`} className='event-details-container-on-a-group-link' > 
+                <div>{event.name}</div>
+                <img src={event.previewImage}/>
+                </Link> */}
               </div>
             ))}
           </div>
@@ -217,6 +231,10 @@ function GroupDetails() {
             {pastEvents.map((event) => (
               <div>
                 <EventDetailsForAGroup id={event.id} />
+                {/* <Link exact to={`/events/${event.id}`} className='event-details-container-on-a-group-link' > 
+                <div>{event.name}</div>
+                <img src={event.previewImage}/>
+                </Link> */}
               </div>
             ))}
           </div>

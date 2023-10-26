@@ -5,6 +5,7 @@ import groupsReducer from "./groups";
 import eventsReducer from "./events";
 import usersReducer from "./user";
 import groupsImagesReducer from "./groupImages";
+import eventsImageReducer from "./eventImages";
 
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   events: eventsReducer,
   users: usersReducer,
   groupImages: groupsImagesReducer,
+  eventImages: eventsImageReducer,
 });
 
 let enhancer;

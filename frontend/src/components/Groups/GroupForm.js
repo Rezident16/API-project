@@ -35,7 +35,7 @@ const GroupForm = ({ group, formType }) => {
   );
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-    console.log("type ", type)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const cityState = location && location.split(",");
@@ -118,7 +118,10 @@ const GroupForm = ({ group, formType }) => {
         className="form_textarea"
           type="text"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={(e) => {setLocation(e.target.value)
+          if (!e.target.value) errors.location = "Location is required"
+          else {errors.location = null}
+          }}
           placeholder="city, STATE"
         />
       </label>
