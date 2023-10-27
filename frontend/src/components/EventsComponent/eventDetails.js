@@ -17,9 +17,13 @@ function formatEventDate(date) {
   const year = newDate.getFullYear();
   const month = String(newDate.getMonth() + 1).padStart(2, "0");
   const day = String(newDate.getDate()).padStart(2, "0");
-  const hours = String(newDate.getHours()).padStart(2, "0");
+  let hours = String(newDate.getHours()).padStart(2, "0");
+  let time = hours >= 12 && hours < 24 ? "PM" : "AM";
+  console.log(hours);
+  hours = hours > 12 && hours < 24 ? hours - 12 : hours;
+  hours = hours == 0 ? 12 : hours;
   const minutes = String(newDate.getMinutes()).padStart(2, "0");
-  return `${year}/${month}/${day} · ${hours}:${minutes}`;
+  return `${year}/${month}/${day} · ${hours}:${minutes} ${time}`;
 }
 
 function EventDetails() {
@@ -30,13 +34,17 @@ function EventDetails() {
   const groupsObj = useSelector((state) => state.groups);
   const event = eventsObj[id];
   const sessionUser = useSelector((state) => state.session.user);
-    const history = useHistory()
+  const history = useHistory();
 
   useEffect(() => {
-    if (event) {
-        dispatch(fetchEventDetails(id));
+    const attempt = async () => {
+      try {
+        await dispatch(fetchEventDetails(id));
+      } catch (e) {
+        if (e) history.push('/events')
+      }
     }
-    // dispatch(dispatch(fetchGroups));
+    attempt ()
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -118,8 +126,8 @@ function EventDetails() {
                     <h4>END</h4>
                   </div>
                   <div className="event_timeline event_timeline_date">
-                    <h4>{event.upcomingEventDate.replace(/\//g, '-')}</h4>
-                    <h4>{event.upcomingEndDate.replace(/\//g, '-')}</h4>
+                    <h4>{event.upcomingEventDate.replace(/\//g, "-")}</h4>
+                    <h4>{event.upcomingEndDate.replace(/\//g, "-")}</h4>
                   </div>
                 </div>
               </div>
@@ -138,15 +146,19 @@ function EventDetails() {
                   />
                   <div className="event_timeline">{event.type}</div>
                 </div>
-                { sessionUser &&
-                    sessionUser.id === group.Organizer.id && (
-
-                <button className="event_button"><OpenModalMenuItem
-                itemText='Delete'
-                modalComponent={<DeleteEventButtonModal id={event.id} groupId={group.id}/>}
-                /></button>
-                    )
-                }
+                {sessionUser && sessionUser.id === group.Organizer.id && (
+                  <button className="event_button">
+                    <OpenModalMenuItem
+                      itemText="Delete"
+                      modalComponent={
+                        <DeleteEventButtonModal
+                          id={event.id}
+                          groupId={group.id}
+                        />
+                      }
+                    />
+                  </button>
+                )}
               </div>
             </div>
           </div>

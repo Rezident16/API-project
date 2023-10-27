@@ -15,15 +15,21 @@ function EventDetailsForAGroup({ id }) {
   // }, [dispatch, id])
 
   useEffect(() => {
+    dispatch(fetchEvents())
+  }, [dispatch])
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchEventDetails(id));
       } catch (error) {
-        return null
+        if (error) return null
       }
     };
     fetchData();
   }, [dispatch, id]);
+
+  if (!event) return null
 
     if (!event || !event.EventImages || event.EventImages.length === 0) {
       return null;

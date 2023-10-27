@@ -15,7 +15,8 @@
 
 .groups_list_images > img {
     width: 350px;
-    height: 210px
+    height: 210px;
+    border: 1px solid black;
 }
 
 .groups_list_container {
@@ -115,12 +116,6 @@
     display: none;
 }
 
-.group_details_whole_container {
-    /* padding: 30px;
-    margin-left: 150px;
-    margin-right: 50px; */
-}
-
 .enabled_next_image_button {
     flex-direction: flex;
     align-items: center;
@@ -214,7 +209,7 @@
     margin-top: 15px;
     text-decoration: none;
     color: black;
-    /* border: 1px solid red; */
+    border: 1px solid lightgray;
 }
 
 .event-details-container-on-a-group-link {
@@ -290,6 +285,33 @@
 
 .form_textarea {
     width: 250px;
+    background-color: rgb(219, 245, 252);
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.city_state_container{
+    display: flex;
+    gap: 15px
+}
+
+.form_textarea_state {
+    width: 150px;
+    background-color: rgb(219, 245, 252);
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.form_textarea_state_not_selected {
+    width: 150px;
+    background-color: rgb(219, 245, 252);
+    border: 1px solid black;
+    margin-bottom: 20px;
+    color: gray;
+}
+
+.form_textarea_city{
+    width: 150px;
     background-color: rgb(219, 245, 252);
     border: 1px solid black;
     margin-bottom: 20px;
@@ -413,6 +435,7 @@
     /* margin-left: 150px;
     margin-right: 150px; */
     background-color: whitesmoke;
+    border-top: 1px solid black;
 }
 /* .groups_nav_groups{
     color: rgb(0, 94, 94)

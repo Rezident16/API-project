@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { fetchGroups } from "../../store/groups";
 import { loadGroupData } from "../../store/groups";
 import GroupForm from "./GroupForm";
+import { useHistory } from "react-router-dom";
 
 const EditGroupForm = () => {
   const { groupId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
-
+  const history = useHistory()
   const dispatch = useDispatch();
   const id = parseInt(groupId);
 
@@ -22,9 +23,7 @@ const EditGroupForm = () => {
   if (!group) return null;
   if (!group.GroupImages) return null;
   if (!sessionUser || group.organizerId !== sessionUser.id) {
-    return (
-        <div>YOU CAN'T BE HERE</div>
-    )
+    history.push(`/groups/${id}`)
   }
   const previwImage = group.GroupImages.find((image) => image.preview === true);
   let isPrivate = "";
@@ -33,12 +32,10 @@ const EditGroupForm = () => {
   } else {
     isPrivate = "Public";
   }
-  const location = group.city + "," + group.state;
-  console.log("location ", location);
 
   group.previewImage = previwImage.url;
   group.isPrivate = isPrivate;
-  group.location = location;
+  // group.location = location;
 
   /* **DO NOT CHANGE THE RETURN VALUE** */
   return (

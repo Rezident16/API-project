@@ -71,6 +71,7 @@
     max-width: 500px;
     min-height: 340px;
     max-height: 400px;
+    border: 1px solid lightgray;
 }
 
 .event_group_info {
@@ -80,6 +81,7 @@
     border-radius: 10px;
     padding: 10px;
     align-items: center;
+    border: 1px solid lightgray;
 }
 
 .event_group_details_img {
@@ -93,6 +95,7 @@
     background-color: white;
     border-radius: 10px;
     padding: 10px;
+    border: 1px solid lightgray;
 }
 
 .event_each_detail {

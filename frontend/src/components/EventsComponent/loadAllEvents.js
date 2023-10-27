@@ -11,17 +11,15 @@ import "../Groups/Groups.css";
 import "./Events.css";
 import EventDetails from "./eventDetails";
 
-
-
 function EventsList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(fetchEvents());
-    }, [dispatch]);
-    
-    const eventsObj = useSelector((state) => state.events);
-    const events = Object.values(eventsObj);
+    dispatch(fetchEvents());
+  }, [dispatch]);
+
+  const eventsObj = useSelector((state) => state.events);
+  const events = Object.values(eventsObj);
   //   useEffect (() => {
   //     events.forEach(event => {
   //         dispatch (fetchEventDetails(event.id))
@@ -38,9 +36,12 @@ function EventsList() {
     const year = newDate.getFullYear();
     const month = String(newDate.getMonth() + 1).padStart(2, "0");
     const day = String(newDate.getDate()).padStart(2, "0");
-    const hours = String(newDate.getHours()).padStart(2, "0");
+    let hours = String(newDate.getHours()).padStart(2, "0");
+    let time = hours >= 12 && hours < 24 ? "PM" : "AM";
+    hours = hours > 12 && hours < 24 ? hours - 12 : hours;
+    hours = hours == 0 ? 12 : hours;
     const minutes = String(newDate.getMinutes()).padStart(2, "0");
-    const formattedDate = `${year}/${month}/${day} ${hours}:${minutes}`;
+    const formattedDate = `${year}/${month}/${day} · ${hours}:${minutes} ${time}`;
     event.upcomingEventDate = formattedDate;
     if (newDate < today) {
       pastEvents.push(event);
@@ -81,19 +82,25 @@ function EventsList() {
             to={`/events/${event.id}`}
             className="events_list_details_container"
           >
-              <div className="event_image_quickdesc">
-                <div className="event groups_list_images">
-                  <img src={event.previewImage} />
-                </div>
-                <div className="events_location_name">
-                  <div>{event.upcomingEventDate.replace(/\//g, '-')}</div>
-                  <h2>{event.name}</h2>
-                  <h4>
-                    {/* {event.Venue.city},{event.Venue.state} */}
-                  </h4>
-                </div>
+            <div className="event_image_quickdesc">
+              <div className="event groups_list_images">
+                <img src={event.previewImage} />
               </div>
-              <div className="event_list_description">{event.description}</div>
+              <div className="events_location_name">
+                <div>{event.upcomingEventDate.replace(/\//g, "-")}</div>
+                <h2>{event.name}</h2>
+                <h4>
+                  {event.type === "Online" ? (
+                    <div>Online</div>
+                  ) : (
+                    <div>
+                      {event.Venue.city}, {event.Venue.state}
+                    </div>
+                  )}
+                </h4>
+              </div>
+            </div>
+            <div className="event_list_description">{event.description}</div>
           </Link>
         ))}
       </div>

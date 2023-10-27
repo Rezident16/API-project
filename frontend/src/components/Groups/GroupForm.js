@@ -5,6 +5,7 @@ import { createNewGroup } from "../../store/groups";
 import { updateGroupThunk } from "../../store/groups";
 import { createNewGroupImage } from "../../store/groupImages";
 import { useSelector } from "react-redux";
+import { createNewVenue } from "../../store/venue";
 
 const GroupForm = ({ group, formType }) => {
   const history = useHistory();
@@ -21,9 +22,9 @@ const GroupForm = ({ group, formType }) => {
   let [isPrivate, setIsPrivate] = useState(
     formType === "Update Group" ? group.isPrivate : ""
   );
-  const [location, setLocation] = useState(
-    formType === "Update Group" ? group.location : ""
-  );
+  // const [location, setLocation] = useState(
+  //   formType === "Update Group" ? group.location : ""
+  // );
   const [city, setCity] = useState(
     formType === "Update Group" ? group.city : ""
   );
@@ -38,9 +39,9 @@ const GroupForm = ({ group, formType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const cityState = location && location.split(",");
-    const city = cityState[0];
-    const state = cityState[1];
+    // const cityState = location && location.split(",");
+    // const city = cityState[0];
+    // const state = cityState[1];
     const errorsObj = {};
     if (
       !image.includes(".png") &&
@@ -49,12 +50,10 @@ const GroupForm = ({ group, formType }) => {
     ) {
       errorsObj.url = "Image URL must end in .png, .jpg, or .jpeg";
     }
-    if (!location.length) {
-      errorsObj.location = "Location is required";
-    } else {
-      if (!location.includes(","))
-        errorsObj.location = "Location requires city, State (eg. Boston, MA)";
-    }
+    if (!city.length) {
+      errorsObj.city = "City is required";
+    } 
+      if (!state) errorsObj.state = "State is required";
     if (about.length < 50)
       errorsObj.about = "Description must be at least 50 characters long";
     if (!name) errorsObj.name = "Name is required";
@@ -90,6 +89,15 @@ const GroupForm = ({ group, formType }) => {
       } else {
         try {
           const attempt = await dispatch(createNewGroup(group));
+          const newVenue = { 
+            groupId: attempt.id,
+            address: '123 Demo Street',
+            city: city,
+            state: state,
+            lat: 10,
+            lng: 10
+          };
+          await dispatch(createNewVenue(newVenue))
           const newImage = { groupId: attempt.id, url: image, preview: true };
           await dispatch(createNewGroupImage(newImage));
           history.push(`/groups/${attempt.id}`);
@@ -108,6 +116,9 @@ const GroupForm = ({ group, formType }) => {
   const selectedClassPrivate = isPrivate
     ? "selected-form-options-selector"
     : "form-options-selector";
+  const selectedState = state ?
+  'form_textarea_state' :
+  'form_textarea_state_not_selected'
   /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
     <form onSubmit={handleSubmit} className="group_form">
@@ -117,25 +128,114 @@ const GroupForm = ({ group, formType }) => {
           GatherUp groups meet locally, in person and online. We'll connect you
           with people in your area, and more can join you online.
         </p>
-        <input
+        <div className="city_state_container">
+          <div>
+          <input
+            className="form_textarea_city"
+            type="text"
+            value={city}
+            onChange={(e) => {
+              setCity(e.target.value);
+              if (!e.target.value) errors.city = "City is required";
+              else {
+                errors.city = null;
+              }
+            }}
+            placeholder="City"
+          />
+          {errors.city && <p className="errors">{errors.city}</p>}
+          </div>
+          {/* <input
           className="form_textarea"
           type="text"
-          value={location}
+          value={state}
           onChange={(e) => {
-            setLocation(e.target.value);
-            if (!e.target.value) errors.location = "Location is required";
+            setState(e.target.value);
+            if (!e.target.value) errors.state = "State is required";
             else {
-              errors.location = null;
+              errors.state = null;
             }
           }}
-          placeholder="city, STATE"
-        />
+          placeholder="State"
+        /> */}
+        <div>
+
+          <select
+            className={selectedState}
+            type="text"
+            value={state}
+            onChange={(e) => {
+              setState(e.target.value);
+              if (!e.target.value) errors.state = "State is required";
+              else {
+                errors.state = null;
+              }
+            }}
+            placeholder="State"
+          >
+            <option value="" disabled hidden>
+              State
+            </option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="DC">District Of Columbia</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OH">Ohio</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          {errors.state && <p className="errors">{errors.state}</p>}
+        </div>
+        </div>
       </label>
-      {errors.location && <p className="errors">{errors.location}</p>}
-      {errors.city ||
+      {/* {errors.city ||
         (errors.state && (
           <p className="errors">Location is required (eg. Concord, CA)</p>
-        ))}
+        ))} */}
       <label>
         <h2>What will your group's name be?</h2>
         <p className="group-form-p-descriptions">

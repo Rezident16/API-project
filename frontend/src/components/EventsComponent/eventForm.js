@@ -199,6 +199,7 @@ const CreateEvent = () => {
           <p>When does your event start?</p>
           <input
             type="datetime-local"
+            step='900'
             value={startDate}
             placeholder="MM/DD/YYYY, HH/mm AM"
             onChange={(e) => {
@@ -219,6 +220,7 @@ const CreateEvent = () => {
             type="datetime-local"
             value={endDate}
             placeholder="MM/DD/YYYY, HH/mm PM"
+            step='900'
             onChange={(e) => {
               setEndDate(e.target.value);
               if (!e.target.value) {

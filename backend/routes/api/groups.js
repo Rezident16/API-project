@@ -394,7 +394,7 @@ router.get('/:groupId/events', async (req, res) => {
         })
 
         delete event.capacity
-        delete event.description
+        // delete event.description
         delete event.createdAt
         delete event.updatedAt
         delete event.EventImages
@@ -504,6 +504,7 @@ router.post('/:groupId/venues', requireAuth, async(req, res, next) => {
         })
     }
 
+    console.log(errors)
     const venue = await Venue.create({
         groupId: group.id,
         address,

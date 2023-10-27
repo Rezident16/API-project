@@ -14,7 +14,7 @@ import { fetchEvents } from "../../store/events";
 
 function GroupDetails() {
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
   const { groupId } = useParams();
   const id = parseInt(groupId);
   const [currentImage, setCurrentImage] = useState(0);
@@ -22,24 +22,22 @@ function GroupDetails() {
   let userClass = sessionUser
     ? "user_logged_in_group"
     : "user_not_logged_in_group";
-    const state = useSelector(state => state)
-    console.log(state)
-    const groupSelector = useSelector((state) => state.groups);
-    const group = groupSelector[groupId];
+  const state = useSelector((state) => state);
+  console.log(state);
+  const groupSelector = useSelector((state) => state.groups);
+  const group = groupSelector[groupId];
 
   useEffect(() => {
     const attempt = async () => {
       try {
         await dispatch(loadGroupData(id));
-        dispatch(fetchEventsbyGroupId(id));
+        await dispatch(fetchEventsbyGroupId(id));
       } catch (e) {
-        if (e) history.push('/groups')
+        if (e) history.push("/groups");
       }
-    }
-    attempt()
+    };
+    attempt();
   }, [dispatch, id]);
-  
-  
 
   const eventsObj = useSelector((state) => state.events);
   let events = Object.values(eventsObj);
@@ -47,17 +45,17 @@ function GroupDetails() {
   if (!Object.keys(groupSelector).length) return null;
 
   const organizer = group.Organizer;
-  if (!group) return null
+  if (!group) return null;
   if (!organizer) return null;
-  const groupImages = []
-  
+  const groupImages = [];
+
   for (let i = group.GroupImages.length - 1; i >= 0; i--) {
-    let image = group.GroupImages[i]
-    if (image.preview === true) groupImages.push(image)
+    let image = group.GroupImages[i];
+    if (image.preview === true) groupImages.push(image);
   }
   for (let i = 0; i < group.GroupImages.length; i++) {
-    let image = group.GroupImages[i]
-    if (image.preview === false) groupImages.push(image)
+    let image = group.GroupImages[i];
+    if (image.preview === false) groupImages.push(image);
   }
 
   const changeImageNext = () => {
@@ -76,12 +74,12 @@ function GroupDetails() {
   };
 
   const updateGroup = () => {
-    history.push(`/groups/${id}/edit`)
-  }
+    history.push(`/groups/${id}/edit`);
+  };
 
   const createEvent = () => {
-    history.push(`/groups/${id}/events/new`)
-  }
+    history.push(`/groups/${id}/events/new`);
+  };
   const disabled = () => {
     if (groupImages.length > 1) {
       return "enabled_next_image_button";
@@ -101,9 +99,12 @@ function GroupDetails() {
     const year = newDate.getFullYear();
     const month = String(newDate.getMonth() + 1).padStart(2, "0");
     const day = String(newDate.getDate()).padStart(2, "0");
-    const hours = String(newDate.getHours()).padStart(2, "0");
+    let hours = String(newDate.getHours()).padStart(2, "0");
+    let time = hours >= 12 && hours < 24 ? 'PM' : 'AM'
+    hours = hours > 12 && hours < 24 ? hours - 12 : hours
+    hours = hours == 0 ? 12 : hours
     const minutes = String(newDate.getMinutes()).padStart(2, "0");
-    const formattedDate = `${year}/${month}/${day} ${hours}:${minutes}`;
+    const formattedDate = `${year}/${month}/${day} · ${hours}:${minutes} ${time}`;
     event.upcomingEventDate = formattedDate;
     if (newDate < today) {
       pastEvents.push(event);
@@ -191,14 +192,20 @@ function GroupDetails() {
             )}
             {sessionUser && sessionUser.id === organizer.id && (
               <div className="organizer_buttons_container">
-                <button onClick={createEvent} className="organizer_buttons">Create event</button>
-                <button onClick={updateGroup} className="organizer_buttons">Update</button>
-                <div><button 
-          className="organizer_buttons">
-            <OpenModalMenuItem
-          itemText='Delete'
-          modalComponent={<DeleteButtonModal id = {groupId} />}
-          /></button></div>
+                <button onClick={createEvent} className="organizer_buttons">
+                  Create event
+                </button>
+                <button onClick={updateGroup} className="organizer_buttons">
+                  Update
+                </button>
+                <div>
+                  <button className="organizer_buttons">
+                    <OpenModalMenuItem
+                      itemText="Delete"
+                      modalComponent={<DeleteButtonModal id={groupId} />}
+                    />
+                  </button>
+                </div>
                 {/* <button className="organizer_buttons" modalComponent={<SignupFormModal/>}>Delete</button> */}
               </div>
             )}
@@ -206,50 +213,92 @@ function GroupDetails() {
         </div>
       </div>
       <div className="group_full_container_lower">
-
-      <div className="group_lower_container">
-        <div className="lower_container_group_upper_details">
-          <h2>Organizer</h2>
-          <div className="first_last_name_group">
-            {organizer.firstName} {organizer.lastName}
-          </div>
-          <h2>What we're about</h2>
-          <p>{group.about}</p>
-        </div>
-      </div>
-      <div className="past_upcoming_events_container">
-        {upcomingEvents.length > 0 && (
-          <div>
-            <div className="event_type">
-              Upcoming Events ({upcomingEvents.length})
+        <div className="group_lower_container">
+          <div className="lower_container_group_upper_details">
+            <h2>Organizer</h2>
+            <div className="first_last_name_group">
+              {organizer.firstName} {organizer.lastName}
             </div>
-            {upcomingEvents.map((event) => (
-              
-              <div>
-                <EventDetailsForAGroup id={event.id} />
-                {/* <Link exact to={`/events/${event.id}`} className='event-details-container-on-a-group-link' > 
-                <div>{event.name}</div>
-                <img src={event.previewImage}/>
-                </Link> */}
-              </div>
-            ))}
+            <h2>What we're about</h2>
+            <p>{group.about}</p>
           </div>
-        )}
-        {pastEvents.length > 0 && (
-          <div>
-            <div className="event_type">Past Events ({pastEvents.length})</div>
-            {pastEvents.map((event) => (
-              <div>
-                <EventDetailsForAGroup id={event.id} />
-                {/* <Link exact to={`/events/${event.id}`} className='event-details-container-on-a-group-link' > 
-                <div>{event.name}</div>
-                <img src={event.previewImage}/>
-                </Link> */}
+        </div>
+        <div className="past_upcoming_events_container">
+          {upcomingEvents.length > 0 && (
+            <div>
+              <div className="event_type">
+                Upcoming Events ({upcomingEvents.length})
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+              {upcomingEvents.map((event) => (
+                <div>
+                  {/* <EventDetailsForAGroup id={event.id} /> */}
+                  <Link
+                    exact
+                    to={`/events/${event.id}`}
+                    className="event-details-container-on-a-group-link"
+                  >
+                    <div className="event-details-container-on-a-group">
+                      <div className="event-details-container-on-a-group-upper">
+                        <div className="image_group_details">
+                          <img src={event.previewImage} />
+                          <div>
+                            <div className="event-list-event-date">
+                              {event.upcomingEventDate}
+                            </div>
+                            <div className="event-list-event-name">
+                              {event.name}
+                            </div>
+                            <div className="event-list-event-location">
+                              {event.Venue.city}, {event.Venue.state}
+                            </div>
+                          </div>
+                        </div>
+                        <div>{event.description}</div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
+          {pastEvents.length > 0 && (
+            <div>
+              <div className="event_type">
+                Past Events ({pastEvents.length})
+              </div>
+              {pastEvents.map((event) => (
+                <div>
+                  {/* <EventDetailsForAGroup id={event.id} /> */}
+                  <Link
+                    exact
+                    to={`/events/${event.id}`}
+                    className="event-details-container-on-a-group-link"
+                  >
+                    <div className="event-details-container-on-a-group">
+                      <div className="event-details-container-on-a-group-upper">
+                        <div className="image_group_details">
+                          <img src={event.previewImage} />
+                          <div>
+                            <div className="event-list-event-date">
+                              {event.upcomingEventDate}
+                            </div>
+                            <div className="event-list-event-name">
+                              {event.name}
+                            </div>
+                            <div className="event-list-event-location">
+                              {event.Venue.city}, {event.Venue.state}
+                            </div>
+                          </div>
+                        </div>
+                        <div>{event.description}</div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
