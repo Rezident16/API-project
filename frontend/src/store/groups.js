@@ -38,7 +38,7 @@ export const fetchGroups = () => async dispatch => {
 }
 
 export const deleteGroups = (id) => async dispatch => {
-  const response = await csrfFetch(`/api/reports/${id}`, {
+  const response = await csrfFetch(`/api/groups/${id}`, {
     method: 'DELETE',
     headers: {'Content-Type': 'application/json'},
   })
@@ -71,6 +71,7 @@ export const createNewGroup = (payload) => async dispatch => {
   }
 }
 
+
 export const updateGroupThunk = (payload) => async dispatch => {
   const response = await csrfFetch (`/api/groups/${payload.id}`, {
     method: 'PUT',
@@ -87,7 +88,6 @@ export const updateGroupThunk = (payload) => async dispatch => {
   }
 }
 
-/** The reports reducer is complete and does not need to be modified */
 const groupsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_GROUPS:

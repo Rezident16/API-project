@@ -16,11 +16,12 @@ function DeleteButtonModal({id, groupId}) {
   };
   id = parseInt(id)
   groupId = parseInt(groupId)
-  console.log(groupId)
+  
   const handleDelete = async (e) => {
     e.preventDefault();
     dispatch(deleteGroups(id, groupId))
-    history.push('/')
+    closeModal()
+    history.push('/groups')
   };
 
   return (
