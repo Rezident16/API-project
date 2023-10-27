@@ -166,7 +166,7 @@ function EventDetails() {
 
         <div className="event_details_description">
           <h2>Details</h2>
-          <p>{event.description}</p>
+          <p className="event_list_description">{event.description}</p>
         </div>
       </div>
     </div>

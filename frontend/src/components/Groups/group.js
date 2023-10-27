@@ -251,7 +251,7 @@ function GroupDetails() {
                             </div>
                           </div>
                         </div>
-                        <div>{event.description}</div>
+                        <div className="event_description">{event.description}</div>
                       </div>
                     </div>
                   </Link>
@@ -288,7 +288,7 @@ function GroupDetails() {
                             </div>
                           </div>
                         </div>
-                        <div>{event.description}</div>
+                        <div className="event_description">{event.description}</div>
                       </div>
                     </div>
                   </Link>

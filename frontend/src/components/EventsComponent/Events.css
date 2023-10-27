@@ -64,6 +64,9 @@
     align-items: flex-start;
 
 }
+.event_list_description {
+    word-break: break-all;
+}
 
 .event_details_img{
     height: 70%;
