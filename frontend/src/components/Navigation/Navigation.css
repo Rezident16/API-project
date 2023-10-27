@@ -34,12 +34,28 @@ ul {
 
 .logout_button {
     /* border-radius: 50%; */
-      size: 100%;
-      background-color: white;
-      color: black;
-      font-size: 16px;
+      /* size: 100%;
+      background-color: white; */
+      /* color: black; */
+      /* font-size: 16px;
       border: none;
       cursor: pointer;
+      color: #000; */
+
+    font-size: 14px;
+    padding: 5px;
+    /* border: 1px solid black; */
+    /* background: #fe6d72; */
+
+
+    margin-top: 10px;
+    /* height: 35px;
+    width: 200px; */
+    background-color: #fe6d72;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
 }
 
 .login_signup_button {

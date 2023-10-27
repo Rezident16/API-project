@@ -179,6 +179,7 @@ const CreateEvent = () => {
           <p>What is the price for your event?</p>
           <input
             type="number"
+            step='0.01'
             placeholder="0"
             value={price}
             min='0'
