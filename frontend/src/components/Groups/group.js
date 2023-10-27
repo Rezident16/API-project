@@ -22,8 +22,6 @@ function GroupDetails() {
   let userClass = sessionUser
     ? "user_logged_in_group"
     : "user_not_logged_in_group";
-  const state = useSelector((state) => state);
-  console.log(state);
   const groupSelector = useSelector((state) => state.groups);
   const group = groupSelector[groupId];
 

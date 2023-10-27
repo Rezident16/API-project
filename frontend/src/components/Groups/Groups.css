@@ -67,6 +67,8 @@
 .main_group_image {
     height: 80%;
     width: 100%;
+    max-height: 350px;
+    max-width: 400px;
 }
 
 .next_previos {
@@ -231,7 +233,7 @@
     width: 100px;    
     background-color: rgb(94, 93, 93);
     color: white;
-    cursor:default;
+    cursor:pointer;
     border: none;
     border: 1px solid black;
 }

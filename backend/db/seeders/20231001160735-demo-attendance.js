@@ -21,31 +21,31 @@ module.exports = {
         userId: 2,
         status: 'attending',
       },
-      {
-        eventId: 1,
-        userId: 7,
-        status: 'attending',
-      },
-      {
-        eventId: 1,
-        userId: 8,
-        status: 'waitlist',
-      },
-      {
-        eventId: 1,
-        userId: 10,
-        status: 'pending',
-      },
+      // {
+      //   eventId: 1,
+      //   userId: 7,
+      //   status: 'attending',
+      // },
+      // {
+      //   eventId: 1,
+      //   userId: 8,
+      //   status: 'waitlist',
+      // },
+      // {
+      //   eventId: 1,
+      //   userId: 10,
+      //   status: 'pending',
+      // },
       {
         eventId: 2,
         userId: 2,
         status: 'attending',
       },
-      {
-        eventId: 2,
-        userId: 8,
-        status: 'pending',
-      },
+      // {
+      //   eventId: 2,
+      //   userId: 8,
+      //   status: 'pending',
+      // },
     ], { validate: true });
   },
 
