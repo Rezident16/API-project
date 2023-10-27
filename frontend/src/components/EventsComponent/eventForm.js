@@ -205,11 +205,11 @@ const CreateEvent = () => {
             placeholder="MM/DD/YYYY, HH/mm AM"
             onChange={(e) => {
               setStartDate(e.target.value);
-              if (e.target.value) {
-                errors.startDate = null;
-              } else if (!e.target.value) {
+              if (!e.target.value) {
                 errors.startDate = "Event start is required";
-              }
+              } else if (e.target.value && new Date(e.target.value) < new Date ()) {
+                errors.startDate = `Event must be in the future`
+              } else errors.startDate = null;
             }}
             className=" event_input_field"
           ></input>
