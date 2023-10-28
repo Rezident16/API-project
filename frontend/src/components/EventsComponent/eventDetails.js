@@ -90,8 +90,8 @@ function EventDetails() {
     <div>
       <div className="event_upper_description">
         <div>
-          {"<"}
-          <Link to="/events">Events</Link>
+
+          <Link to="/events"  className='page_events_breadcramb_events'>{"< "}Events</Link>
         </div>
         <h1>{event.name}</h1>
         <h4 className="event_group_info_text_isPrivate">
@@ -165,7 +165,7 @@ function EventDetails() {
         </div>
 
         <div className="event_details_description">
-          <h2>Details</h2>
+          <h2>Description</h2>
           <p className="event_list_description">{event.description}</p>
         </div>
       </div>

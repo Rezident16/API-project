@@ -45,7 +45,6 @@ const CreateEvent = () => {
 
   const group = groupObj[id];
   if (!group) return null;
-  console.log(group);
   const selectedClassType = type
     ? "selected-form-options-selector"
     : "form-options-selector";
@@ -185,7 +184,6 @@ const CreateEvent = () => {
             min='0'
             onChange={(e) => {
               setPrice(e.target.value);
-              console.log(e.target.value);
               if (e.target.value >= 0) {
                 errors.price = null;
               }

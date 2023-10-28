@@ -47,6 +47,12 @@ function ProfileButton({ user }) {
     history.push('/groups')
   }
 
+  const redirectToEvents = (e) => {
+    e.preventDefault()
+    setShowMenu(false);
+    history.push('/events')
+  }
+
   return (
     <>
       {user ? (
@@ -62,6 +68,7 @@ function ProfileButton({ user }) {
             <li>{user.email}</li>
             <li className="seperator"></li>
             <li className = 'profile_buttons'onClick={redirectToGroups}>View Groups</li>
+            <li className = 'profile_buttons'onClick={redirectToEvents}>View Events</li>
             <li className="logout_button_container">
               <button className="logout_button" onClick={logout}>
                 Log Out

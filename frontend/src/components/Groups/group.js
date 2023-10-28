@@ -127,8 +127,8 @@ function GroupDetails() {
     <section className="group_details_whole_container">
       <div className="whole_upper_conainer">
         <div>
-          {"<"}
-          <Link to="/groups">Groups</Link>
+          {/* {"<"} */}
+          <Link to="/groups" className='page_events_breadcramb'>{"<"} Groups</Link>
         </div>
         <div className="group_upper_container">
           <div className="groupImage">
@@ -218,7 +218,7 @@ function GroupDetails() {
               {organizer.firstName} {organizer.lastName}
             </div>
             <h2>What we're about</h2>
-            <p>{group.about}</p>
+            <p className="description_on_a_group">{group.about}</p>
           </div>
         </div>
         <div className="past_upcoming_events_container">

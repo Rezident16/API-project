@@ -65,7 +65,23 @@
 
 }
 .event_list_description {
-    word-break: break-all;
+    /* word-break: break-all; */
+    overflow-wrap:break-word
+}
+
+.page_events_breadcramb_events{
+    text-decoration: none;
+    /* margin-left: 10px; */
+    height: 25px;
+    width: 100px;
+    color: #004952;
+    cursor: pointer;
+    border: none;
+}
+
+.page_events_breadcramb_events:hover {
+    text-decoration: underline;
+    text-shadow: 0px 0px 1px pink;
 }
 
 .event_details_img{

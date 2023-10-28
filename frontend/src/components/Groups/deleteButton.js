@@ -5,6 +5,7 @@ import * as sessionActions from "../../store/session";
 import { useHistory } from 'react-router-dom';
 import { deleteGroups } from "../../store/groups";
 import { Redirect } from "react-router-dom";
+import { fetchGroups } from "../../store/groups";
 
 function DeleteButtonModal({id, groupId}) {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function DeleteButtonModal({id, groupId}) {
     e.preventDefault();
     dispatch(deleteGroups(id, groupId))
     closeModal()
+    dispatch(fetchGroups())
     history.push('/groups')
   };
 

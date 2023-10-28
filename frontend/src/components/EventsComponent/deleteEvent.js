@@ -17,9 +17,9 @@ function DeleteEventButtonModal({id, groupId}) {
   id = parseInt(id)
   groupId = parseInt(groupId)
   const handleDelete = async (e) => {
-    dispatch(fetchEvents())
     dispatch(deleteEvents(id))
     closeModal()
+    dispatch(fetchEvents())
     history.push(`/groups/${groupId}`)
   };
 

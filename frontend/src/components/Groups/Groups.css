@@ -64,6 +64,26 @@
     width: 100px;
 }
 
+.description_on_a_group{
+    /* word-wrap: break-word; */
+    /* word-break:normal; */
+    overflow-wrap: break-word;
+}
+
+.page_events_breadcramb{
+    text-decoration: none;
+    margin-left: 10px;
+    height: 25px;
+    width: 100px;
+    color: #004952;
+    cursor: pointer;
+    border: none;
+}
+.page_events_breadcramb:hover {
+    text-decoration: underline;
+    text-shadow: 0px 0px 1px pink;
+}
+
 .main_group_image {
     height: 80%;
     max-height: 350px;
@@ -297,6 +317,11 @@
 .city_state_container{
     display: flex;
     gap: 15px
+}
+
+.event_description {
+    /* word-break: break-all; */
+    overflow-wrap: break-word;
 }
 
 .form_textarea_state {

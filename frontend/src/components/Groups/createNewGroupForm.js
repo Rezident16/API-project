@@ -20,7 +20,7 @@ const CreateGroupForm = () => {
   return (
     <div>
       <div className="create_group_upper_container">
-        <h4>BECOME AN ORGANIZER</h4>
+        <h4>Start a New Group</h4>
         <h3>
           We'll walk you through a few steps to build your local community
         </h3>

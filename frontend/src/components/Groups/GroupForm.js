@@ -279,7 +279,7 @@ const GroupForm = ({ group, formType }) => {
             setAbout(e.target.value);
             console.log(e.target.value.length);
             if (e.target.value.length < 50) {
-              errors.about = "Description must be 50 characters or more";
+              errors.about = "Description must be at least 50 characters long";
             } else {
               errors.about = null;
             }
