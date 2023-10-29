@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         eventId: 3,
-        url: 'https://www.joblo.com/wp-content/uploads/2022/05/book-club-2-production.jpg',
+        url: 'https://photographyworkshopsatlanta.com/wp-content/uploads/2020/04/TRE_6182-Copy-1.jpg',
         preview: true,
       },
       {
@@ -31,21 +31,21 @@ module.exports = {
         url: 'https://www.knoxmercury.com/wp-content/uploads/2015/07/cover_homepage2_0709.jpg',
         preview: true,
       },
-      // {
-      //   eventId: 5,
-      //   url: 'https://blog.zoom.us/wp-content/uploads/2022/12/Advanced-Views-1.png',
-      //   preview: true,
-      // },
-      // {
-      //   eventId: 6,
-      //   url: 'https://static1.squarespace.com/static/5c1500ad1137a6de183d0730/t/645076bb9b573b31ae47f951/1683047311374/beach_yoga_classes_and_meditation.jpg?format=1500w',
-      //   preview: true,
-      // },
-      // {
-      //   eventId: 7,
-      //   url: 'https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/wine-tasting-johann-peter-hasenclever.jpg',
-      //   preview: true,
-      // },
+      {
+        eventId: 5,
+        url: 'https://static01.nyt.com/images/2023/09/15/multimedia/15soccer-pickup-03-vmzh/15soccer-pickup-03-vmzh-articleLarge.jpg?quality=75&auto=webp&disable=upscale',
+        preview: true,
+      },
+      {
+        eventId: 6,
+        url: 'https://theother87.files.wordpress.com/2011/04/dc-soccer-dc-condos1.png',
+        preview: true,
+      },
+      {
+        eventId: 7,
+        url: 'https://bloximages.newyork1.vip.townnews.com/johnsoncitypress.com/content/tncms/assets/v3/editorial/5/51/5510f34c-056f-5b21-8c6a-49cb99604ca1/5efc0fd33ce72.image.jpg?resize=969%2C500',
+        preview: true,
+      },
       // {
       //   eventId: 8,
       //   url: 'https://media.gadventures.com/media-server/cache/76/dc/76dcc71a350b8ec1450f2ed8ca23edfe.jpg',

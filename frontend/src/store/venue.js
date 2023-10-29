@@ -12,7 +12,7 @@ export const recieveVenue = (venue) => ({
 
 
 export const createNewVenue = (payload) => async dispatch => {
-    console.log(payload)
+
     const response = await csrfFetch (`/api/groups/${payload.groupId}/venues`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -31,7 +31,7 @@ export const createNewVenue = (payload) => async dispatch => {
 const venuesReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_VENUE:
-        console.log(action)
+
       return { ...state, [action.venue.id]: action.venue };
     default:
       return state;

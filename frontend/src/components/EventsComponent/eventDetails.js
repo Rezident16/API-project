@@ -19,7 +19,7 @@ function formatEventDate(date) {
   const day = String(newDate.getDate()).padStart(2, "0");
   let hours = String(newDate.getHours()).padStart(2, "0");
   let time = hours >= 12 && hours < 24 ? "PM" : "AM";
-  console.log(hours);
+
   hours = hours > 12 && hours < 24 ? hours - 12 : hours;
   hours = hours == 0 ? 12 : hours;
   const minutes = String(newDate.getMinutes()).padStart(2, "0");

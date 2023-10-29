@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         groupId: 3,
-        url: 'https://images.ctfassets.net/1aemqu6a6t65/6jvM8iPUs4E6Mu3onIjIwW/1a18b310821be5aab63a640d8f69df96/all-in-nyc_book_club_bar?q=72&w=1200&h=630&fit=fill',
+        url: 'https://static.wixstatic.com/media/8c2f19_cd5fd4fc30a34a229308932690479160~mv2.jpg/v1/fill/w_600,h_402,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Photographer%20by%20Petra.jpg',
         preview: true,
       },
       {

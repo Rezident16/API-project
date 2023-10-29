@@ -95,8 +95,8 @@ module.exports = {
       },
       {
         organizerId: 1,
-        name: 'Cooking Classes',
-        about: 'Join us for a fabulous cooking experience. We will teach you the ins and outs of how to cook an amazing meal so you impress your friends, family, or your significant other.',
+        name: 'Mountain Biking',
+        about: 'Explore the beautiful trails of the Rocky Mountains with fellow biking enthusiasts. All skill levels welcome!',
         type: 'Online',
         private: false,
         city: 'Chicago',

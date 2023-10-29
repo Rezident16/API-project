@@ -504,7 +504,6 @@ router.post('/:groupId/venues', requireAuth, async(req, res, next) => {
         })
     }
 
-    console.log(errors)
     const venue = await Venue.create({
         groupId: group.id,
         address,
@@ -875,8 +874,7 @@ router.post('/', requireAuth, async (req,res, next) => {
         errors.state = "State is required"
         errorTrigger = true
     }
-    console.log(req.body)
-    console.log(errors)
+
     if (errorTrigger === true) {
         return res.status(400).json({
             message: "Bad Request",

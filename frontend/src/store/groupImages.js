@@ -30,7 +30,7 @@ export const removeGroupImages = (id) => ({
 
 
 export const createNewGroupImage = (payload) => async dispatch => {
-    console.log('payload ',payload)
+
   const response = await csrfFetch (`/api/groups/${payload.groupId}/images`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
