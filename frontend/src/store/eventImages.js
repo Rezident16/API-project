@@ -30,25 +30,10 @@ export const createNewEventImage = (payload) => async dispatch => {
   }
 }
 
-
-/** The reports reducer is complete and does not need to be modified */
 const eventsImageReducer = (state = {}, action) => {
   switch (action.type) {
-    // case LOAD_GROUPS:
-    //   const groupsState = {};
-    //   action.groups.Groups.forEach((group) => {
-    //     groupsState[group.id] = group;
-    //   });
-    //   return groupsState;
     case RECEIVE_EVENT_IMAGES:
-        console.log(action)
       return { ...state, [action.image.id]: action.image };
-    // case UPDATE_GROUP:
-    //   return { ...state, [action.group.id]: action.group };
-    // case REMOVE_GROUP:
-    //   const newState = { ...state };
-    //   delete newState[action.id];
-    //   return newState;
     default:
       return state;
   }

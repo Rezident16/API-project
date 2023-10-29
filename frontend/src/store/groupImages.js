@@ -57,7 +57,7 @@ const groupsImagesReducer = (state = {}, action) => {
     //   });
     //   return groupsState;
     case RECEIVE_GROUP_IMAGES:
-        console.log(action)
+
       return { ...state, [action.image.id]: action.image };
     // case UPDATE_GROUP:
     //   return { ...state, [action.group.id]: action.group };
