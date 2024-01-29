@@ -763,6 +763,7 @@ router.get('/:groupId', async (req, res, next) => {
         state: group.state,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt,
+        memberships: memberships,
         numMembers: numMembers,
         previewImage: group.previewImage,
         GroupImages: images,

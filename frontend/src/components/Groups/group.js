@@ -124,6 +124,14 @@ function GroupDetails() {
     return dateB - dateA;
   });
 
+  const groupMembership = group.memberships.filter(
+
+    (membership) => membership.userId === sessionUser?.id)
+  let status = null
+  if (groupMembership.length) {
+    status = groupMembership[0].status
+  }
+
   return (
     <section className="group_details_whole_container">
       <div className="whole_upper_conainer">
@@ -184,9 +192,15 @@ function GroupDetails() {
                 </div>
               </div>
             </div>
-            {sessionUser && sessionUser.id !== organizer.id && (
+            
+            {sessionUser && sessionUser.id !== organizer.id && status != 'pending' && (
               <button className={userClass} onClick={joinGroupButton}>
                 Join this group
+              </button>
+            )}
+            {sessionUser && status == 'pending' && (
+              <button className={userClass}>
+                Membership Pending
               </button>
             )}
             {sessionUser && sessionUser.id === organizer.id && (
