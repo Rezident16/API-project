@@ -86,6 +86,9 @@ function EventDetails() {
     event.price = eventPrice.toFixed(2);
   }
 
+  const handleLink = () => {
+    dispatch(loadGroupData(event.groupId))
+  }
   return (
     <div>
       <div className="event_upper_description">
@@ -102,7 +105,7 @@ function EventDetails() {
         <div className="photo_event_info">
           <img className="event_details_img" src={previewImage.url} />
           <div className="event_all_details">
-            <div className="event_group_info">
+            <Link to={`groups/${group.id}`} onClick={handleLink} className="event_group_info">
               <img
                 className="event_group_details_img"
                 src={group.previewImage}
@@ -113,7 +116,7 @@ function EventDetails() {
                   {group.isPrivate}
                 </h4>
               </div>
-            </div>
+            </Link>
             <div className="event_details_info">
               <div className="event_each_detail">
                 <img

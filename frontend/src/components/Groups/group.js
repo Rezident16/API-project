@@ -11,6 +11,7 @@ import EventDetailsForAGroup from "./eventsDetails";
 import OpenModelDeleteButton from "./deleteButton";
 import DeleteButtonModal from "./deleteButton";
 import { fetchEvents } from "../../store/events";
+import { requestMembership } from "../../store/memberships";
 
 function GroupDetails() {
   const dispatch = useDispatch();
@@ -67,8 +68,8 @@ function GroupDetails() {
     setCurrentImage(previousIndex);
   };
 
-  const joinGroupButton = () => {
-    alert("Feature Coming Soon...");
+  const joinGroupButton = async () => {
+    await dispatch(requestMembership(id, sessionUser));
   };
 
   const updateGroup = () => {
