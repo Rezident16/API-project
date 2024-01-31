@@ -11,7 +11,10 @@ import EventDetailsForAGroup from "./eventsDetails";
 import OpenModelDeleteButton from "./deleteButton";
 import DeleteButtonModal from "./deleteButton";
 import { fetchEvents } from "../../store/events";
-import { requestMembership } from "../../store/memberships";
+import { requestMembership,updateMembershipStatus } from "../../store/memberships";
+import groupMembers from "./groupMembers";
+import { readGroup } from "../../store/group";
+import EventList from "./eventList";
 
 function GroupDetails() {
   const dispatch = useDispatch();
@@ -23,14 +26,15 @@ function GroupDetails() {
   let userClass = sessionUser
     ? "user_logged_in_group"
     : "user_not_logged_in_group";
-  const groupSelector = useSelector((state) => state.groups);
-  const group = groupSelector[groupId];
+  const group = useSelector((state) => state.group);
+  // const group = groupSelector[groupId];
 
   useEffect(() => {
     const attempt = async () => {
       try {
-        await dispatch(loadGroupData(id));
+        // await dispatch(loadGroupData(id));
         await dispatch(fetchEventsbyGroupId(id));
+        await dispatch(readGroup(id));
       } catch (e) {
         if (e) history.push("/groups");
       }
@@ -41,7 +45,7 @@ function GroupDetails() {
   const eventsObj = useSelector((state) => state.events);
   let events = Object.values(eventsObj);
 
-  if (!Object.keys(groupSelector).length) return null;
+  if (!Object.keys(group).length) return null;
 
   const organizer = group.Organizer;
   if (!group) return null;
@@ -85,44 +89,6 @@ function GroupDetails() {
     }
     return "disabled_next_image_button";
   };
-
-  const today = new Date();
-  events = events.filter((event) => event.groupId === group.id);
-
-  let upcomingEvents = [];
-  let pastEvents = [];
-
-  events.forEach((event) => {
-    const date = event.startDate;
-    const newDate = new Date(date);
-    const year = newDate.getFullYear();
-    const month = String(newDate.getMonth() + 1).padStart(2, "0");
-    const day = String(newDate.getDate()).padStart(2, "0");
-    let hours = String(newDate.getHours()).padStart(2, "0");
-    let time = hours >= 12 && hours < 24 ? 'PM' : 'AM'
-    hours = hours > 12 && hours < 24 ? hours - 12 : hours
-    hours = hours == 0 ? 12 : hours
-    const minutes = String(newDate.getMinutes()).padStart(2, "0");
-    const formattedDate = `${year}/${month}/${day} · ${hours}:${minutes} ${time}`;
-    event.upcomingEventDate = formattedDate;
-    if (newDate < today) {
-      pastEvents.push(event);
-    } else {
-      upcomingEvents.push(event);
-    }
-  });
-
-  upcomingEvents.sort((a, b) => {
-    const dateA = new Date(a.startDate);
-    const dateB = new Date(b.startDate);
-    return dateA - dateB;
-  });
-
-  pastEvents.sort((a, b) => {
-    const dateA = new Date(a.startDate);
-    const dateB = new Date(b.startDate);
-    return dateB - dateA;
-  });
 
   const groupMembership = group.memberships.filter(
 
@@ -236,82 +202,7 @@ function GroupDetails() {
             <p className="description_on_a_group">{group.about}</p>
           </div>
         </div>
-        <div className="past_upcoming_events_container">
-          {upcomingEvents.length > 0 && (
-            <div>
-              <div className="event_type">
-                Upcoming Events ({upcomingEvents.length})
-              </div>
-              {upcomingEvents.map((event) => (
-                <div>
-                  {/* <EventDetailsForAGroup id={event.id} /> */}
-                  <Link
-                    exact
-                    to={`/events/${event.id}`}
-                    className="event-details-container-on-a-group-link"
-                  >
-                    <div className="event-details-container-on-a-group">
-                      <div className="event-details-container-on-a-group-upper">
-                        <div className="image_group_details">
-                          <img src={event.previewImage} />
-                          <div>
-                            <div className="event-list-event-date">
-                              {event.upcomingEventDate}
-                            </div>
-                            <div className="event-list-event-name">
-                              {event.name}
-                            </div>
-                            <div className="event-list-event-location">
-                              {event.Venue.city}, {event.Venue.state}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="event_description">{event.description}</div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          )}
-          {pastEvents.length > 0 && (
-            <div>
-              <div className="event_type">
-                Past Events ({pastEvents.length})
-              </div>
-              {pastEvents.map((event) => (
-                <div>
-                  {/* <EventDetailsForAGroup id={event.id} /> */}
-                  <Link
-                    exact
-                    to={`/events/${event.id}`}
-                    className="event-details-container-on-a-group-link"
-                  >
-                    <div className="event-details-container-on-a-group">
-                      <div className="event-details-container-on-a-group-upper">
-                        <div className="image_group_details">
-                          <img src={event.previewImage} />
-                          <div>
-                            <div className="event-list-event-date">
-                              {event.upcomingEventDate}
-                            </div>
-                            <div className="event-list-event-name">
-                              {event.name}
-                            </div>
-                            <div className="event-list-event-location">
-                              {event.Venue.city}, {event.Venue.state}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="event_description">{event.description}</div>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <EventList groupId = {groupId} />
       </div>
     </section>
   );

@@ -9,6 +9,7 @@ import eventsImageReducer from "./eventImages";
 import venuesReducer from "./venue";
 // import membershipReducer from "./membership";
 import membershipReducer from "./memberships";
+import groupReducer from "./group";
 
 
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   eventImages: eventsImageReducer,
   venues: venuesReducer,
   membership: membershipReducer,
+  group: groupReducer
 });
 
 let enhancer;
