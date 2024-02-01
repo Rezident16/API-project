@@ -47,6 +47,10 @@ function EventDetails() {
     attempt ()
   }, [dispatch, id]);
 
+  const redirect = (id) => {
+    history.push(`/groups/${id}`)
+  }
+
   useEffect(() => {
     if (event && event.groupId) {
       dispatch(loadGroupData(event.groupId));
@@ -86,8 +90,9 @@ function EventDetails() {
     event.price = eventPrice.toFixed(2);
   }
 
-  const handleLink = () => {
+  const handleLink = (id) => {
     dispatch(loadGroupData(event.groupId))
+    history.push(`/groups/${id}`)
   }
   return (
     <div>
@@ -105,7 +110,7 @@ function EventDetails() {
         <div className="photo_event_info">
           <img className="event_details_img" src={previewImage.url} />
           <div className="event_all_details">
-            <Link to={`groups/${group.id}`} onClick={handleLink} className="event_group_info">
+          <div onClick={() => handleLink(group.id)} className="event_group_info">
               <img
                 className="event_group_details_img"
                 src={group.previewImage}
@@ -116,7 +121,7 @@ function EventDetails() {
                   {group.isPrivate}
                 </h4>
               </div>
-            </Link>
+            </div>
             <div className="event_details_info">
               <div className="event_each_detail">
                 <img
