@@ -1,0 +1,53 @@
+.slide.selected > .slide > img {
+    width: 582px;
+    height: 445px;
+}
+.slide.previous > .slide > img {
+    height: 445px;
+}
+
+.carousel .thumb.selected, .carousel .thumb:hover {
+    border: 3px solid rgba(255, 255, 255, 0);
+    cursor: pointer;
+    width: 100px;
+    height: 55px;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    transition: 0s;
+    /* margin: 5px; */
+}
+
+.carousel .thumb:focus {
+    border: 3px solid rgba(255, 255, 255, 0);
+    outline: none;
+    width: 105px;
+    height: 55px;
+    /* padding: 5px; */
+    margin: 0px;
+}
+
+.thumb > img {
+    width: 90px;
+    height: 55px;
+    object-fit: fill;
+}
+
+.carousel .thumb {
+    transition: border .15s ease-in;
+    display: inline-block;
+    margin: 0px;
+    width: 90px;
+    height: 52px;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 3px solid #fff;
+    padding-top: 0px;
+}
+
+.box {
+    width: 500px;
+    position: relative;
+    ;
+}

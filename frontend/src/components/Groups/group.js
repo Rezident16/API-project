@@ -8,6 +8,7 @@ import DeleteButtonModal from "./deleteButton";
 import { requestMembership,updateMembershipStatus } from "../../store/memberships";
 import { readGroup } from "../../store/group";
 import EventList from "./eventList";
+import GroupImages from "./imageContainer";
 
 function GroupDetails() {
   const dispatch = useDispatch();
@@ -40,27 +41,7 @@ function GroupDetails() {
   const organizer = group.Organizer;
   if (!group) return null;
   if (!organizer) return null;
-  const groupImages = [];
 
-  for (let i = group.GroupImages.length - 1; i >= 0; i--) {
-    let image = group.GroupImages[i];
-    if (image.preview === true) groupImages.push(image);
-  }
-  for (let i = 0; i < group.GroupImages.length; i++) {
-    let image = group.GroupImages[i];
-    if (image.preview === false) groupImages.push(image);
-  }
-
-  const changeImageNext = () => {
-    const nextIndex = (currentImage + 1) % groupImages.length;
-    setCurrentImage(nextIndex);
-  };
-
-  const changeImagePrevious = () => {
-    const previousIndex =
-      (currentImage - 1 + groupImages.length) % groupImages.length;
-    setCurrentImage(previousIndex);
-  };
 
   const joinGroupButton = async () => {
     await dispatch(requestMembership(id, sessionUser));
@@ -72,12 +53,6 @@ function GroupDetails() {
 
   const createEvent = () => {
     history.push(`/groups/${id}/events/new`);
-  };
-  const disabled = () => {
-    if (groupImages.length > 1) {
-      return "enabled_next_image_button";
-    }
-    return "disabled_next_image_button";
   };
 
   const groupMembership = group.memberships.filter(
@@ -92,38 +67,10 @@ function GroupDetails() {
     <section className="group_details_whole_container">
       <div className="whole_upper_conainer">
         <div>
-          {/* {"<"} */}
           <Link to="/groups" className='page_events_breadcramb'>{"<"} Groups</Link>
         </div>
         <div className="group_upper_container">
-          <div className="groupImage">
-            {groupImages && (
-              <img
-                className="main_group_image"
-                src={groupImages[currentImage].url}
-              />
-            )}
-            <div>
-              {groupImages && (
-                <ul className="next_previos">
-                  <button
-                    onClick={changeImagePrevious}
-                    disabled={groupImages.length === 1}
-                    className={disabled()}
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={changeImageNext}
-                    disabled={groupImages.length === 1}
-                    className={disabled()}
-                  >
-                    Next
-                  </button>
-                </ul>
-              )}
-            </div>
-          </div>
+          <GroupImages group={group} />
           <div className="groupInfo">
             <div className="group_text_info">
               <h1>{group.name}</h1>

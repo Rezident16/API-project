@@ -23,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/Rezident16/API-project/issues"
   },
-  "homepage": "https://github.com/Rezident16/API-project#readme"
+  "homepage": "https://github.com/Rezident16/API-project#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-image-gallery": "^1.3.0",
+    "react-responsive-carousel": "^3.2.23"
+  }
 }
