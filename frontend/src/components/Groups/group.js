@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory, Link, useParams } from "react-router-dom";
-import SignupFormModal from "../SignupFormModal";
+import { useHistory, Link, useParams } from "react-router-dom";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import { fetchGroups, loadGroupData } from "../../store/groups";
 import "./Groups.css";
-import { fetchEventsbyGroupId } from "../../store/events";
-import EventDetailsForAGroup from "./eventsDetails";
-import OpenModelDeleteButton from "./deleteButton";
 import DeleteButtonModal from "./deleteButton";
-import { fetchEvents } from "../../store/events";
 import { requestMembership,updateMembershipStatus } from "../../store/memberships";
-import groupMembers from "./groupMembers";
 import { readGroup } from "../../store/group";
 import EventList from "./eventList";
 
@@ -27,13 +20,10 @@ function GroupDetails() {
     ? "user_logged_in_group"
     : "user_not_logged_in_group";
   const group = useSelector((state) => state.group);
-  // const group = groupSelector[groupId];
 
   useEffect(() => {
     const attempt = async () => {
       try {
-        // await dispatch(loadGroupData(id));
-        await dispatch(fetchEventsbyGroupId(id));
         await dispatch(readGroup(id));
       } catch (e) {
         if (e) history.push("/groups");
