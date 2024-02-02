@@ -5,10 +5,14 @@ import { useHistory, Link, useParams } from "react-router-dom";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import "./Groups.css";
 import DeleteButtonModal from "./deleteButton";
-import { requestMembership,updateMembershipStatus } from "../../store/memberships";
+import {
+  requestMembership,
+  updateMembershipStatus,
+} from "../../store/memberships";
 import { readGroup } from "../../store/group";
 import EventList from "./eventList";
 import GroupImages from "./imageContainer";
+import Buttons from "./buttons";
 
 function GroupDetails() {
   const dispatch = useDispatch();
@@ -42,32 +46,25 @@ function GroupDetails() {
   if (!group) return null;
   if (!organizer) return null;
 
-
-  const joinGroupButton = async () => {
-    await dispatch(requestMembership(id, sessionUser));
-  };
-
-  const updateGroup = () => {
-    history.push(`/groups/${id}/edit`);
-  };
-
-  const createEvent = () => {
-    history.push(`/groups/${id}/events/new`);
-  };
-
   const groupMembership = group.memberships.filter(
+    (membership) => membership.userId === sessionUser?.id
+  );
 
-    (membership) => membership.userId === sessionUser?.id)
-  let status = null
-  if (groupMembership.length) {
-    status = groupMembership[0].status
+  let status = "not_signed";
+  if (sessionUser && !groupMembership.length) {
+    status = "not_joined";
+  }
+  else if (groupMembership.length) {
+    status = groupMembership[0].status;
   }
 
   return (
     <section className="group_details_whole_container">
       <div className="whole_upper_conainer">
         <div>
-          <Link to="/groups" className='page_events_breadcramb'>{"<"} Groups</Link>
+          <Link to="/groups" className="page_events_breadcramb">
+            {"<"} Groups
+          </Link>
         </div>
         <div className="group_upper_container">
           <GroupImages group={group} />
@@ -94,37 +91,8 @@ function GroupDetails() {
                   Organized by {organizer.firstName} {organizer.lastName}
                 </div>
               </div>
+          <Buttons status={status} groupId={groupId} sessionUser={sessionUser} group={group} />
             </div>
-            
-            {sessionUser && sessionUser.id !== organizer.id && status != 'pending' && (
-              <button className={userClass} onClick={joinGroupButton}>
-                Join this group
-              </button>
-            )}
-            {sessionUser && status == 'pending' && (
-              <button className={userClass}>
-                Membership Pending
-              </button>
-            )}
-            {sessionUser && sessionUser.id === organizer.id && (
-              <div className="organizer_buttons_container">
-                <button onClick={createEvent} className="organizer_buttons">
-                  Create event
-                </button>
-                <button onClick={updateGroup} className="organizer_buttons">
-                  Update
-                </button>
-                <div>
-                  <button className="organizer_buttons">
-                    <OpenModalMenuItem
-                      itemText="Delete"
-                      modalComponent={<DeleteButtonModal id={groupId} />}
-                    />
-                  </button>
-                </div>
-                {/* <button className="organizer_buttons" modalComponent={<SignupFormModal/>}>Delete</button> */}
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -139,7 +107,7 @@ function GroupDetails() {
             <p className="description_on_a_group">{group.about}</p>
           </div>
         </div>
-        <EventList groupId = {groupId} />
+        <EventList groupId={groupId} />
       </div>
     </section>
   );
