@@ -3,6 +3,8 @@ import { csrfFetch } from "./csrf";
 /** Action Type Constants: */
 export const CREATE_MEMBERSHIP = 'memberships/CREATE_MEMBERSHIP';
 const UPDATE_MEMBERSHIP = 'memberships/UPDATE_MEMBERSHIP';
+const DELETE_MEMBERSHIP = 'memberships/DELETE_MEMBERSHIP';
+
 
 /**  Action Creators: */
 export const createMembership = (membership) => ({
@@ -13,6 +15,11 @@ export const createMembership = (membership) => ({
 const updateMembership = (membership) => ({
     type: UPDATE_MEMBERSHIP,
     membership,
+})
+
+const deleteMembership = (membershipId) => ({
+    type: DELETE_MEMBERSHIP,
+    membershipId,
 })
 
 /** Thunk Action Creators: */
@@ -38,10 +45,26 @@ export const updateMembershipStatus = (user, memberId, status, groupId) => async
     dispatch(updateMembership(data))
 }
 
+export const deleteMembershipStatus = (memberId, groupId, user) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${groupId}/membership/`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({memberId, user})
+  })
+  const data = await response.json()
+  dispatch(deleteMembership(data))
+}
+
 const membershipReducer = (state = {}, action) => {
   switch (action.type) {
     case CREATE_MEMBERSHIP:
       return { ...state, [action.membership.id]: action.membership };
+    case UPDATE_MEMBERSHIP:
+      return { ...state, [action.membership.id]: action.membership };
+    case DELETE_MEMBERSHIP:
+      const newState = { ...state };
+      delete newState[action.membershipId];
+      return newState
     default:
       return state;
   }
