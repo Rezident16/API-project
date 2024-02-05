@@ -25,7 +25,7 @@ function Buttons({ groupId, status, sessionUser, group }) {
   return (
     <div>
       {status == "not_joined" && (
-        <button onClick={joinGroupButton}>Join this group</button>
+        <button onClick={joinGroupButton}>Request to Join</button>
       )}
       {status == "pending" && <button>Membership Pending</button>}
       {status == "co-host" && group.organizerId == sessionUser.id && (

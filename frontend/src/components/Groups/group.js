@@ -53,10 +53,10 @@ function GroupDetails() {
   let status = "not_signed";
   if (sessionUser && !groupMembership.length) {
     status = "not_joined";
-  }
-  else if (groupMembership.length) {
+  } else if (groupMembership.length) {
     status = groupMembership[0].status;
   }
+  console.log(group)
 
   return (
     <section className="group_details_whole_container">
@@ -91,7 +91,12 @@ function GroupDetails() {
                   Organized by {organizer.firstName} {organizer.lastName}
                 </div>
               </div>
-          <Buttons status={status} groupId={groupId} sessionUser={sessionUser} group={group} />
+              <Buttons
+                status={status}
+                groupId={groupId}
+                sessionUser={sessionUser}
+                group={group}
+              />
             </div>
           </div>
         </div>
