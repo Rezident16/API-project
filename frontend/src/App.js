@@ -11,7 +11,7 @@ import EditGroupForm from "./components/Groups/updateGroupForm";
 import EventsList from "./components/EventsComponent/loadAllEvents";
 import EventDetails from "./components/EventsComponent/eventDetails";
 import CreateEvent from "./components/EventsComponent/eventForm";
-import groupMembers from "./components/Groups/Members/groupMembers";
+import GroupMembers from "./components/Groups/Members/groupMembers";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ function App() {
           <Route exact path = '/events' component = {EventsList}></Route>
           <Route exact path = '/events/:eventId' component={EventDetails}>
           </Route>
-          <Route exact path = '/groups/:groupdId/members' component={groupMembers}></Route>
+          <Route exact path = '/groups/:groupId/members' component={GroupMembers}></Route>
         </Switch>
       )}
     </>
