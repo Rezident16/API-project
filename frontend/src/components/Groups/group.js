@@ -13,6 +13,7 @@ import { readGroup } from "../../store/group";
 import EventList from "./eventList";
 import GroupImages from "./imageContainer";
 import Buttons from "./buttons";
+import MembersCount from "./Members/membersCount";
 
 function GroupDetails() {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ function GroupDetails() {
   } else if (groupMembership.length) {
     status = groupMembership[0].status;
   }
-  console.log(group)
+  console.log(group);
 
   return (
     <section className="group_details_whole_container">
@@ -79,13 +80,15 @@ function GroupDetails() {
                   <div>
                     {
                       events.filter((event) => event.groupId === group.id)
-                        .length
+                      .length
                     }{" "}
                     events
                   </div>{" "}
                   <div>{"·"}</div>
                   {group.private && <div>Private</div>}{" "}
                   {!group.private && <div>Public</div>}
+                  <div>{"·"}</div>
+                    <MembersCount members={group.memberships} />
                 </div>
                 <div>
                   Organized by {organizer.firstName} {organizer.lastName}
