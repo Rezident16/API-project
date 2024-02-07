@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 export const CREATE_MEMBERSHIP = 'memberships/CREATE_MEMBERSHIP';
 const UPDATE_MEMBERSHIP = 'memberships/UPDATE_MEMBERSHIP';
 const DELETE_MEMBERSHIP = 'memberships/DELETE_MEMBERSHIP';
+const GET_ALL_MEMBERSHIPS = 'memberships/GET_ALL_MEMBERSHIPS';
 
 
 /**  Action Creators: */
@@ -22,7 +23,18 @@ const deleteMembership = (membershipId) => ({
     membershipId,
 })
 
+const getAllMemberships = (memberships) => ({
+  type: GET_ALL_MEMBERSHIPS,
+  memberships,
+})
+
 /** Thunk Action Creators: */
+
+export const readMemberships = (groupId) => async dispatch => {
+  const response = await csrfFetch(`/api/groups/${groupId}/members`)
+  const data = await response.json()
+  dispatch(getAllMemberships(data))
+}
 
 export const requestMembership = (groupId, user) => async dispatch => {
 //   const response = await csrfFetch('/api/groups/:groupId/membership')
@@ -57,6 +69,8 @@ export const deleteMembershipStatus = (memberId, groupId, user) => async dispatc
 
 const membershipReducer = (state = {}, action) => {
   switch (action.type) {
+    case GET_ALL_MEMBERSHIPS:
+      return { ...action.memberships };
     case CREATE_MEMBERSHIP:
       return { ...state, [action.membership.id]: action.membership };
     case UPDATE_MEMBERSHIP:
