@@ -15,7 +15,12 @@ function GroupMembers() {
     
     useEffect(() => {
       const attempt = async () => {
-        await dispatch(readMemberships(groupId));
+        try{
+            await dispatch(readMemberships(groupId));
+        } catch (e) {
+        history.push(`/groups/${groupId}`);
+        }
+
       };
       attempt();
     }, [groupId]);
