@@ -2,18 +2,21 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import GroupMembers from "./Members/groupMembers";
 import EventList from "./eventList";
+import { useDispatch, useSelector } from "react-redux";
+import { readMemberships } from "../../store/memberships";
+import { useEffect } from "react";
+import { readGroup } from "../../store/group";
 
 function GroupTabs({ group, organizer }) {
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(readMemberships(group.id))
+  }, [group, dispatch])
+  const members = useSelector((state) => state.membership.Members);
+  if (!members || members.length === 0) return 'Loading...';
   return (
     <div>
-      {/* <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-            <Tab eventKey="home" title="Home">
-            <p className="description_on_a_group">{group.about}</p>
-            </Tab>
-            <Tab eventKey="members" title="Members">
-            <GroupMembers />
-            </Tab>
-        </Tabs> */}
       <Tabs>
         <TabList>
           <Tab>About</Tab>
@@ -35,7 +38,7 @@ function GroupTabs({ group, organizer }) {
         </div>
         </TabPanel>
         <TabPanel>
-          <GroupMembers />
+          <GroupMembers members = {members} organizer = {organizer} groupId = {group.id}/>
         </TabPanel>
         <TabPanel>
             <EventList groupId={group.id} />

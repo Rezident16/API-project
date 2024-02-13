@@ -8,6 +8,7 @@ function MembersCount(members) {
   const word = count === 1 ? "member" : "members";
 
   const history = useHistory();
+  
   return (
     <div>
       {count} {word}
