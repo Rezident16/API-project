@@ -38,37 +38,37 @@ module.exports = {
       },
       {
         userId: 6,
-        groupId: 2,
+        groupId: 1,
         status: 'member',
       },
       {
         userId: 7,
-        groupId: 2,
+        groupId: 1,
         status: 'co-host',
       },
       {
         userId: 8,
-        groupId: 2,
+        groupId: 1,
         status: 'pending',
       },
       {
         userId: 9,
-        groupId: 3,
+        groupId: 1,
         status: 'member',
       },
       {
         userId: 10,
-        groupId: 3,
+        groupId: 1,
         status: 'co-host',
       },
       {
         userId: 11,
-        groupId: 3,
+        groupId: 1,
         status: 'pending',
       },
       {
         userId: 12,
-        groupId: 4,
+        groupId: 1,
         status: 'member',
       },
       {
