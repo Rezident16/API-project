@@ -1,0 +1,13 @@
+.membership_status_button {
+    flex-direction: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    height: 25px;
+    width: 90px;    
+    background-color: rgb(94, 93, 93);
+    color: white;
+    cursor:pointer;
+    border: none;
+    border: 1px solid black;
+}

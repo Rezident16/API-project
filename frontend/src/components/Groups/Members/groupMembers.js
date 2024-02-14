@@ -3,12 +3,6 @@ import MembersList from "./membersList";
 
 function GroupMembers({ members, organizer, groupId }) {
   const [memberListText, setMemberListText] = useState("All Members");
-
-  const allMembers = members.filter(
-    (member) =>
-      member.Membership.status === "co-host" || member.status === "member"
-  );
-
   const onClick = (text) => {
     setMemberListText(text);
   };

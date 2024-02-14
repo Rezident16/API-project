@@ -4,7 +4,6 @@ import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
 import { useHistory } from 'react-router-dom';
 import { deleteGroups } from "../../store/groups";
-import { Redirect } from "react-router-dom";
 import { fetchGroups } from "../../store/groups";
 
 function DeleteButtonModal({id, groupId}) {

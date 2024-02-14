@@ -1,10 +1,7 @@
 import { useHistory } from "react-router-dom";
 import DeleteButtonModal from "./deleteButton";
 import { useDispatch } from "react-redux";
-import {
-  requestMembership,
-  updateMembershipStatus,
-} from "../../store/memberships";
+import { requestMembership } from "../../store/memberships";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 
 function Buttons({ groupId, status, sessionUser, group }) {
