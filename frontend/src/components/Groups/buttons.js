@@ -3,6 +3,7 @@ import DeleteButtonModal from "./deleteButton";
 import { useDispatch } from "react-redux";
 import { requestMembership } from "../../store/memberships";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import LeaveGroup from "./leaveGroup";
 
 function Buttons({ groupId, status, sessionUser, group }) {
   const history = useHistory();
@@ -43,13 +44,24 @@ function Buttons({ groupId, status, sessionUser, group }) {
           </div>
         </div>
       )}
-      {status == "co-host" && group.organizerId != sessionUser.id && (
         <div className="organizer_buttons_container">
+      {status == "co-host" && group.organizerId != sessionUser.id && (
           <button onClick={createEvent} className="organizer_buttons">
             Create event
           </button>
-        </div>
       )}
+      {(status == "co-host" || status == "member") &&
+        group.organizerId != sessionUser.id && (
+          <button className="organizer_buttons">
+          <OpenModalMenuItem
+          itemText="Leave Group"
+          modalComponent={
+            <LeaveGroup id={sessionUser.id} groupId={groupId} />
+          }
+          />
+          </button>
+          )}
+          </div>
     </div>
   );
 }
