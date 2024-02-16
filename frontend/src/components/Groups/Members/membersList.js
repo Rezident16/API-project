@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { readMemberships } from "../../../store/memberships";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import ChangeStatusModal from "./updateStatus";
+import LeaveGroup from "../leaveGroup";
 import './members.css'
 
 function MembersList({ text, organizer, groupId }) {
@@ -48,12 +49,19 @@ function MembersList({ text, organizer, groupId }) {
                 modalComponent={<ChangeStatusModal currUser={currUser} memberId={member.id} status='member' groupId={groupId}/>}
                 />
               </button>
-            ) : text === "All Members" && (isOrganizer || isLeader) && member.Membership.status != 'co-host' ? (
-              <button className = 'membership_status_button'>
+            ) : text === "All Members" && isOrganizer && member.id != currUser.id ? (
+              <div className="organizer_buttons_container">
+                {member.Membership.status != 'co-host' && (<button className = 'membership_status_button'>
                 <OpenModalMenuItem  itemText="Make Co-Host"
                 modalComponent={<ChangeStatusModal currUser={currUser} memberId={member.id} status='co-host' groupId={groupId}/>}
                 />
+              </button>)}
+              <button className = 'membership_status_button'>
+                <OpenModalMenuItem  itemText="Remove user"
+                modalComponent={<LeaveGroup id={member.id} groupId={groupId} subject = 'Remove'/>}
+                />
               </button>
+              </div>
             ) : null}
           </div>
         ))}

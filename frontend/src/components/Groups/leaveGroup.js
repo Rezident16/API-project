@@ -8,7 +8,7 @@ import { fetchGroups } from "../../store/groups";
 import { deleteMembershipStatus } from "../../store/memberships";
 import { readGroup } from "../../store/group";
 
-function LeaveGroup({id, groupId}) {
+function LeaveGroup({id, groupId, subject}) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const history = useHistory()
@@ -27,12 +27,17 @@ function LeaveGroup({id, groupId}) {
     closeModal()
   };
 
+  const h2 = subject == 'Remove' ? 'Remove Member' : 'Leave Group'
+  const h5 = subject == 'Remove' ? 'Are you sure you want to remove this member?' : 'Are you sure you want to leave this group?'
+  const deleteButton = subject == 'Remove' ? 'Yes (Remove Member)' : 'Yes (Leave Group)'
+  const keepButton = subject == 'Remove' ? 'No (Keep Member)' : 'No (Stay in the Group)'
+
   return (
     <div className="delete_group_container">
-        <h2>Confrm Delete</h2>
-        <h5>Are you sure you want to remove this group?</h5>
-        <button className='delete_group_button' onClick={handleDelete}>{'Yes (Delete Group)'}</button>
-        <button className='keep_group_button'onClick={goBack}>{`No (Keep Group)`}</button>
+        <h2>{h2}</h2>
+        <h5>{h5}</h5>
+        <button className='delete_group_button' onClick={handleDelete}>{deleteButton}</button>
+        <button className='keep_group_button'onClick={goBack}>{keepButton}</button>
     </div>
     
   );
