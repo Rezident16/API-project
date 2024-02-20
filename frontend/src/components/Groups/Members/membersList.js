@@ -15,11 +15,12 @@ function MembersList({ text, organizer, groupId }) {
   }, [dispatch, groupId]);
   const members = useSelector((state) => state.membership.Members);
 
-  const isOrganizer = organizer.id === currUser.id;
+  const currUserId = currUser ? currUser.id : null;
+  const isOrganizer = organizer.id === currUserId;
   const leadership = members.filter(
     (member) => member.Membership.status === "co-host"
   );
-  const isLeader = leadership.some((leader) => leader.id === currUser.id);
+  const isLeader = leadership.some((leader) => leader.id === currUserId);
   const pendingmembers = members.filter(
     (member) => member.Membership.status === "pending"
   );

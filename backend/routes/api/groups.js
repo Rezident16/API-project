@@ -160,7 +160,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res, next) => {
 // Get all Members of a Group specified by its id
 router.get('/:groupId/members', async(req, res) => {
     const { user } = req
-    const userId = user.id
+    const userId = user ? user.id : null
     const groupId = req.params.groupId
 
     const group = await Group.findByPk(groupId,{

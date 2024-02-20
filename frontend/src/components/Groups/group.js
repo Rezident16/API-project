@@ -50,7 +50,6 @@ function GroupDetails() {
   } else if (groupMembership.length) {
     status = groupMembership[0].status;
   }
-  console.log(group);
 
   return (
     <section className="group_details_whole_container">

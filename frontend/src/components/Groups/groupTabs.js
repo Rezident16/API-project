@@ -5,7 +5,6 @@ import EventList from "./eventList";
 import { useDispatch, useSelector } from "react-redux";
 import { readMemberships } from "../../store/memberships";
 import { useEffect } from "react";
-import { readGroup } from "../../store/group";
 
 function GroupTabs({ group, organizer }) {
   const dispatch = useDispatch();
@@ -14,6 +13,7 @@ function GroupTabs({ group, organizer }) {
   }, [group, dispatch]);
   const members = useSelector((state) => state.membership.Members);
   if (!members || members.length === 0) return "Loading...";
+
   return (
     <div>
       <Tabs>
