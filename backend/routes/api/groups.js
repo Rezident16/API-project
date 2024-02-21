@@ -202,7 +202,7 @@ router.get('/:groupId/members', async(req, res) => {
         delete user.Membership.id
         delete user.Membership.userId
         delete user.Membership.groupId
-        delete user.Membership.createdAt
+        // delete user.Membership.createdAt
         delete user.Membership.updatedAt
     })
 

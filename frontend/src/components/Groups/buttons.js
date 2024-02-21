@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { requestMembership } from "../../store/memberships";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import LeaveGroup from "./leaveGroup";
+import "./Groups.css";
+import { readGroup } from "../../store/group";
 
 function Buttons({ groupId, status, sessionUser, group }) {
   const history = useHistory();
@@ -11,6 +13,7 @@ function Buttons({ groupId, status, sessionUser, group }) {
 
   const joinGroupButton = async () => {
     await dispatch(requestMembership(groupId, sessionUser));
+    await dispatch(readGroup(groupId));
   };
   const updateGroup = () => {
     history.push(`/groups/${groupId}/edit`);
@@ -23,9 +26,9 @@ function Buttons({ groupId, status, sessionUser, group }) {
   return (
     <div>
       {status == "not_joined" && (
-        <button onClick={joinGroupButton}>Request to Join</button>
+        <button className="request_button" onClick={joinGroupButton}>Request to Join</button>
       )}
-      {status == "pending" && <button>Membership Pending</button>}
+      {status == "pending" && <button className="pending_button">Membership Pending</button>}
       {status == "co-host" && group.organizerId == sessionUser.id && (
         <div className="organizer_buttons_container">
           <button onClick={createEvent} className="organizer_buttons">

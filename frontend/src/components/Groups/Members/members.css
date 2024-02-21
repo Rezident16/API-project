@@ -11,3 +11,34 @@
     border: none;
     border: 1px solid black;
 }
+
+.members_main_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.members_list {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.members_list > img {
+    width: 40px;
+    height: 40px;
+}
+
+.member_action {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    
+}
+
+.user_name {
+    font-size: 18px;
+    font-weight: bold;
+}

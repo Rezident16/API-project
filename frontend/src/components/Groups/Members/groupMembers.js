@@ -1,6 +1,8 @@
 import { useState } from "react";
 import MembersList from "./membersList";
 import { useSelector } from "react-redux";
+import "../Groups.css";
+
 
 function GroupMembers({ members, organizer, groupId }) {
   const [memberListText, setMemberListText] = useState("All Members");
@@ -12,12 +14,21 @@ function GroupMembers({ members, organizer, groupId }) {
   const memberStatus = members.filter((member) => member.id === user?.id);
 
   return (
-    <div>
-      <div>
-        <h5 onClick={() => onClick("All Members")}>All Members</h5>
-        <h5 onClick={() => onClick("Leadership team")}>Leadership Team</h5>
+    <div className="member_list_tab">
+      <div className="member_list_type">
+        <h5 className="member_type" onClick={() => onClick("All Members")}>
+          All Members
+        </h5>
+        <h5 className="member_type" onClick={() => onClick("Leadership team")}>
+          Leadership Team
+        </h5>
         {memberStatus[0]?.Membership.status === "co-host" && (
-          <h5 onClick={() => onClick("Pending Members")}>Pending Members</h5>
+          <h5
+            className="member_type"
+            onClick={() => onClick("Pending Members")}
+          >
+            Pending Members
+          </h5>
         )}
       </div>
       <MembersList
