@@ -42,3 +42,12 @@
     font-size: 18px;
     font-weight: bold;
 }
+
+.member_full_list {
+    width: 525px;
+}
+
+.organizer_buttons_container_user {
+    display: flex;
+    gap: 10px;
+}

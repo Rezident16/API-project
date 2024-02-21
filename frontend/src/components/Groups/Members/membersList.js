@@ -46,7 +46,7 @@ function MembersList({ text, organizer, groupId }) {
   return (
     <div className="members_main_content">
       <h3 className="members_h3">{text}</h3>
-      <ul>
+      <ul className="member_full_list">
         {filteredMembers.map((member) => (
           <div className="member_action">
             <li className="members_list" key={member.id}>
@@ -60,13 +60,15 @@ function MembersList({ text, organizer, groupId }) {
               </div>
             </li>
             {text === "Pending Members" && isOrganizer ? (
+              <div className="organizer_buttons_container_user">
               <button className = 'membership_status_button'>
                 <OpenModalMenuItem itemText="Approve"
                 modalComponent={<ChangeStatusModal currUser={currUser} memberId={member.id} status='member' groupId={groupId}/>}
                 />
               </button>
+              </div>
             ) : (text === "All Members" || text=="Leadership Team") && isOrganizer && member.id != currUser.id ? (
-              <div className="organizer_buttons_container">
+              <div className="organizer_buttons_container_user">
                 {member.Membership.status != 'co-host' && (<button className = 'membership_status_button'>
                 <OpenModalMenuItem  itemText="Make Co-Host"
                 modalComponent={<ChangeStatusModal currUser={currUser} memberId={member.id} status='co-host' groupId={groupId}/>}
