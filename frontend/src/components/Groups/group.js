@@ -3,7 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link, useParams } from "react-router-dom";
 import "./Groups.css";
-import { readGroup } from "../../store/group";
+import { clearState, readGroup } from "../../store/group";
 import GroupImages from "./imageContainer";
 import Buttons from "./buttons";
 import MembersCount from "./Members/membersCount";
@@ -51,11 +51,14 @@ function GroupDetails() {
     status = groupMembership[0].status;
   }
 
+  const handleClearState = () => {
+    dispatch(clearState());
+  }
   return (
     <section className="group_details_whole_container">
       <div className="whole_upper_conainer">
         <div>
-          <Link to="/groups" className="page_events_breadcramb">
+          <Link to="/groups" className="page_events_breadcramb" onClick={handleClearState}>
             {"<"} Groups
           </Link>
         </div>

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory, Link } from "react-router-dom";
-import SignupFormModal from "../SignupFormModal";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import { Link } from "react-router-dom";
 import { fetchGroups } from "../../store/groups";
 import { fetchEvents } from "../../store/events";
 import "./Groups.css";
+import { clearState } from "../../store/group";
 
 function GroupsList() {
   const dispatch = useDispatch();
@@ -14,6 +13,7 @@ function GroupsList() {
   useEffect(() => {
     dispatch(fetchGroups());
     dispatch(fetchEvents());
+    dispatch(clearState());
   }, [dispatch]);
   const groupsObj = useSelector((state) => state.groups);
   const groups = Object.values(groupsObj);

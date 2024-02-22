@@ -26,6 +26,7 @@
 .member_list_tab {
     display: flex;
     gap: 40px;
+    padding: 10px;
 }
 .member_list_type{
     display: flex;
@@ -252,6 +253,7 @@ h4 {
 .group_lower_container {
     display: flex;
     flex-direction: column;
+    margin-left: 10px;
     /* background-color: whitesmoke; */
 }
 
@@ -285,6 +287,7 @@ h4 {
 
 .past_upcoming_events_container {
     padding-bottom: 30px;
+    margin-left: 10px;
 }
 
 .event_type {
